@@ -15,4 +15,9 @@ router.route('/activity/:id')
 router.route('/activity/create')
     .post(validateBody(activitySchema.authSchema), activityController.activityCreateId);
 
+router.route('/activity/attend/:id')
+    .put(activityController.attendActivity);
+
+router.route('/activity/unattend/:id')
+    .put(activityController.unattendActivity);
   module.exports = router;
