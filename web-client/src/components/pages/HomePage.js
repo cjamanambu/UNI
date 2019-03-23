@@ -1,5 +1,5 @@
 import React from "react"
-import {Segment, Grid } from "semantic-ui-react"
+import {Segment, Grid, Modal, Header, Button, Icon} from "semantic-ui-react"
 import '../_loginSty.scss';
 import FadeTransition from "../transitions/fadeTransition.jsx";
 import {Redirect} from 'react-router-dom'
@@ -9,18 +9,21 @@ class HomePage extends React.Component{
 
     constructor(props) {
         super(props);
+        this.showLoginBox = this.showLoginBox.bind(this);
         this.state = {
             isLoginOpen: true,
             isRegisterOpen: false
         };
     }
+
     showLoginBox() {
-        this.setState({isLoginOpen: true, isRegisterOpen: false});
+        this.setState({isLoginOpen: true, isRegisterOpen:false});
     }
 
     showRegisterBox() {
         this.setState({isRegisterOpen: true, isLoginOpen: false});
     }
+
     render()
     {
         return (
@@ -87,7 +90,7 @@ class HomePage extends React.Component{
                             </FadeTransition>
                             <FadeTransition isOpen={this.state.isRegisterOpen} duration={300}>
                                 <div className="box-container">
-                                    <RegisterBox/>
+                                    <RegisterBox showLogin={this.showLoginBox}/>
                                 </div>
                             </FadeTransition>
                         </div>
@@ -97,6 +100,7 @@ class HomePage extends React.Component{
         )
     }
 }
+
 class LoginBox extends React.Component {
 
     constructor(props) {
@@ -111,6 +115,7 @@ class LoginBox extends React.Component {
             userId: null
         };
     }
+
     showValidationErr(elm, msg) {
         this.setState((prevState) => ({
             errors: [
@@ -136,36 +141,39 @@ class LoginBox extends React.Component {
 
     onUsernameChange(e) {
         this.setState({email: e.target.value, invalidUser: false});
-        // this.setState({});
         this.clearValidationErr("email");
     }
 
     onPasswordChange(e) {
         this.setState({password: e.target.value, invalidUser: false});
-        // this.setState({invalidUser: false});
         this.clearValidationErr("password");
     }
 
     submitLogin() {
-        console.log(this.props);
+        let email = this.state.email;
+        let invalidEmail=false;
+        let invalidPassword=false;
+
         if (this.state.email === "") {
-            this.showValidationErr("email", "Email Cannot be empty!");
+            this.showValidationErr("email", "Email cannot be empty!");
+            invalidEmail = true;
+        }
+        if (invalidEmail === false && !email.endsWith("@myumanitoba.ca")) {
+            this.showValidationErr("email", "Email must be a valid @myumaitoba.ca email");
+            invalidEmail = true;
         }
         if (this.state.password === "") {
-            this.showValidationErr("password", "Password Cannot be empty!");
+            this.showValidationErr("password", "Password cannot be empty!");
+            invalidPassword = true;
         }
-        if(this.state.password !== "" && this.state.email !== "" ) {
+        if( invalidEmail !== true && invalidPassword !== true ) {
             const userInfo = {
                 email: this.state.email,
                 password: this.state.password
             };
             axios.post('http://ec2-99-79-39-110.ca-central-1.compute.amazonaws.com:8000/users/signin', userInfo).then( (res) => {
                 if(res.data.success) {
-                    //console.log("Iam the user" + res.data.user._id);
                     this.setState({token: res.data.token, toUserPage: true, userId: res.data.user._id});
-                    //this.setState({toUserPage: true});
-                    //console.log("Iam the user" + res.data.user._id);
-                    //this.setState({userId: res.data.user._id});
                 }
             }).catch(error => {
                 this.setState({invalidUser: true});
@@ -249,13 +257,14 @@ class LoginBox extends React.Component {
 class RegisterBox extends React.Component {
 
     constructor(props) {
+
         super(props);
         this.state = {
-            username: "",
             email: "",
             password: "",
             errors: [],
-            pwdState: null
+            pwdState: null,
+            successConfirmation:false
         };
     }
 
@@ -282,11 +291,6 @@ class RegisterBox extends React.Component {
         });
     }
 
-    onUsernameChange(e) {
-        this.setState({username: e.target.value});
-        this.clearValidationErr("username");
-    }
-
     onEmailChange(e) {
         this.setState({email: e.target.value});
         this.clearValidationErr("email");
@@ -297,40 +301,61 @@ class RegisterBox extends React.Component {
         this.clearValidationErr("password");
 
         this.setState({pwdState: "weak"});
-        if (e.target.value.length > 8) {
+        if (e.target.value.length >8 && e.target.value.length <12) {
             this.setState({pwdState: "medium"});
-        } else if (e.target.value.length > 12) {
+        } else if (e.target.value.length >= 12) {
             this.setState({pwdState: "strong"});
         }
-
     }
 
     submitRegister() {
 
-        console.log(this.state);
-
-        if (this.state.username === "") {
-            this.showValidationErr("username", "Username Cannot be empty!");
-        }
+        let email = this.state.email;
+        let invalidEmail=false;
+        let invalidPassword=false;
         if (this.state.email === "") {
-            this.showValidationErr("email", "Email Cannot be empty!");
+            this.showValidationErr("email", "Email cannot be empty!");
+            invalidEmail = true;
+        }
+        if (invalidEmail === false && !email.endsWith("@myumanitoba.ca")) {
+            this.showValidationErr("email", "Email must be a valid @myumaitoba.ca email");
+            invalidEmail = true;
         }
         if (this.state.password === "") {
-            this.showValidationErr("password", "Password Cannot be empty!");
+            this.showValidationErr("password", "Password cannot be empty!");
+            invalidPassword = true;
+        }
+        if(invalidEmail !== true && invalidPassword !== true ) {
+            this.setState({successConfirmation: true});
+            let username= this.state.email.split("@")[0];
+            const userInfo = {
+                username: username,
+                email: this.state.email,
+                password: this.state.password
+            };
+            axios.post('/users/signup', userInfo).then( (res) => {
+                if(res.data.success) {
+                    this.setState({showConfirmation: true});
+                }
+            }).catch(error => {
+                this.setState({invalidUser: true});
+                console.log(error.response);
+            });
         }
 
     }
+    closeCreateModal = () => {
+        this.props.showLogin();
+        this.setState({successConfirmation: false})
+    };
 
     render() {
 
-        let usernameErr = null,
-            passwordErr = null,
-            emailErr = null;
+        let passwordErr = null,
+            emailErr = null,
+            invalidUserErr="";
 
         for (let err of this.state.errors) {
-            if (err.elm === "username") {
-                usernameErr = err.msg;
-            }
             if (err.elm === "password") {
                 passwordErr = err.msg;
             }
@@ -353,6 +378,9 @@ class RegisterBox extends React.Component {
             pwdMedium = true;
             pwdStrong = true;
         }
+        if (this.state.invalidUser === true){
+            invalidUserErr = "Email";
+        }
 
         return (
             <div className="inner-container">
@@ -360,21 +388,25 @@ class RegisterBox extends React.Component {
                     Register
                 </div>
                 <div className="box">
-                    <div className="input-group">
-                        <label htmlFor="username">Username</label>
-                        <input
-                            type="text"
-                            name="username"
-                            className="login-input"
-                            placeholder="Username"
-                            onChange={this
-                                .onUsernameChange
-                                .bind(this)}/>
-                        <small className="danger-error">{usernameErr
-                            ? usernameErr
-                            : ""}</small>
-                    </div>
+                    <Modal onClose={this.closeCreateModal} open={this.state.successConfirmation} size='small' closeIcon id='createActivityModalConfirmation1'>
+                        <Modal.Content>
+                            <Modal.Description>
+                                <Header>Your account has been created</Header>
+                                <Header>Log in to access UNI.</Header>
+                            </Modal.Description>
 
+                            <br/>
+                            <Modal.Actions>
+                                <Button color='green'
+                                        onClick={this.closeCreateModal}
+                                >
+                                    <Icon name='checkmark'/> OK
+                                </Button>
+                            </Modal.Actions>
+                        </Modal.Content>
+                    </Modal>
+                    <small className="danger-error">{invalidUserErr
+                    }</small>
                     <div className="input-group">
                         <label htmlFor="email">Email</label>
                         <input
@@ -389,7 +421,6 @@ class RegisterBox extends React.Component {
                             ? emailErr
                             : ""}</small>
                     </div>
-
                     <div className="input-group">
                         <label htmlFor="password">Password</label>
                         <input
@@ -408,37 +439,28 @@ class RegisterBox extends React.Component {
                             <div
                                 className={"pwd pwd-weak " + (pwdWeak
                                     ? "show"
-                                    : "")}></div>
+                                    : "")}/>
                             <div
                                 className={"pwd pwd-medium " + (pwdMedium
                                     ? "show"
-                                    : "")}></div>
+                                    : "")}/>
                             <div
                                 className={"pwd pwd-strong " + (pwdStrong
                                     ? "show"
-                                    : "")}></div>
+                                    : "")}/>
                         </div>}
-
                     </div>
-
                     <button
                         type="button"
                         className="login-btn"
                         onClick={this
                             .submitRegister
                             .bind(this)}>Register</button>
-
-
                 </div>
             </div>
-
         );
-
     }
-
 }
-
-
 
 export default HomePage
 

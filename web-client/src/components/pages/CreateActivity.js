@@ -232,10 +232,10 @@ class CreateActivity extends React.Component{
     closeModal = () => {
         this.setState({show: false})
     };
+
     closeConfirmationModal = () => {
         this.props.updateDB();
         this.setState({showConfirmation: false})
-
     };
 
     render() {
@@ -335,12 +335,6 @@ class CreateActivity extends React.Component{
 
                 </Modal>
             </div>
-
-
-
-
-
-
     );
     }
 }
