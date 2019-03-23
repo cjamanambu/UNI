@@ -222,5 +222,41 @@ module.exports = {
 
             })
         })(req, res, next);
+    },
+
+    creatorInformation: async(req, res, next) => {
+        passport.authenticate('jwt', {session: false}, async (err, user, info) => {
+            const activityId = req.params.activityId;
+
+            User.find({my_activities: activityId}, async function (db_err, db_response) {
+                if (db_err){
+                    res.status(500).json({
+                        success: false,
+                        info: "Database error occurred. "+db_err
+                    });
+                }else if (err){
+                    res.status(500).json({
+                        success: false,
+                        info: err
+                    });
+                }else if (!user){
+                    res.status(401).json({
+                       success: false,
+                       user: user,
+                       info: info.message
+                    });
+                }else{
+                    res.status(200).json({
+                        success: true,
+                        info: "Details of the User who owns the specified activity retrieved.",
+                        owner: {
+                            id: db_response[0].id,
+                            username: db_response[0].username,
+                            email: db_response[0].email
+                        }
+                    });
+                }
+            })
+        })(req, res, next)
     }
 }

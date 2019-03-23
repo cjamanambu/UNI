@@ -28,4 +28,7 @@ router.route('/user/activities/activity/delete/:id')
 router.route('/user/myActivities')
     .get(validateBody(activitySchema.authSchema), UsersController.myActivities);
 
+router.route('/user/activities/activity/owner/:activityId')
+	.get(UsersController.creatorInformation);
+
 module.exports = router;

@@ -439,3 +439,67 @@ HTTP 200 Content-Type: application/json
 ```json
 {"success":true,"info":"Activity removed successfully"}
 ```
+
+## Ativity's Owner Endpoint
+
+### Request
+
+```
+GET users/user/activities/activity/owner/:activityId
+```
+
+This endpoint will return information about the user who created the activity specified by activityId.
+
+**AUTHENTICATION IS REQUIRED**
+
+#### Example Successful Response
+
+```json
+{
+    "success": true,
+    "info": "Details of the User who owns the specified activity retrieved.",
+    "owner": {
+        "id": "5c9572346394943867f91cc8",
+        "username": "schulz",
+        "email": "hezzy@myumanitoba.ca"
+    }
+}
+```
+
+## User's Activities endpoint
+
+### Request
+
+```
+GET /users/user/myActivities
+```
+
+This endpoint will return information about all the activities which a user has created.
+
+**AUTHENTICATION IS REQUIRED**
+
+
+#### Example Successful Response
+
+```json
+{
+    "success": true,
+    "info": "Details of the user's activities sucessfully retrieved.",
+    "my_activities": [
+        {
+            "attendance_list": [],
+            "datetime_created": "2019-03-22T23:32:46.451Z",
+            "_id": "5c9579856394943867f91cd1",
+            "activity_datetime": "2019-05-20T16:30:00.338Z",
+            "category": "ART",
+            "description": "Lets talk basquiat",
+            "max_attendance": 10,
+            "title": "Basquiat Chat",
+            "location": "ART LAB",
+            "__v": 0
+        },
+        
+        ...
+    ]
+}
+```
