@@ -6,9 +6,6 @@ import "../../userpage.css";
 import axios from "../../axios_def";
 import CreateActivity from './CreateActivity';
 
-//section 3, lecture 47
-
-//keep as many stateless components as possible. this is stateful.
 class UserPage extends React.Component {
     state = {
         activities: [],
@@ -47,24 +44,41 @@ class UserPage extends React.Component {
                 "Content-Type": "application/json"}
         };
 
-        //TODO: waiting for backend guy to finish up the owner of activity.
         axios.get('/users/user/activities/attending',helper).then(res => {
             const activities = res.data.activities;
             this.setState({ activities });
         }).catch((error) => {
             console.log(error);
         });
+    };
 
+    showMyActivityHandler = () => {
+        const token = this.props.location.state.token;
+
+        const helper= {
+            headers: {"Authorization": '' + token,
+                "Content-Type": "application/json"}
+        };
+
+        axios.get('/users/user/myActivities',helper).then(res => {
+            const activities = res.data.my_activities;
+            this.setState({ activities });
+        }).catch((error) => {
+            console.log(error);
+        });
     };
 
     componentDidMount() {
-        //got userId here. console.log(this.props);
         axios.get('/activities').then(res => {
             const activities = res.data.activities;
             this.setState({ activities });
         }).catch((error) => {
             console.log(error);
         });
+    };
+
+    testHandler = () => {
+        window.location.reload();
     };
 
 
@@ -98,11 +112,23 @@ class UserPage extends React.Component {
                             Create Activity
                         </button>
 
-                          <button
-                              className='medium ui primary button'
-                              onClick={this.showUserActivityHandler}>
-                              My Activities
-                          </button>
+                        <button
+                            className='medium ui primary button'
+                            onClick={this.testHandler}>
+                            all activities
+                        </button>
+
+                        <button
+                            className='medium ui primary button'
+                            onClick={this.showUserActivityHandler}>
+                            Interested(Attending) Activities
+                        </button>
+
+                        <button
+                            className='medium ui primary button'
+                            onClick={this.showMyActivityHandler}>
+                            My(creator) Activities
+                        </button>
 
                         <div className='ui items'>
                             {
