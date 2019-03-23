@@ -22,6 +22,9 @@ router.route('/secret')
 router.route('/user/activities/attending')
 	.get(validateBody(activitySchema.authSchema), UsersController.userAttendingActivities);
 
+router.route('/user/activities/activity/attendanceList/:id')
+    .get(validateBody(activitySchema.authSchema), UsersController.attendanceList);
+
 router.route('/user/activities/activity/delete/:id')
 	.delete(UsersController.deleteMyActivity);
 

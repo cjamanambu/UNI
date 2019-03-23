@@ -18,11 +18,25 @@ module.exports = {
                 });
                 next();
             }
+            var i;
+            var updatedActivities = [];//will store all the activities that are still active
+            var count = 0;//just a count
+
+            //will this scale efficiently?
+            for(i = 0; i<activities.length; i++)//runs through the list of activites
+            {
+                if(activities[i].activity_datetime > new Date()){//if the activity is still in the future(fuckoff im tired)
+                    updatedActivities[count] = activities[i];//add the active acticity to the list
+                    count++;    
+                }
+            }
+            
             res.json({
                 success: true,
-                info: "Successfully retrieved all activities",
-                activities: activities
+                info: "Successfully retrieved all current activities",
+                activities: updatedActivities
             });
+            
         });   
     },
 
