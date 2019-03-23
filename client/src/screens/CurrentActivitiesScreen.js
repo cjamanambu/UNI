@@ -63,6 +63,11 @@ export default class CurrentActivitiesScreen extends React.Component {
                     <Text style={{fontSize: 30, marginRight: 10, color: "#007aff"}}>+</Text>
                 </TouchableOpacity>
             ),
+            headerLeft: (
+                <TouchableOpacity onPress={() => navigation.navigate('MyCreatedActivityiesListScreen', {token: state.params.token})}>
+                    <Text style={{fontSize: 12, marginRight: 10, color: "#007aff"}}>My Activities</Text>
+                </TouchableOpacity>
+            ),
         };
     };
 
