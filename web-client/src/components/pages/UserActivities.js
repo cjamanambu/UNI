@@ -26,6 +26,7 @@ class UserActivities extends React.Component{
                   reload the page after creation. maybe use "window.location.reload();" for now -- yinka
                   and after creation, the activity list is [], I think it should be null -- yinka
                   delete InlineError.js and SignUpPage.js files
+                  My Activities - link to new page? HOW TO just reload userPage?? --RELOAD USERPAGE.
         */
         //TODO: how to know the creator of this activity, maybe need to change the structure of the database？
     }
@@ -72,7 +73,8 @@ class UserActivities extends React.Component{
 
             axios.put('/activities/activity/attend/' + this.state.activityID ,{},helper).then(res => {
                 console.log(res);
-                window.location.reload();
+                this.props.updateDB();
+                this.setState({ visible : false });
             }).catch((error) => {
                 console.log(error);
             });
@@ -87,7 +89,8 @@ class UserActivities extends React.Component{
 
         axios.put('/activities/activity/unattend/' + this.state.activityID ,{},helper).then(res => {
             console.log(res);
-            window.location.reload();
+            this.props.updateDB();
+            this.setState({ visible : false });
         }).catch((error) => {
             console.log(error);
         });
