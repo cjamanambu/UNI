@@ -18,7 +18,6 @@ import { Dropdown } from 'react-native-material-dropdown';
 import { List, ListItem, SearchBar } from "react-native-elements";
 import * as App from '../App';
 
-// const URL = 'http://ec2-99-79-39-110.ca-central-1.compute.amazonaws.com:8000';
 
 export default class MyCreatedActivityListScreen extends React.Component {
     constructor(props) {
@@ -112,7 +111,7 @@ export default class MyCreatedActivityListScreen extends React.Component {
                             title={`${item.title} ${item.title}`}
                             subtitle={item.description}
                             leftAvatar={{ source: require('../assets/images/Octocat.png') }}
-                            onPress={() => this.props.navigation.navigate('JoinedActivityDetailsPage',
+                            onPress={() => this.props.navigation.navigate('ActivityAttendantListScreen',
                                 {
                                     activity_id : item._id,
                                     activity_datetime: item.activity_datetime,

@@ -79,6 +79,7 @@ export default class LogInScreen extends React.Component {
                 <View style={styles.logInFormContainer}>
                 <StatusBar barStyle="light-content"/>
                 <TextInput
+                    value="supman@myumanitoba.ca"
                     style={styles.input}
                     placeholder="email"
                     placeholderTextcolor="rgba(255,255,255,0.7)"
@@ -90,6 +91,7 @@ export default class LogInScreen extends React.Component {
                     onChangeText = {text => this.setState({email: text})}
                 />
                 <TextInput
+                    value="supping"
                     style={styles.input}
                     placeholder="password"
                     placeholderTextcolor="rgba(255,255,255,0.7)"

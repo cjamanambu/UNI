@@ -119,14 +119,14 @@ export default class CurrentActivitiesScreen extends React.Component {
                         />
                     </View>
 
-                    <Våiew style={{ width: 96, marginLeft: 8 }}>
+                    <View style={{ width: 96, marginLeft: 8 }}>
                         <Dropdown
                             label='Sort'
                             data={sortByCriteria}
                             onChangeText={value => this.onChangeSortByHandler(value)}
                             propsExtractor={({ props }, index) => props}
                         />
-                    </Våiew>
+                    </View>
                 </View>
 
                 <FlatList

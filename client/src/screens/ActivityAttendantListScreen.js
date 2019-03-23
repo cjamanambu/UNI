@@ -33,10 +33,6 @@ export default class ActivityAttendantListScreen extends React.Component {
 
     constructor (props) {
         super(props);
-
-        this.state = {
-            collapseButtonText: 'Show More'
-        }
     }
 
     render() {
@@ -47,8 +43,11 @@ export default class ActivityAttendantListScreen extends React.Component {
 
         const activityDetails = {
             activityTitle : navigation.getParam("title"),
-            activityDescription : navigation.getParam("description")
+            activityDescription : navigation.getParam("description"),
+            attendance_list: navigation.getParam("attendance_list"),
         };
+
+        console.log("()()()( " + activityDetails.attendance_list)
 
 
         function setCategoryIcon(category) {
@@ -95,7 +94,7 @@ export default class ActivityAttendantListScreen extends React.Component {
         return (
             <ScrollView>
                 <View style={styles.actAttendantScreenContainer}>
-                    <View style={{flexDirection: 'column'}}>
+                    <View style={{flexDirection: 'column', alignItems: 'center'}}>
                         <Text style={{textAlign: 'center', fontSize: 30}}>Activity Details</Text>
                         <Text>{navigation.getParam("title")}</Text>
 
@@ -109,17 +108,10 @@ export default class ActivityAttendantListScreen extends React.Component {
                     <View style={styles.container}>
                         <Text style={styles.sectionHeader}>Attendants: </Text>
                         <FlatList
-                            data={[
-                                {key: 'Devin'},
-                                {key: 'Jackson'},
-                                {key: 'James'},
-                                {key: 'Joel'},
-                                {key: 'John'},
-                                {key: 'Jillian'},
-                                {key: 'Jimmy'},
-                                {key: 'Julie'},
-                            ]}
-                            renderItem={({item}) => <Text style={styles.item}>{item.key}</Text>}
+                            data={activityDetails.attendance_list}
+                            renderItem={({item}) => (
+                                <ListItem title={item}/>
+                            )}
                         />
                         <TouchableOpacity style={styles.buttonContainer}>
                             <Text style={styles.buttonText} onPress={() => deleteActivity(this.props.navigation)}>Delete Activity</Text>

@@ -12,9 +12,9 @@ import NewActivityScreen from "./screens/NewActivityScreen";
 import UserJoinedActivitiesScreen from "./screens/UserJoinedActivitiesScreen";
 import JoinedActivityDetailsPage from "./screens/JoinedActivityDetailsPage";
 import MyCreatedActivityiesListScreen from "./screens/MyCreatedActivityListScreen";
+import ActivityAttendantListScreen from "./screens/ActivityAttendantListScreen";
 import HomeScreen from "./screens/HomeScreen";
 import LinksScreen from "./screens/LinksScreen";
-import ActivityAttendantListScreen from "./screens/ActivityAttendantListScreen";
 
 
 export const URL = 'http://ec2-99-79-39-110.ca-central-1.compute.amazonaws.com:8000';
@@ -46,7 +46,8 @@ const MainNavigator = createStackNavigator({
   NewActivityScreen: NewActivityScreen,
   UserJoinedActivitiesScreen : UserJoinedActivitiesScreen,
   JoinedActivityDetailsPage: JoinedActivityDetailsPage,
-  MyCreatedActivityiesListScreen: MyCreatedActivityiesListScreen
+  MyCreatedActivityiesListScreen: MyCreatedActivityiesListScreen,
+  ActivityAttendantListScreen: ActivityAttendantListScreen,
 });
 
 const AppRoot = createAppContainer(MainNavigator);
