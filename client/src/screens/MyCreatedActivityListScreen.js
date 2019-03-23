@@ -112,6 +112,8 @@ export default class MyCreatedActivityListScreen extends React.Component {
                             title={`${item.title} ${item.title}`}
                             subtitle={item.description}
                             leftAvatar={{ source: require('../assets/images/Octocat.png') }}
+
+                            //TODO @KEVIN: PASS IN REQUIRED INFORMATION TO MY CREATED ACTIVITY DETAILS PAGE
                             onPress={() => this.props.navigation.navigate('JoinedActivityDetailsPage',
                                 {
                                     activity_id : item._id,
