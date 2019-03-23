@@ -24,6 +24,7 @@ class UserPage extends React.Component {
     updateDB = () => {
         this.setState({dataBaseUpdate:true});
     };
+
     componentDidUpdate(prevProps, prevState, snapshot) {
         if(prevState.dataBaseUpdate !== this.state.dataBaseUpdate){
 
@@ -35,12 +36,9 @@ class UserPage extends React.Component {
             });
             this.setState({dataBaseUpdate:false});
         }
-    }
+    };
 
     showUserActivityHandler = () => {
-        console.log("this is top");
-        console.log(this.props.location.state.token);
-        console.log("this is bottom");
 
         const token = this.props.location.state.token;
 
@@ -52,8 +50,7 @@ class UserPage extends React.Component {
         //TODO: waiting for backend guy to finish up the owner of activity.
         axios.get('/users/user/activities/attending',helper).then(res => {
             const activities = res.data.activities;
-            console.log(activities);
-            console.log(token);
+            this.setState({ activities });
         }).catch((error) => {
             console.log(error);
         });
@@ -68,7 +65,7 @@ class UserPage extends React.Component {
         }).catch((error) => {
             console.log(error);
         });
-    }
+    };
 
 
     render()
@@ -123,6 +120,7 @@ class UserPage extends React.Component {
                                                     location={activity.location}
                                                     userID = {this.props.location.state.userId}
                                                     token = {this.props.location.state.token}
+                                                    updateDB = {this.updateDB}
                                     />
                                 )
                             }
