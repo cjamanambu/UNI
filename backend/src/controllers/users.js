@@ -137,7 +137,7 @@ module.exports = {
                     });
                 }
                 else {
-                    res.json({
+                    res.status(200).json({
                         success: true,
                         info: "Found activities that the user is interested in...",
                         activities: activities
@@ -178,7 +178,7 @@ module.exports = {
                 else {
                     // delete the activity
                     await Activity.remove({_id: activityId});
-                    res.json({
+                    res.status(200).json({
                         success: true,
                         info: "Activity removed successfully"
                     })
