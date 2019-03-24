@@ -66,6 +66,8 @@ export default StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#4db0f2',
+        paddingHorizontal: 20,
+        paddingTop: 20,
     },
     signUpInput:{
         width:200,
@@ -117,5 +119,9 @@ export default StyleSheet.create({
         fontSize: 30,
         marginRight: 10,
         color: "#007aff",
-    }
+    },
+    tabLogo: {
+        width: 22,
+        height: 22,
+    },
 });

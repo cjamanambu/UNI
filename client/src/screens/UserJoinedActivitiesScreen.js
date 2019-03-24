@@ -18,6 +18,7 @@ import styles from '../assets/Styles.js';
 import { Dropdown } from 'react-native-material-dropdown';
 import { List, ListItem, SearchBar } from "react-native-elements";
 import * as App from '../App';
+import TabNavigator from 'react-native-tab-navigator';      //added 3.24
 
 // const URL = 'http://ec2-99-79-39-110.ca-central-1.compute.amazonaws.com:8000';
 
@@ -33,6 +34,7 @@ export default class UserJoinedActivities extends React.Component {
             refreshing: false,
             selectedCategory: "",
             token: "",
+            selectedTab: 'joined'     //added 3.24
         };
         const { navigation } = this.props;
         const USER_DETAILS = {
@@ -131,6 +133,45 @@ export default class UserJoinedActivities extends React.Component {
                         />
                     )}
                 />
+
+                <TabNavigator>
+                  <TabNavigator.Item
+                    selected={this.state.selectedTab === 'curr'}
+                    title="Current Activities"
+                    renderIcon={() => <Image style = {styles.tabLogo} source={require('../assets/images/activity.png')} />}
+                    renderSelectedIcon={() => <Image style = {styles.tabLogo} source={require('../assets/images/activity_fill.png')} />}
+                    //badgeText="1"
+                    onPress={() => this.props.navigation.navigate('CurrentActivitiesScreen')}>
+                    <View></View>
+                  </TabNavigator.Item>
+                  <TabNavigator.Item
+                    selected={this.state.selectedTab === 'my'}
+                    title="My Activities"
+                    renderIcon={() => <Image style = {styles.tabLogo} source={require('../assets/images/flashlight.png')} />}
+                    renderSelectedIcon={() => <Image style = {styles.tabLogo} source={require('../assets/images/flashlight_fill.png')} />}
+                    //badgeText="1"
+                    onPress={() => this.props.navigation.navigate('MyCreatedActivityiesListScreen', {token: this.state.token})}>
+                    <View></View>
+                  </TabNavigator.Item>
+                  <TabNavigator.Item
+                    selected={this.state.selectedTab === 'joined'}
+                    title="Joined Activities"
+                    renderIcon={() => <Image style = {styles.tabLogo} source={require('../assets/images/flag.png')} />}
+                    renderSelectedIcon={() => <Image style = {styles.tabLogo} source={require('../assets/images/flag_fill.png')} />}
+                    //badgeText="1"
+                    onPress={() => this.setState({selectedTab : 'joined'})}>
+                    <View></View>
+                  </TabNavigator.Item>
+                  <TabNavigator.Item
+                    selected={this.state.selectedTab === 'profile'}
+                    title="Profile"
+                    renderIcon={() => <Image style = {styles.tabLogo} source={require('../assets/images/mine.png')} />}
+                    renderSelectedIcon={() => <Image style = {styles.tabLogo} source={require('../assets/images/mine_fill.png')} />}
+                    //badgeText="1"
+                    onPress={() => this.setState({selectedTab : 'profile'})}>
+                    <View></View>
+                  </TabNavigator.Item>
+                </TabNavigator>
             </View>
         )
     }
