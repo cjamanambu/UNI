@@ -134,44 +134,7 @@ export default class UserJoinedActivities extends React.Component {
                     )}
                 />
 
-                <TabNavigator>
-                  <TabNavigator.Item
-                    selected={this.state.selectedTab === 'curr'}
-                    title="Current Activities"
-                    renderIcon={() => <Image style = {styles.tabLogo} source={require('../assets/images/activity.png')} />}
-                    renderSelectedIcon={() => <Image style = {styles.tabLogo} source={require('../assets/images/activity_fill.png')} />}
-                    //badgeText="1"
-                    onPress={() => this.props.navigation.navigate('CurrentActivitiesScreen')}>
-                    <View></View>
-                  </TabNavigator.Item>
-                  <TabNavigator.Item
-                    selected={this.state.selectedTab === 'my'}
-                    title="My Activities"
-                    renderIcon={() => <Image style = {styles.tabLogo} source={require('../assets/images/flashlight.png')} />}
-                    renderSelectedIcon={() => <Image style = {styles.tabLogo} source={require('../assets/images/flashlight_fill.png')} />}
-                    //badgeText="1"
-                    onPress={() => this.props.navigation.navigate('MyCreatedActivityiesListScreen', {token: this.state.token})}>
-                    <View></View>
-                  </TabNavigator.Item>
-                  <TabNavigator.Item
-                    selected={this.state.selectedTab === 'joined'}
-                    title="Joined Activities"
-                    renderIcon={() => <Image style = {styles.tabLogo} source={require('../assets/images/flag.png')} />}
-                    renderSelectedIcon={() => <Image style = {styles.tabLogo} source={require('../assets/images/flag_fill.png')} />}
-                    //badgeText="1"
-                    onPress={() => this.setState({selectedTab : 'joined'})}>
-                    <View></View>
-                  </TabNavigator.Item>
-                  <TabNavigator.Item
-                    selected={this.state.selectedTab === 'profile'}
-                    title="Profile"
-                    renderIcon={() => <Image style = {styles.tabLogo} source={require('../assets/images/mine.png')} />}
-                    renderSelectedIcon={() => <Image style = {styles.tabLogo} source={require('../assets/images/mine_fill.png')} />}
-                    //badgeText="1"
-                    onPress={() => this.setState({selectedTab : 'profile'})}>
-                    <View></View>
-                  </TabNavigator.Item>
-                </TabNavigator>
+
             </View>
         )
     }

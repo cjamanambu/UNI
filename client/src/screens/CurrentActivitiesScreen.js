@@ -124,12 +124,11 @@ export default class CurrentActivitiesScreen extends React.Component {
                     </View>
 
                     <View style={{ width: 96, marginLeft: 8 }}>
-                        <Dropdown
-                            label='Sort'
-                            data={sortByCriteria}
-                            onChangeText={value => this.onChangeSortByHandler(value)}
-                            propsExtractor={({ props }, index) => props}
-                        />
+
+                        <Button onPress={() => this.props.navigation.navigate('NewActivityScreen', {token: this.state.token})}
+                        title="Add" style={{alignItems: 'center', alignContent: 'center'}}>
+
+                        </Button>
                     </View>
                 </View>
 
@@ -158,44 +157,7 @@ export default class CurrentActivitiesScreen extends React.Component {
                     )}
                 />
 
-                <TabNavigator>
-                  <TabNavigator.Item
-                    selected={this.state.selectedTab === 'curr'}
-                    title="Current Activities"
-                    renderIcon={() => <Image style = {styles.tabLogo} source={require('../assets/images/activity.png')} />}
-                    renderSelectedIcon={() => <Image style = {styles.tabLogo} source={require('../assets/images/activity_fill.png')} />}
-                    //badgeText="1"
-                    onPress={() => this.setState({selectedTab : 'curr'})}>
-                    <View></View>
-                  </TabNavigator.Item>
-                  <TabNavigator.Item
-                    selected={this.state.selectedTab === 'my'}
-                    title="My Activities"
-                    renderIcon={() => <Image style = {styles.tabLogo} source={require('../assets/images/flashlight.png')} />}
-                    renderSelectedIcon={() => <Image style = {styles.tabLogo} source={require('../assets/images/flashlight_fill.png')} />}
-                    //badgeText="1"
-                    onPress={() => this.props.navigation.navigate('MyCreatedActivityiesListScreen', {token: this.state.token})}>
-                    <View></View>
-                  </TabNavigator.Item>
-                  <TabNavigator.Item
-                    selected={this.state.selectedTab === 'joined'}
-                    title="Joined Activities"
-                    renderIcon={() => <Image style = {styles.tabLogo} source={require('../assets/images/flag.png')} />}
-                    renderSelectedIcon={() => <Image style = {styles.tabLogo} source={require('../assets/images/flag_fill.png')} />}
-                    //badgeText="1"
-                    onPress={() => this.props.navigation.navigate('UserJoinedActivitiesScreen', {token: this.state.token})}>
-                    <View></View>
-                  </TabNavigator.Item>
-                  <TabNavigator.Item
-                    selected={this.state.selectedTab === 'profile'}
-                    title="Profile"
-                    renderIcon={() => <Image style = {styles.tabLogo} source={require('../assets/images/mine.png')} />}
-                    renderSelectedIcon={() => <Image style = {styles.tabLogo} source={require('../assets/images/mine_fill.png')} />}
-                    //badgeText="1"
-                    onPress={() => this.setState({selectedTab : 'profile'})}>
-                    <View></View>
-                  </TabNavigator.Item>
-                </TabNavigator>
+
 
             </View>
         )

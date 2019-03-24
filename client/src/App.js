@@ -31,26 +31,45 @@ class App extends React.Component {
 
   render() {
     return (
-      <MainNavigator/>
+      /*<MainNavigator/>*/
+        <MainTabNavigator/>
     )
   }
 }
+const MainTabNavigator = createBottomTabNavigator({
+  CurrentActivitiesScreen: CurrentActivitiesScreen,
+  UserJoinedActivitiesScreen : UserJoinedActivitiesScreen,
+  MyCreatedActivityiesListScreen: MyCreatedActivityiesListScreen,
+});
 
 const MainNavigator = createStackNavigator({
 // const MainNavigator = createBottomTabNavigator({
   LoginScreen: LoginScreen,
-  CurrentActivitiesScreen: CurrentActivitiesScreen,
+  // CurrentActivitiesScreen: CurrentActivitiesScreen,
+  // SignUpScreen: SignUpScreen,
+  // SettingsScreen: SettingsScreen,
+  // ActivityDetailsScreen: ActivityDetailsScreen,
+  // NewActivityScreen: NewActivityScreen,
+  // UserJoinedActivitiesScreen : UserJoinedActivitiesScreen,
+  // JoinedActivityDetailsPage: JoinedActivityDetailsPage,
+  // MyCreatedActivityiesListScreen: MyCreatedActivityiesListScreen,
+  // ActivityAttendantListScreen: ActivityAttendantListScreen,
+  MainTabNavigator: MainTabNavigator,
+  // CurrentActivitiesScreen: CurrentActivitiesScreen,
   SignUpScreen: SignUpScreen,
   SettingsScreen: SettingsScreen,
   ActivityDetailsScreen: ActivityDetailsScreen,
   NewActivityScreen: NewActivityScreen,
-  UserJoinedActivitiesScreen : UserJoinedActivitiesScreen,
+  // UserJoinedActivitiesScreen : UserJoinedActivitiesScreen,
   JoinedActivityDetailsPage: JoinedActivityDetailsPage,
-  MyCreatedActivityiesListScreen: MyCreatedActivityiesListScreen,
+  // MyCreatedActivityiesListScreen: MyCreatedActivityiesListScreen,
   ActivityAttendantListScreen: ActivityAttendantListScreen,
 });
 
+
+
 const AppRoot = createAppContainer(MainNavigator);
+// const AppRoot = createAppContainer(MainTabNavigator);
 export default AppRoot;
 
 
