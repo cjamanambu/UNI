@@ -13,7 +13,7 @@ Run the following command:
 
 `yarn nyc`
 
-** Make sure `yarn` is installed on your machine.
+**Make sure `yarn` is installed on your machine.**
 
 
 More information can be found on
