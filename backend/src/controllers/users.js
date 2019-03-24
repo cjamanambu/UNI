@@ -152,7 +152,6 @@ module.exports = {
         passport.authenticate('jwt', {session: false}, async (err, user, info) => {
             const data = req.body;
             const activityId = req.params.id;
-            console.log("\n\nMy activity id is:" + activityId);
             // look for the activity by id
             Activity.find({_id: activityId}, async function (db_err, db_response) {
                 if(db_err) {
