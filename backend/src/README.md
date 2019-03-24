@@ -17,7 +17,9 @@ Run the following command:
 
 
 More information can be found on
-1.[Mocha](https://mochajs.org/),
-2.[Chai](https://www.chaijs.com/), and
-3.[Istanbul](https://istanbul.js.org/)
+1. [Mocha](https://mochajs.org/)
+
+2. [Chai](https://www.chaijs.com/)
+
+3. [Istanbul](https://istanbul.js.org/)
 
