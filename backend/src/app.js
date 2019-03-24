@@ -9,8 +9,11 @@ const cors = require('cors');
 
 mongoose.connect("mongodb://testUser:testUser@cluster0-shard-00-00-twf8g.mongodb.net:27017," +
     "cluster0-shard-00-01-twf8g.mongodb.net:27017,cluster0-shard-00-02-twf8g.mongodb.net:27017/testing?" +
-    "ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true", { useNewUrlParser: true });
-
+    "ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true",
+    {
+		useCreateIndex: true,
+		useNewUrlParser: true
+    });
 
 var app = express();
 
