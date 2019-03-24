@@ -4,7 +4,9 @@
   "private": true,
   "main": "app.js",
   "scripts": {
-    "start-dev": "nodemon app.js"
+    "start-dev": "nodemon app.js",
+    "test": "mocha test/*.js --exit",
+    "nyc": "nyc mocha test/*.js --exit"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -23,9 +25,24 @@
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
-    "promise-router": "^0.2.2"
+    "promise-router": "^0.2.2",
+    "should": "^13.2.3"
   },
   "devDependencies": {
-    "nodemon": "^1.18.10"
+    "@babel/preset-env": "^7.4.2",
+    "chai": "^4.2.0",
+    "chai-http": "^4.2.1",
+    "mocha": "^6.0.2",
+    "nodemon": "^1.18.10",
+    "superagent": "^4.1.0",
+    "supertest": "^4.0.2"
+  },
+  "nyc": {
+    "exclude": [
+      "test",
+      "node_modules"
+    ],
+    "cache": false,
+    "report-dir": "./test/report"
   }
 }
