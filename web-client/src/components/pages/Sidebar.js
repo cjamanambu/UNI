@@ -1,7 +1,15 @@
 import React from 'react';
-import { Image, Label, Item, Icon, Card, Button, Header, Divider, Dropdown, Modal } from 'semantic-ui-react'
+import { Image, Label, Item, Icon, Card, Button, Header, Divider, Dropdown, Modal, Input } from 'semantic-ui-react'
 import { push as Menu } from 'react-burger-menu';
 import { Link } from 'react-router-dom';
+
+const countryOptions = [
+    { key: 'sports', value: 'sports', text: 'Sports' },
+    { key: 'politics', value: 'politics', text: 'Politics' },
+    { key: 'study', value: 'study', text: 'Study' },
+    { key: 'art', value: 'art', text: 'Art' },
+    { key: 'music', value: 'music', text: 'Music' },
+  ]
 
 export default props => {
 
@@ -24,32 +32,36 @@ export default props => {
                 <Button
                     onClick={props.createActivity}
                     fluid
-                    className="menu-button"
                     id="menuButton"  
                 >
                     <Icon name='comments outline' />
                     Create
                 </Button>
+
                 <Divider horizontal></Divider>
                 
                 <Button 
+                    onClick={props.viewActivity}
                     fluid
                     id="menuButton" 
-                    onClick={props.viewActivity}
                 >
                     <Icon name='tasks' />
-                    View
+                    Activities
                 </Button>
-                        
+    
                 <Divider horizontal></Divider>
+    
                 <Button 
                     fluid
-                    id="menuButton" 
+                    id="menuButton"
+                    onClick={props.sortActivity}
                 >
-                    <Icon name='search' />
-                    Search
+                    <Icon name='sort' />
+                    Sort
                 </Button>
+                
                 <Divider horizontal></Divider>
+    
                 <Button 
                     fluid
                     id="menuButton" 

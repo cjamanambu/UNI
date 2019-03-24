@@ -2,7 +2,7 @@ import React, { Component} from 'react';
 import { Modal, Header, Button, Icon } from 'semantic-ui-react';
 import '../../App.css';
 
-class viewActivityModal extends Component{
+class ViewActivityModal extends Component{
     state = {
         open: false,
     }
@@ -61,4 +61,4 @@ class viewActivityModal extends Component{
     }
 }
 
-export default viewActivityModal
+export default ViewActivityModal

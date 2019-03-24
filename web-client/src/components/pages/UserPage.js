@@ -5,21 +5,25 @@ import Sidebar from "./Sidebar";
 import "../../userpage.css";
 import axios from "../../axios_def";
 import CreateActivity from './CreateActivity';
-import ViewActivityModal from './viewActivityModal';
+import ViewActivityModal from './ViewActivityModal';
+import SortActivityModal from './SortActivityModal'
 
 class UserPage extends React.Component {
     state = {
         activities: [],
         displayCreateModal:false,
         displayViewModal:false,
-        dataBaseUpdate:false
+        displaySortModal:false,
+        dataBaseUpdate:false,
     };
 
     createActivityHandler = () => {
         this.refs.createModal.open();
     };
 
-    ViewActivityHandler = () => this.refs.viewActivityModal.handleOpen();
+    viewActivityHandler = () => this.refs.viewActivityModal.handleOpen();
+    
+    sortActivityHandler = () => this.refs.sortActivityModal.handleOpen();
 
     updateDB = () => {
         this.setState({dataBaseUpdate:true});
@@ -71,6 +75,16 @@ class UserPage extends React.Component {
         });
     };
 
+    sortActivitiesByCategory = (category) => {
+        let route = '/activities/activity/sortBy/' + category;
+        axios.get(route).then(res => {
+            const activities = res.data.activities;
+            this.setState({ activities });
+        }).catch((error) => {
+            console.log(error);
+        });
+    };
+
     componentDidMount() {
         axios.get('/activities').then(res => {
             const activities = res.data.activities;
@@ -98,11 +112,17 @@ class UserPage extends React.Component {
                 />
 
                 <ViewActivityModal
-                    ref = "viewActivityModal"
+                    ref="viewActivityModal"
                     display={this.state.displayViewModal}
                     viewAll={this.testHandler}
                     viewMine={this.showMyActivityHandler}
                     viewInterests={this.showUserActivityHandler}
+                />
+
+                <SortActivityModal
+                    ref="sortActivityModal"
+                    display={this.state.displaySortModal}
+                    sort={this.sortActivitiesByCategory}
                 />
 
                 <Sidebar
@@ -111,13 +131,17 @@ class UserPage extends React.Component {
                     width={ "20%" }
                     email={this.props.location.state.stateName}
                     createActivity={this.createActivityHandler}
-                    viewActivity={this.ViewActivityHandler}
-                    
+                    viewActivity={this.viewActivityHandler}
+                    sortActivity={this.sortActivityHandler}
                 />
 
                 <div id="page-wrap">
                     <Segment>
-                        <h2>welcome, {this.props.location.state.stateName}!</h2>
+                        <h2 class="ui center aligned icon header">
+                            <i class="circular users icon"></i>
+                            UNI 
+                        </h2>
+                        {/* <h2>welcome, {this.props.location.state.stateName}!</h2>
 
                         <button
                             className='medium ui primary button'
@@ -142,6 +166,14 @@ class UserPage extends React.Component {
                             onClick={this.showMyActivityHandler}>
                             My(creator) Activities
                         </button>
+
+                        <button
+                            className='medium ui primary button'
+                            onClick={() => this.sortActivitiesByCategory("sports")}
+                        >
+                            Sports
+                        </button> */}
+                        
 
                         <div className='ui items'>
                             {
