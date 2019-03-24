@@ -9,26 +9,19 @@ class UserActivities extends React.Component{
         this.state = {
             visible : false,
             attend : false,
-            full : false,
+            isFull : false,
             token : this.props.token,
             activityID : this.props.activityID,
             isCreator : false
         }
 
         /*
-            TODO: only creator can see the attendances    --waiting for backend API, My Activities
-                  join button depends on activity capacity  --done
-                  delete the activity
-                  show activities by date
-                  when create, send two request, one post one put
-                    to let the creator automatically join  --yinka  --done
-                  when send request, do not need whole url, just after 8000, see axios_def.js  -- yinka
-                  and after creation, the activity list is [], I think it should be null -- yinka
-                  delete InlineError.js and SignUpPage.js files
-                  My Activities - link to new page? HOW TO just reload userPage?? --RELOAD USERPAGE.
+            TODO:
+                  show activities by latest date
                   time format
+                  show the attendances' name.
+                  close the sidebar when we re-render activity?
         */
-        //TODO: how to know the creator of this activity, maybe need to change the structure of the database？
     }
 
     openModal() {
@@ -49,9 +42,13 @@ class UserActivities extends React.Component{
             console.log(error);
         });
 
-        let attend = false;
+        let attend = false; let isFull = false; let index = 0;
         let attendanceCount = this.props.attendances.length;
-        let index = 0;
+        let maxAttendance = this.props.capacity;
+
+        if(attendanceCount === maxAttendance){
+            isFull = true;
+        }
 
         while ( attendanceCount > 0){
             if(this.props.attendances[index] === this.props.userID){
@@ -64,7 +61,8 @@ class UserActivities extends React.Component{
 
         this.setState({
             visible : true,
-            attend: attend
+            attend: attend,
+            isFull: isFull
         });
     }
 
@@ -79,8 +77,7 @@ class UserActivities extends React.Component{
         let maxAttendance = this.props.capacity;
 
         if(attendanceCount === maxAttendance){
-            alert("the activity is full");
-            //TODO: need to popup ActivityIsFull component which is under messages folder. show:true?
+            console.log("this activity is full!");
         }else if(attendanceCount < maxAttendance){
             const helper= {
                 headers: {"Authorization": '' + this.state.token,
@@ -181,7 +178,7 @@ class UserActivities extends React.Component{
 
                             <br/>
 
-                            {!this.state.attend && !this.state.isCreator &&(
+                            {!this.state.attend && !this.state.isCreator && (
                                 <button
                                     className='small ui primary button'
                                     onClick={this.joinActivityHandler}>
@@ -189,7 +186,7 @@ class UserActivities extends React.Component{
                                 </button>
                             )}
 
-                            {this.state.attend && !this.state.isCreator &&(
+                            {this.state.attend && !this.state.isCreator && (
                                 <button
                                     className='small ui primary button'
                                     onClick={this.unJoinActivityHandler}>
@@ -210,6 +207,10 @@ class UserActivities extends React.Component{
                                 onClick={() => this.closeModal()}>
                                 close
                             </button>
+
+                            {this.state.isFull && (<div className="ui warning message">
+                                    This activity is full!
+                            </div>)}
 
                         </div>
 

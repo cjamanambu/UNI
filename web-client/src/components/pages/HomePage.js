@@ -42,7 +42,7 @@ class HomePage extends React.Component{
                                     <div className="item" id = "a">
                                         <i className="university icon"/>
                                         <div className="content">
-                                            Safe and monitored envirnoment.
+                                            Safe and monitored environment.
                                         </div>
                                     </div>
                                     <div className="item" id = "a">
@@ -171,7 +171,7 @@ class LoginBox extends React.Component {
                 email: this.state.email,
                 password: this.state.password
             };
-            axios.post('http://ec2-99-79-39-110.ca-central-1.compute.amazonaws.com:8000/users/signin', userInfo).then( (res) => {
+            axios.post('/users/signin', userInfo).then( (res) => {
                 if(res.data.success) {
                     this.setState({token: res.data.token, toUserPage: true, userId: res.data.user._id});
                 }

@@ -143,8 +143,10 @@ class CreateActivity extends React.Component{
             title: this.state.title,
             location: this.state.location
         };
+
         let activityId="";
-        axios.post('http://ec2-99-79-39-110.ca-central-1.compute.amazonaws.com:8000/activities/activity/create', userInfo,helper).then( (res) => {
+
+        axios.post('/activities/activity/create', userInfo,helper).then( (res) => {
             activityId= res.data.activity.id;
             axios.put('/activities/activity/attend/' + activityId ,{},helper).then(res1 => {
             }).catch((error) => {

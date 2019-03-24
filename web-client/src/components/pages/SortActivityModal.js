@@ -5,7 +5,7 @@ import '../../App.css';
 class SortActivityModal extends Component{
     state = {
         open: false,
-    }
+    };
 
     handleOpen = () => this.setState({ open: true });
 
@@ -31,7 +31,7 @@ class SortActivityModal extends Component{
                             color='violet' 
                             animated='vertical'
                             onClick={() => {
-                                this.props.sort("sports")
+                                this.props.sort("sports");
                                 this.handleClose()
                             }}
                         >
@@ -46,7 +46,7 @@ class SortActivityModal extends Component{
                             color='violet' 
                             animated='vertical'
                             onClick={() => {
-                                this.props.sort("politics")
+                                this.props.sort("politics");
                                 this.handleClose()
                             }}
                         >
@@ -61,7 +61,7 @@ class SortActivityModal extends Component{
                             color='violet' 
                             animated='vertical' 
                             onClick={() => {
-                                this.props.sort("art")
+                                this.props.sort("art");
                                 this.handleClose()
                             }}
                         >
@@ -76,7 +76,7 @@ class SortActivityModal extends Component{
                             color='violet' 
                             animated='vertical'
                             onClick={() => {
-                                this.props.sort("music")
+                                this.props.sort("music");
                                 this.handleClose()
                             }}
                         >
@@ -91,7 +91,7 @@ class SortActivityModal extends Component{
                             color='violet' 
                             animated='vertical' 
                             onClick={() => {
-                                this.props.sort("study")
+                                this.props.sort("study");
                                 this.handleClose()
                             }}
                         >

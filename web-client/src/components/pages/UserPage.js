@@ -42,6 +42,15 @@ class UserPage extends React.Component {
         }
     };
 
+    showAllActivityHandler = () => {
+        axios.get('/activities').then(res => {
+            const activities = res.data.activities;
+            this.setState({ activities });
+        }).catch((error) => {
+            console.log(error);
+        });
+    };
+
     showUserActivityHandler = () => {
 
         const token = this.props.location.state.token;
@@ -94,11 +103,6 @@ class UserPage extends React.Component {
         });
     };
 
-    testHandler = () => {
-        window.location.reload();
-    };
-
-
     render()
     {
         return (
@@ -114,7 +118,7 @@ class UserPage extends React.Component {
                 <ViewActivityModal
                     ref="viewActivityModal"
                     display={this.state.displayViewModal}
-                    viewAll={this.testHandler}
+                    viewAll={this.showAllActivityHandler}
                     viewMine={this.showMyActivityHandler}
                     viewInterests={this.showUserActivityHandler}
                 />
@@ -137,43 +141,10 @@ class UserPage extends React.Component {
 
                 <div id="page-wrap">
                     <Segment>
-                        <h2 class="ui center aligned icon header">
-                            <i class="circular users icon"></i>
+                        <h2 className="ui center aligned icon header">
+                            <i className="circular users icon"/>
                             UNI 
                         </h2>
-                        {/* <h2>welcome, {this.props.location.state.stateName}!</h2>
-
-                        <button
-                            className='medium ui primary button'
-                            onClick={this.createActivityHandler}>
-                            Create Activity
-                        </button>
-
-                        <button
-                            className='medium ui primary button'
-                            onClick={this.testHandler}>
-                            all activities
-                        </button>
-
-                        <button
-                            className='medium ui primary button'
-                            onClick={this.showUserActivityHandler}>
-                            Interested(Attending) Activities
-                        </button>
-
-                        <button
-                            className='medium ui primary button'
-                            onClick={this.showMyActivityHandler}>
-                            My(creator) Activities
-                        </button>
-
-                        <button
-                            className='medium ui primary button'
-                            onClick={() => this.sortActivitiesByCategory("sports")}
-                        >
-                            Sports
-                        </button> */}
-                        
 
                         <div className='ui items'>
                             {
