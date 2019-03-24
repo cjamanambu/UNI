@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 
 chai.use(chaiHttp);
 let token;
+let id;
 
 describe('Testing attending and unattending', () => {
 	const signin = '/users/signin';
@@ -14,6 +15,16 @@ describe('Testing attending and unattending', () => {
 	const userCredentials = {
 		email: 'yinka@myumanitoba.ca',
 		password: 'yinka',
+	};
+
+	const activityToBeDeleted = {
+		"attendance_list":[],
+		"category":"HIP HOP",
+		activity_datetime: "2019-03-24 11:11:11.334",
+		max_attendance:1,
+		description: "Nasir bin Jones",
+		title: "GOAT talk",
+		location: "Mars"
 	};
 
 	before(async () => {
@@ -25,8 +36,8 @@ describe('Testing attending and unattending', () => {
 		token = result.body.token;
 	});
 
-	// after all test have run we drop our test database
-	after('droping test db', async () => {
+	// after all test have run we close our test database
+	after('Close test db', async () => {
 		await mongoose.connection.close();
 	});
 
@@ -34,12 +45,12 @@ describe('Testing attending and unattending', () => {
 		try {
 		const result = await chai
 			.request(app)
-			.put('/activities/activity/attend/5c96d84e23f9d417643b710b')
+			.put('/activities/activity/attend/5c97a539c7c41320ba3ddaf4')
 			.set('Authorization', token);
 
 		expect(result.status).to.equal(200);
 		expect(result.body).not.to.be.empty;
-
+		
 		} catch (err) {
 			console.log(err);
 		}
@@ -64,7 +75,7 @@ describe('Testing attending and unattending', () => {
 		try {
 		const result = await chai
 			.request(app)
-			.put('/activities/activity/unattend/5c96d84e23f9d417643b710b')
+			.put('/activities/activity/unattend/5c97acbfc7c41320ba3ddaf5')
 			.set('Authorization', token);
 
 		expect(result.status).to.equal(200);
@@ -85,8 +96,7 @@ describe('Testing attending and unattending', () => {
 		expect(result.status).to.equal(200);
 		expect(result.body).not.to.be.empty;
 		expect(result.body.activities).to.have.length.above(1);
-		// console.log(JSON.stringify(result.body.activities));
-
+		
 		} catch (err) {
 			console.log(err);
 		}
@@ -107,12 +117,25 @@ describe('Testing attending and unattending', () => {
 		}
 	});
 
-	describe('tests for deleting an acctivity', async() => {
+	describe('tests for deleting an activity', async() => {
+		// Create an activity so that we can delete it
+		before(async () => {
+			const result = await chai
+				.request(app)
+				.post('/activities/activity/create')
+				.set('Authorization', token)
+				.set('content-type', 'application/json')
+				.send(activityToBeDeleted);
+			expect(result.status).to.equal(200);
+			id = result.body.activity.id
+
+		});
+
 		it('Should delete an activity by returning response 200', async () => {
 			try {
 				const result = await chai
 					.request(app)
-					.delete('/users/user/activities/activity/delete/5c96d8da23f9d417643b710e')
+					.delete('/users/user/activities/activity/delete/' + id)
 					.set('Authorization', token);
 
 				expect(result.status).to.equal(200);
