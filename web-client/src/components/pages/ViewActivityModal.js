@@ -1,11 +1,11 @@
 import React, { Component} from 'react';
-import { Modal, Header, Button, Icon } from 'semantic-ui-react';
+import { Modal, Header, Button } from 'semantic-ui-react';
 import '../../App.css';
 
 class ViewActivityModal extends Component{
     state = {
         open: false,
-    }
+    };
 
     handleOpen = () => this.setState({ open: true });
 
