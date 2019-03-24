@@ -5,18 +5,21 @@ import Sidebar from "./Sidebar";
 import "../../userpage.css";
 import axios from "../../axios_def";
 import CreateActivity from './CreateActivity';
+import ViewActivityModal from './viewActivityModal';
 
 class UserPage extends React.Component {
     state = {
         activities: [],
         displayCreateModal:false,
+        displayViewModal:false,
         dataBaseUpdate:false
     };
 
     createActivityHandler = () => {
         this.refs.createModal.open();
-
     };
+
+    ViewActivityHandler = () => this.refs.viewActivityModal.handleOpen();
 
     updateDB = () => {
         this.setState({dataBaseUpdate:true});
@@ -94,12 +97,22 @@ class UserPage extends React.Component {
                     updateDB = {this.updateDB}
                 />
 
+                <ViewActivityModal
+                    ref = "viewActivityModal"
+                    display={this.state.displayViewModal}
+                    viewAll={this.testHandler}
+                    viewMine={this.showMyActivityHandler}
+                    viewInterests={this.showUserActivityHandler}
+                />
+
                 <Sidebar
                     pageWrapId={"page-wrap"} 
                     outerContainerId={"App"}
                     width={ "20%" }
                     email={this.props.location.state.stateName}
                     createActivity={this.createActivityHandler}
+                    viewActivity={this.ViewActivityHandler}
+                    
                 />
 
                 <div id="page-wrap">

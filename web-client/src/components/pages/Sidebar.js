@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, Label, Item, Icon, Card, Button, Header, Divider } from 'semantic-ui-react'
+import { Image, Label, Item, Icon, Card, Button, Header, Divider, Dropdown, Modal } from 'semantic-ui-react'
 import { push as Menu } from 'react-burger-menu';
 import { Link } from 'react-router-dom';
 
@@ -19,6 +19,8 @@ export default props => {
             </div>
 
             <div id="buttonGroup">
+        
+                <Divider horizontal></Divider>
                 <Button
                     onClick={props.createActivity}
                     fluid
@@ -29,13 +31,16 @@ export default props => {
                     Create
                 </Button>
                 <Divider horizontal></Divider>
+                
                 <Button 
                     fluid
-                    id="menuButton"  
+                    id="menuButton" 
+                    onClick={props.viewActivity}
                 >
                     <Icon name='tasks' />
-                    Edit   
+                    View
                 </Button>
+                        
                 <Divider horizontal></Divider>
                 <Button 
                     fluid
