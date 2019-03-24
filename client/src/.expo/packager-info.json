@@ -3,7 +3,8 @@
   "expoServerPort": null,
   "packagerPort": null,
   "packagerPid": null,
-  "expoServerNgrokUrl": "https://u5-4fu.anonymous.src.exp.direct",
-  "packagerNgrokUrl": "https://packager.u5-4fu.anonymous.src.exp.direct",
-  "ngrokPid": 1473
+  "expoServerNgrokUrl": "https://fy-5sd.anonymous.src.exp.direct",
+  "packagerNgrokUrl": "https://packager.fy-5sd.anonymous.src.exp.direct",
+  "ngrokPid": 4588,
+  "webpackServerPort": null
 }

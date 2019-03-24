@@ -12,6 +12,7 @@ import NewActivityScreen from "./screens/NewActivityScreen";
 import UserJoinedActivitiesScreen from "./screens/UserJoinedActivitiesScreen";
 import JoinedActivityDetailsPage from "./screens/JoinedActivityDetailsPage";
 import MyCreatedActivityiesListScreen from "./screens/MyCreatedActivityListScreen";
+import ActivityAttendantListScreen from "./screens/ActivityAttendantListScreen";
 import HomeScreen from "./screens/HomeScreen";
 import LinksScreen from "./screens/LinksScreen";
 
@@ -45,7 +46,8 @@ const MainNavigator = createStackNavigator({
   NewActivityScreen: NewActivityScreen,
   UserJoinedActivitiesScreen : UserJoinedActivitiesScreen,
   JoinedActivityDetailsPage: JoinedActivityDetailsPage,
-  MyCreatedActivityiesListScreen: MyCreatedActivityiesListScreen
+  MyCreatedActivityiesListScreen: MyCreatedActivityiesListScreen,
+  ActivityAttendantListScreen: ActivityAttendantListScreen,
 });
 
 const AppRoot = createAppContainer(MainNavigator);

@@ -12,6 +12,7 @@ import{
 	Text,
 	Alert,
 	Button,
+	ScrollView
 }from 'react-native';
 import { Dropdown } from 'react-native-material-dropdown';
 import DatePicker from 'react-native-datepicker'
@@ -155,9 +156,8 @@ export default class NewActivityScreen extends React.Component {
 				activeOpacity={1.0}	//when clicked change active
 				//onPress={this.blurTextInput} //add click event
 				style={styles.signUpContainer}>
-				<KeyboardAvoidingView behavior = "padding" style = {styles.signUpContainer}>
+				<KeyboardAvoidingView behavior = "padding" keyboardVerticalOffset={250} style = {styles.signUpContainer}>
 					<View style={styles.logoContainer}>
-						<Image style={styles.logo} source={require('../assets/images/Octocat.png')}/>
 						<Text style={styles.title}>Create Activity</Text>
 					</View>
 					<View
@@ -253,15 +253,15 @@ export default class NewActivityScreen extends React.Component {
 							underlineColorAndroid={'transparent'} //cancel under line
 						/>
 					</View>
-
-
-				</KeyboardAvoidingView>
 				<TouchableOpacity
 					onPress={this.createAct}
 					style={styles.button}>
 					<Text
 						style={styles.btText}>Create Activity</Text>
 				</TouchableOpacity>
+
+				</KeyboardAvoidingView>
+
 
 			</TouchableOpacity>
 		);
