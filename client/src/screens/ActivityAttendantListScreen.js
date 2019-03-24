@@ -19,17 +19,13 @@ import {
     TouchableOpacity,
     View,
     FlatList,
-    KeyboardAvoidingView
+    KeyboardAvoidingView,
+    Alert,
 } from 'react-native';
 import styles from '../assets/Styles.js';
 import * as App from '../App';
 
 export default class ActivityAttendantListScreen extends React.Component {
-
-    // componentWillUnmount() {
-    //     const { navigation } = this.props
-    //     navigation.state.params.onBack();
-    // }
 
     constructor (props) {
         super(props);
@@ -67,19 +63,36 @@ export default class ActivityAttendantListScreen extends React.Component {
             }
         }
 
-        function deleteActivity(pageNavigation) {
+        function showDeleteConfirmedMessage(pageNavigation) {
+            Alert.alert(
+                'Are you sure?',
+                'You will not be able to recover this activity after deleting it.',
+                [
+                    {
+                        text: 'Cancel',
+                        style: 'cancel',
+                    },
+                    {text: 'OK', onPress: () => makeDeleteActivityRequest(pageNavigation)},
+                ],
+                {cancelable: false},
+            );
+        }
+
+        function makeDeleteActivityRequest(pageNavigation) {
             AsyncStorage.getItem("AuthToken").then(token =>{
-                if(token) {
+                if (token) {
                     const activityID = navigation.getParam("activity_id");
-                    fetch(App.URL + 'users/user/activities/activity/delete/' + activityID, {
+                    fetch(App.URL + '/users/user/activities/activity/delete/' + activityID, {
                         method: 'DELETE',
                         headers: {
                             'Accept': 'application/json',
                             'Content-Type': 'application/json',
                             'Authorization' : token
                         }
-                    }).then(res => {
-                        console.log(res)
+                    })
+                        .then(res => res.json())
+                        .then(res => {
+                        console.log(res.success);
                         if (res.success)
                             Alert.alert("Activity deleted successfully!");
                         else
@@ -114,7 +127,7 @@ export default class ActivityAttendantListScreen extends React.Component {
                             )}
                         />
                         <TouchableOpacity style={styles.buttonContainer}>
-                            <Text style={styles.buttonText} onPress={() => deleteActivity(this.props.navigation)}>Delete Activity</Text>
+                            <Text style={styles.buttonText} onPress={() => showDeleteConfirmedMessage(this.props.navigation)}>Delete Activity</Text>
                         </TouchableOpacity>
                     </View>
 

@@ -37,13 +37,15 @@ export default class MyCreatedActivityListScreen extends React.Component {
     }
 
     componentWillMount() {
-        const {setParams} = this.props.navigation;
+        this._subscribe = this.props.navigation.addListener('didFocus', () => {
+            this.makeRemoteRequest();
+        });
     }
 
     static navigationOptions = ({ navigation }) => {
         const {state} = navigation;
         return {
-            headerTitle: "My Activities"
+            headerTitle: "My Created Activities"
         };
     };
 
@@ -90,10 +92,6 @@ export default class MyCreatedActivityListScreen extends React.Component {
         })
     };
 
-    onBack () {
-        this.makeRemoteRequest();
-    }
-
 
 
 
@@ -121,7 +119,6 @@ export default class MyCreatedActivityListScreen extends React.Component {
                                     title: item.title,
                                     attendance_list: item.attendance_list,
                                     datetime_created: item.datetime_created,
-                                    onBack: this.onBack.bind(this)
                                 })
                             }
                         />

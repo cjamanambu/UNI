@@ -60,7 +60,7 @@ export default class CurrentActivitiesScreen extends React.Component {
             headerTitle: "Current Activities",
             headerRight: (
                 <TouchableOpacity onPress={() => navigation.navigate('NewActivityScreen', {token: state.params.token})}>
-                    <Text style={{fontSize: 30, marginRight: 10, color: "#007aff"}}>+</Text>
+                    <Text style={styles.headerBarButton}>+</Text>
                 </TouchableOpacity>
             ),
             headerLeft: (
