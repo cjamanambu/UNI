@@ -123,13 +123,13 @@ export default class CurrentActivitiesScreen extends React.Component {
                         />
                     </View>
 
-                    <View style={{ width: 96, marginLeft: 8 }}>
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('NewActivityScreen', {token: this.state.token})}>
+                    <Text></Text>
+                        <Image
+                        source = {require('../assets/images/addition.png')}
+                        style={{width:40, height:40, marginLeft: 10}}/>
+                    </TouchableOpacity>
 
-                        <Button onPress={() => this.props.navigation.navigate('NewActivityScreen', {token: this.state.token})}
-                        title="Add" style={{alignItems: 'center', alignContent: 'center'}}>
-
-                        </Button>
-                    </View>
                 </View>
 
                 <FlatList

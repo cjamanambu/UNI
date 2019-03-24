@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform, StatusBar, StyleSheet, View } from 'react-native';
+import { Platform, StatusBar, StyleSheet, View, Image } from 'react-native';
 import {createStackNavigator, createAppContainer, createBottomTabNavigator} from 'react-navigation';
 import { AppLoading, Asset, Font, Icon } from 'expo';
 import AppNavigator from './navigation/AppNavigator';
@@ -37,9 +37,48 @@ class App extends React.Component {
   }
 }
 const MainTabNavigator = createBottomTabNavigator({
-  CurrentActivitiesScreen: CurrentActivitiesScreen,
-  UserJoinedActivitiesScreen : UserJoinedActivitiesScreen,
-  MyCreatedActivityiesListScreen: MyCreatedActivityiesListScreen,
+  CurrentActivitiesScreen: {
+    screen:CurrentActivitiesScreen,
+    navigationOptions:{
+      tabBarLabel:'Current Activities',
+      tabBarIcon:({focused,tintColor}) => (
+        <Image
+          source = {focused?require("./assets/images/activity_fill.png"):require("./assets/images/activity.png")}
+          style= {{width:25, height:25,tintColor:tintColor}}
+          />
+        ),
+    }
+  },
+  UserJoinedActivitiesScreen : {
+    screen:UserJoinedActivitiesScreen,
+    navigationOptions:{
+      tabBarLabel:'Joined Activities',
+      tabBarIcon:({focused,tintColor}) => (
+        <Image
+          source = {focused?require("./assets/images/flag_fill.png"):require("./assets/images/flag.png")}
+          style= {{width:25, height:25, tintColor:tintColor}}
+          />
+        ),
+    }
+  },
+  MyCreatedActivityiesListScreen: {
+    screen:MyCreatedActivityiesListScreen,
+    navigationOptions:{
+      tabBarLabel:'My Activities',
+      tabBarIcon:({focused,tintColor}) => (
+        <Image
+          source = {focused?require("./assets/images/mine_fill.png"):require("./assets/images/mine.png")}
+          style= {{width:25, height:25,tintColor:tintColor}}
+          />
+        ),
+    }
+  },
+},
+{
+  tabBarOptions:{
+      showIcon:true
+    
+  },
 });
 
 const MainNavigator = createStackNavigator({
