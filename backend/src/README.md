@@ -1,4 +1,4 @@
-# Mocha - Testing framework and Chai as assertion library
+# Mocha with Chai
 
 Run the following command in backend/src to install the modules
 
