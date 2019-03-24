@@ -6,7 +6,7 @@
   "scripts": {
     "start-dev": "nodemon app.js",
     "test": "mocha test/*.js --exit",
-    "nyc": "nyc mocha test/*.js --exit"
+    "nyc": "cross-env NODE_ENV=test nyc mocha test/*.js --exit"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
