@@ -152,6 +152,7 @@ export default class NewActivityScreen extends React.Component {
 		let activityTypes = [{value: 'Sports'}, {value: 'Study'}, {value: 'Dance'}, {value: 'Politics'}, {value: 'Art'}, {value: 'Music'}];
 
 		return (
+			<ScrollView>
 			<TouchableOpacity	//using touchable opacity as background
 				activeOpacity={1.0}	//when clicked change active
 				//onPress={this.blurTextInput} //add click event
@@ -160,6 +161,9 @@ export default class NewActivityScreen extends React.Component {
 					<View style={styles.logoContainer}>
 						<Text style={styles.title}>Create Activity</Text>
 					</View>
+
+
+					<KeyboardAvoidingView>
 					<View
 						style={styles.inputBox}>
 						<TextInput
@@ -175,6 +179,9 @@ export default class NewActivityScreen extends React.Component {
 							underlineColorAndroid={'transparent'} //cancel under line
 						/>
 					</View>
+					</KeyboardAvoidingView>
+
+
 					<View
 						style={styles.inputBox}>
 						<TextInput
@@ -264,6 +271,7 @@ export default class NewActivityScreen extends React.Component {
 
 
 			</TouchableOpacity>
+			</ScrollView>
 		);
 	}
 }
