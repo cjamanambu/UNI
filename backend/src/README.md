@@ -15,7 +15,7 @@ Run the following command:
 
 **Make sure `yarn` is installed on your machine.**
 
-
+## Documentation
 More information can be found on
 1. [Mocha](https://mochajs.org/)
 
