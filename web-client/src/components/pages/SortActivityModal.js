@@ -27,7 +27,8 @@ class SortActivityModal extends Component{
                     <Modal.Actions>
                         <Button 
                             basic
-                            color='blue' 
+                            inverted
+                            color='violet' 
                             animated='vertical'
                             onClick={() => {
                                 this.props.sort("sports")
@@ -41,7 +42,8 @@ class SortActivityModal extends Component{
                         </Button>
                         <Button 
                             basic
-                            color='blue' 
+                            inverted
+                            color='violet' 
                             animated='vertical'
                             onClick={() => {
                                 this.props.sort("politics")
@@ -55,8 +57,9 @@ class SortActivityModal extends Component{
                         </Button>
                         <Button 
                             basic
-                            color='blue' 
-                            animated='vertical'
+                            inverted
+                            color='violet' 
+                            animated='vertical' 
                             onClick={() => {
                                 this.props.sort("art")
                                 this.handleClose()
@@ -69,7 +72,8 @@ class SortActivityModal extends Component{
                         </Button>
                         <Button 
                             basic
-                            color='blue' 
+                            inverted
+                            color='violet' 
                             animated='vertical'
                             onClick={() => {
                                 this.props.sort("music")
@@ -83,8 +87,9 @@ class SortActivityModal extends Component{
                         </Button>
                         <Button 
                             basic
-                            color='blue' 
-                            animated='vertical'
+                            inverted
+                            color='violet' 
+                            animated='vertical' 
                             onClick={() => {
                                 this.props.sort("study")
                                 this.handleClose()
