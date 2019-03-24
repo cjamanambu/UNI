@@ -135,7 +135,7 @@ class CreateActivity extends React.Component{
                 "Content-Type": "application/json"}
         };
         const userInfo = {
-            attendance_list:"[]",
+            attendance_list:[],
             category:this.state.category,
             activity_datetime: this.state.activity_dateTime,
             max_attendance:this.state.max_attendance,
