@@ -2,7 +2,7 @@
 
 Run the following command in backend/src to install the modules
 
-`npm i --save-dev mocha chai chai-http nyc`
+`npm i --save-dev mocha chai chai-http nyc cross-env`
 
 To run the integration tests as well as unit tests, run the command
 
