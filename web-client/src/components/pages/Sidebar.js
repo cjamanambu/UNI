@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Image, Label, Item, Icon, Card, Button, Header, Divider, Dropdown, Modal, Input } from 'semantic-ui-react'
+import { Image, Icon, Button, Header, Divider } from 'semantic-ui-react'
 import { push as Menu } from 'react-burger-menu';
 import { Link } from 'react-router-dom';
 
@@ -8,11 +8,11 @@ export default class Sidebar extends Component{
 
     state = {
         menuOpen: false,
-    }
+    };
 
     closeMenu = () => this.setState({menuOpen: false});
 
-    handleStateChange = (state) => this.setState({menuOpen: state.isOpen})
+    handleStateChange = (state) => this.setState({menuOpen: state.isOpen});
 
     render(){
         return(
@@ -31,13 +31,13 @@ export default class Sidebar extends Component{
                     />
                     <Header as="h4" id="label"> {this.props.email} </Header>
                 </div>
-    
+
                 <div id="buttonGroup">
             
                     <Divider horizontal></Divider>
                     <Button
                         onClick={() => {
-                            this.closeMenu()
+                            this.closeMenu();
                             this.props.createActivity() 
                         }}
                         fluid
@@ -51,7 +51,7 @@ export default class Sidebar extends Component{
                     
                     <Button
                         onClick={() => {
-                            this.closeMenu()
+                            this.closeMenu();
                             this.props.viewActivity() 
                         }}
                         fluid
@@ -67,7 +67,7 @@ export default class Sidebar extends Component{
                         fluid
                         id="menuButton"
                         onClick={() => {
-                            this.closeMenu()
+                            this.closeMenu();
                             this.props.sortActivity() 
                         }}
                     >

@@ -28,7 +28,6 @@ describe('Homepage', ()=>{
     it('login should contain 2 input box',()=>{
         const wrapper1 = shallow(<LoginBox/>);
         expect(wrapper1.find("input")).toHaveLength(2);
-
     });
     it('Register should contain 2 input box',()=>{
         const wrapper = shallow(<HomePage/>);

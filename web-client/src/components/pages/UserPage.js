@@ -31,7 +31,6 @@ class UserPage extends React.Component {
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if(prevState.dataBaseUpdate !== this.state.dataBaseUpdate){
-
             axios.get('/activities').then(res => {
                 const activities = res.data.activities;
                 this.setState({ activities });
@@ -52,14 +51,11 @@ class UserPage extends React.Component {
     };
 
     showUserActivityHandler = () => {
-
         const token = this.props.location.state.token;
-
         const helper= {
             headers: {"Authorization": '' + token,
                 "Content-Type": "application/json"}
         };
-
         axios.get('/users/user/activities/attending',helper).then(res => {
             const activities = res.data.activities;
             this.setState({ activities });
@@ -70,12 +66,10 @@ class UserPage extends React.Component {
 
     showMyActivityHandler = () => {
         const token = this.props.location.state.token;
-
         const helper= {
             headers: {"Authorization": '' + token,
                 "Content-Type": "application/json"}
         };
-
         axios.get('/users/user/myActivities',helper).then(res => {
             const activities = res.data.my_activities;
             this.setState({ activities });
@@ -107,14 +101,12 @@ class UserPage extends React.Component {
     {
         return (
             <div id="App">
-
                 <CreateActivity
                     ref ="createModal"
                     token = {this.props.location.state.token}
                     display={this.state.displayCreateModal}
                     updateDB = {this.updateDB}
                 />
-
                 <ViewActivityModal
                     ref="viewActivityModal"
                     display={this.state.displayViewModal}
@@ -122,13 +114,11 @@ class UserPage extends React.Component {
                     viewMine={this.showMyActivityHandler}
                     viewInterests={this.showUserActivityHandler}
                 />
-
                 <SortActivityModal
                     ref="sortActivityModal"
                     display={this.state.displaySortModal}
                     sort={this.sortActivitiesByCategory}
                 />
-
                 <Sidebar
                     pageWrapId={"page-wrap"} 
                     outerContainerId={"App"}
@@ -138,7 +128,6 @@ class UserPage extends React.Component {
                     viewActivity={this.viewActivityHandler}
                     sortActivity={this.sortActivityHandler}
                 />
-
                 <div id="page-wrap">
                     <Segment>
                         <h2 className="ui center aligned icon header">

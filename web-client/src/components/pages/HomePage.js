@@ -264,7 +264,6 @@ export class RegisterBox extends React.Component {
             HomePageHelper.showValidationErr(this,"password", passwordErrorMessage);
         }
         if(emailErrorMessage === "" &&  passwordErrorMessage === "" ) {
-            this.setState({successConfirmation: true});
             let username= this.state.email.split("@")[0];
             const userInfo = {
                 username: username,
@@ -273,10 +272,10 @@ export class RegisterBox extends React.Component {
             };
             axios.post('/users/signup', userInfo).then( (res) => {
                 if(res.data.success) {
-                    this.setState({showConfirmation: true});
+                    this.setState({successConfirmation: true});
                 }
             }).catch(error => {
-                this.setState({invalidUser: true});
+                this.setState({invalidUser: true,successConfirmation: false});
                 console.log(error.response);
             });
         }
@@ -317,7 +316,7 @@ export class RegisterBox extends React.Component {
             pwdStrong = true;
         }
         if (this.state.invalidUser === true){
-            invalidUserErr = "Email";
+            invalidUserErr = "Email has already been used try another one";
         }
 
         return (
