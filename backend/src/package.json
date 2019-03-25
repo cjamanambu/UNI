@@ -4,11 +4,13 @@
   "private": true,
   "main": "app.js",
   "scripts": {
-    "start-dev": "nodemon app.js"
+    "start-dev": "nodemon app.js",
+    "test": "mocha || true"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
+    "chai-http": "^4.2.1",
     "cookie-parser": "~1.4.3",
     "cors": "^2.8.5",
     "debug": "~2.6.9",
@@ -17,6 +19,7 @@
     "http-errors": "~1.6.2",
     "jade": "~1.11.0",
     "jsonwebtoken": "^8.5.0",
+    "moca": "^0.4.3",
     "mongodb": "^3.1.13",
     "mongoose": "^5.4.17",
     "morgan": "^1.9.1",
@@ -26,6 +29,9 @@
     "promise-router": "^0.2.2"
   },
   "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.2.1",
+    "mocha": "^6.0.2",
     "nodemon": "^1.18.10"
   }
 }

@@ -171,7 +171,7 @@ HTTP 200 Content-Type: application/json
 ### Request
 
 ```
-GET /activities/activity:id
+GET /activities/activity/:id
 ```
 
 This endpoint will return the details about the Activity specified by :id.
