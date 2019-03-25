@@ -4,8 +4,9 @@ import '../_loginSty.scss';
 import FadeTransition from "../transitions/fadeTransition.jsx";
 import {Redirect} from 'react-router-dom'
 import axios from "../../axios_def"
+import {HomePageHelper} from "../../helper/HomePageHelper";
 
-class HomePage extends React.Component{
+export class HomePage extends React.Component{
 
     constructor(props) {
         super(props);
@@ -101,7 +102,7 @@ class HomePage extends React.Component{
     }
 }
 
-class LoginBox extends React.Component {
+export class LoginBox extends React.Component {
 
     constructor(props) {
         super(props);
@@ -116,57 +117,26 @@ class LoginBox extends React.Component {
         };
     }
 
-    showValidationErr(elm, msg) {
-        this.setState((prevState) => ({
-            errors: [
-                ...prevState.errors, {
-                    elm,
-                    msg
-                }
-            ]
-        }));
-    }
-
-    clearValidationErr(elm) {
-        this.setState((prevState) => {
-            let newArr = [];
-            for (let err of prevState.errors) {
-                if (elm !== err.elm) {
-                    newArr.push(err);
-                }
-            }
-            return {errors: newArr};
-        });
-    }
-
-    onUsernameChange(e) {
+    onEmailChange(e) {
         this.setState({email: e.target.value, invalidUser: false});
-        this.clearValidationErr("email");
+        HomePageHelper.clearValidationErr(this,"email");
     }
 
     onPasswordChange(e) {
         this.setState({password: e.target.value, invalidUser: false});
-        this.clearValidationErr("password");
+        HomePageHelper.clearValidationErr(this,"password");
     }
 
     submitLogin() {
-        let email = this.state.email;
-        let invalidEmail=false;
-        let invalidPassword=false;
-
-        if (this.state.email === "") {
-            this.showValidationErr("email", "Email cannot be empty!");
-            invalidEmail = true;
+        let emailErrorMessage= HomePageHelper.validateEmail(this.state.email),
+            passwordErrorMessage = HomePageHelper.validatePassword(this.state.password);
+        if (emailErrorMessage !=="") {
+            HomePageHelper.showValidationErr(this,"email", emailErrorMessage);
         }
-        if (invalidEmail === false && !email.endsWith("@myumanitoba.ca")) {
-            this.showValidationErr("email", "Email must be a valid @myumaitoba.ca email");
-            invalidEmail = true;
+        if (passwordErrorMessage !=="") {
+            HomePageHelper.showValidationErr(this,"password", passwordErrorMessage);
         }
-        if (this.state.password === "") {
-            this.showValidationErr("password", "Password cannot be empty!");
-            invalidPassword = true;
-        }
-        if( invalidEmail !== true && invalidPassword !== true ) {
+        if( emailErrorMessage === "" &&  passwordErrorMessage === "" ) {
             const userInfo = {
                 email: this.state.email,
                 password: this.state.password
@@ -221,7 +191,7 @@ class LoginBox extends React.Component {
                             className="login-input"
                             placeholder="Email"
                             onChange={this
-                                .onUsernameChange
+                                .onEmailChange
                                 .bind(this)}/>
                         <small className="danger-error">{emailErr
                             ? emailErr
@@ -254,7 +224,7 @@ class LoginBox extends React.Component {
 
 }
 
-class RegisterBox extends React.Component {
+export class RegisterBox extends React.Component {
 
     constructor(props) {
 
@@ -268,38 +238,14 @@ class RegisterBox extends React.Component {
         };
     }
 
-    showValidationErr(elm, msg) {
-        this.setState((prevState) => ({
-            errors: [
-                ...prevState.errors, {
-                    elm,
-                    msg
-                }
-            ]
-        }));
-    }
-
-    clearValidationErr(elm) {
-        this.setState((prevState) => {
-            let newArr = [];
-            for (let err of prevState.errors) {
-                if (elm !== err.elm) {
-                    newArr.push(err);
-                }
-            }
-            return {errors: newArr};
-        });
-    }
-
     onEmailChange(e) {
-        this.setState({email: e.target.value});
-        this.clearValidationErr("email");
+        this.setState({email: e.target.value, invalidUser: false});
+        HomePageHelper.clearValidationErr(this,"email");
     }
 
     onPasswordChange(e) {
         this.setState({password: e.target.value});
-        this.clearValidationErr("password");
-
+        HomePageHelper.clearValidationErr(this,"password");
         this.setState({pwdState: "weak"});
         if (e.target.value.length >8 && e.target.value.length <12) {
             this.setState({pwdState: "medium"});
@@ -309,23 +255,15 @@ class RegisterBox extends React.Component {
     }
 
     submitRegister() {
-
-        let email = this.state.email;
-        let invalidEmail=false;
-        let invalidPassword=false;
-        if (this.state.email === "") {
-            this.showValidationErr("email", "Email cannot be empty!");
-            invalidEmail = true;
+        let emailErrorMessage= HomePageHelper.validateEmail(this.state.email),
+            passwordErrorMessage = HomePageHelper.validatePassword(this.state.password);
+        if (emailErrorMessage !=="") {
+            HomePageHelper.showValidationErr(this,"email", emailErrorMessage);
         }
-        if (invalidEmail === false && !email.endsWith("@myumanitoba.ca")) {
-            this.showValidationErr("email", "Email must be a valid @myumaitoba.ca email");
-            invalidEmail = true;
+        if (passwordErrorMessage !=="") {
+            HomePageHelper.showValidationErr(this,"password", passwordErrorMessage);
         }
-        if (this.state.password === "") {
-            this.showValidationErr("password", "Password cannot be empty!");
-            invalidPassword = true;
-        }
-        if(invalidEmail !== true && invalidPassword !== true ) {
+        if(emailErrorMessage === "" &&  passwordErrorMessage === "" ) {
             this.setState({successConfirmation: true});
             let username= this.state.email.split("@")[0];
             const userInfo = {
@@ -342,8 +280,8 @@ class RegisterBox extends React.Component {
                 console.log(error.response);
             });
         }
-
     }
+
     closeCreateModal = () => {
         this.props.showLogin();
         this.setState({successConfirmation: false})
