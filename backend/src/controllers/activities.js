@@ -42,20 +42,36 @@ module.exports = {
 
     activityId: async (req, res, next) => {
         try {
+            const testId = new ObjectId(req.params.id);
+            if (testId.toString() != (req.params.id).toString()){
+                res.status(400).json({
+                    success: false,
+                    info: "Invalid Id provided",
+                    activity: null
+                })
+            }
             const query = {_id: new ObjectId(req.params.id)};
             await Activity.find(query, function (err, activity) {
                 if (err) {
-                    res.json({
+                    res.status(500).json({
                         success: false,
-                        info: "Something went terribly wrong"
+                        info: "Something went terribly wrong. "+err.message,
+                        activity: null
                     });
                     next();
+                }else if (activity.length < 1 ){
+                    res.status(404).json({
+                        success: true,
+                        info: "Activity with that Id was not found",
+                        activity: null
+                    })
+                }else{
+                    res.status(200).json({
+                        success: true,
+                        info: "Successfully found required activity",
+                        activity: activity[0]
+                    })
                 }
-                res.json({
-                    success: true,
-                    info: "Successfully found required activity",
-                    activity: activity[0]
-                })
             })
         } catch(err){
             res.status(400).json({

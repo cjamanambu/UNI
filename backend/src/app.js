@@ -28,7 +28,7 @@ app.use('/activities', require('./routes/activities'));
 //start the server 
 var port = process.env.PORT || 8000;
 
-app.listen(port, function () {
+var server = app.listen(port, function () {
     console.log("Express server is listening on port", port);
 })
 
@@ -36,3 +36,5 @@ app.listen(port, function () {
 //Todo: Make sure the data base is required for signup
 //Todo: Make sure the username is unique
 //Todo: Include appropriate error and success messages
+
+module.exports = server;
