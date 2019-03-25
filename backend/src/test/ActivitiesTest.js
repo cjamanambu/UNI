@@ -3,8 +3,6 @@ const chaiHttp = require('chai-http');
 const assert = chai.assert;
 const app = require('../app');
 
-//let mongoose = require("mongoose");
-
 chai.use(chaiHttp);
 describe('Activities Unit Tests', async () => {
     /*
