@@ -40,25 +40,4 @@ describe('Activities Unit Tests', async () => {
         });
     });
 
-    /*describe('POST /activities/activity/create', () => {
-        it('It should GET the details about an activity if the unique id is provided', async () =>  {
-            const testSuccessResult = await chai
-                .request(app)
-                .post('/activities/activity/create');
-            assert.equal(testSuccessResult.status, '200');
-            assert.isObject(testSuccessResult.body);
-            assert.hasAllKeys(testSuccessResult.body, ['success', 'info', 'activity']);
-            assert.isTrue(testSuccessResult.body.success);
-
-            const testInvalidID = await chai
-                .request(app)
-                .get('/activities/activity/create');
-            assert.equal(testInvalidID.status, '400');
-            assert.isObject(testInvalidID.body);
-            assert.hasAllKeys(testInvalidID.body, ['success', 'info', 'activity']);
-            assert.isFalse(testInvalidID.body.success);
-
-        });
-    });*/
-
 });
