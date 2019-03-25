@@ -5,7 +5,7 @@ const { JWT_SECRET } = require('../configuration');
 const passport = require('passport');
 
 const ObjectId = require('mongoose').Types.ObjectId;
-
+var z = [] ;
 
 signToken = user => {
     return JWT.sign({
@@ -14,6 +14,25 @@ signToken = user => {
         iat: new Date().getTime(), //(issued at) current time
         exp: new Date().setDate(new Date().getDate() + 1) // ( expiry date) current time + 1 day
     }, JWT_SECRET);
+}
+
+helper = identity => {
+    //const query = {_id: new ObjectId(identity)};
+    User.findOne({ _id: identity }, function (err, user) {
+        if (err) return handleError(err);
+        //var z = ({user: user.username});
+        
+        //var z =JSON.parse({user: user.username});
+        return  ({
+             Name: user.username,
+             email: user.email
+         });
+         
+    })
+
+    console.log((err,user))
+    
+
 }
 
 
@@ -147,34 +166,61 @@ module.exports = {
                         // activity: {id: db_response.id}
                     });
                 }
-            });
+            }); 
         })(req, res, next);
     },
-    attendanceList: async (req, res, next) => {
-        try {
-            const query = {_id: new ObjectId(req.params.id)};
-            //const query = { attendance_list: { $all: [] } };
 
-            await Activity.find(query, function (err, activity) {
-                if (err) {
-                    res.json({
-                        success: false,
-                        info: "Something went terribly wrong"
-                    });
-                    next();
-                }
-                res.json({
-                    success: true,
-                    info: "Successfully found attendance list of required activity",
-                    attendanceList: activity[0].attendance_list
+
+    attendanceList: async (req, res, next) => {
+        passport.authenticate('jwt', {session: false}, async (err, user, info) => {
+            const query = {_id: new ObjectId(req.params.id)};
+                //const query = { attendance_list: { $all: [] } };
+
+            await Activity.find(query, function (err, activities) {
+                        
+                const attendanceListIds = activities[0].attendance_list;
+                let actualAttendanceListIds = attendanceListIds.map(s =>ObjectId(s));
+
+                User.find({_id:{$in: actualAttendanceListIds}}, async function (db_err, users) {
+                    var i;
+                    var userList = [];
+                    for (i = 0; i < users.length; i++)
+                    {
+                        userList[i] = {
+                            Name:   users[i].username,
+                            Email: users[i].email 
+                        };
+                    }
+
+                    if (db_err) {
+                        res.status(500).json({
+                            success: false,
+                            info: "Database error occurred. "+db_err
+                        });
+                    }else if (err){
+                        res.status(500).json({
+                            success: false,
+                            info: err
+                        });
+                    }else if (!user){
+                        res.status(401).json({
+                            success: false,
+                            user: user,
+                            info: info.message
+                        });
+                    }else{
+                        // Return the details about the activity for the user
+                        res.status(200).json({
+                            success: true,
+                            info: "Details of the user's activities sucessfully retrieved.",
+                            users: userList
+                        })
+                    }
+
                 })
             })
-        } catch(err){
-            res.status(400).json({
-                success: false,
-                info: err.message,
-                activity: null
-            })
-        }
-    },
+        })(req, res, next);
+    }
 }
+
+           
