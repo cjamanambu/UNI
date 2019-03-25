@@ -6,7 +6,6 @@ export default class FadeTransition extends React.Component {
 
     constructor(props) {
         super(props);
-        //Default Style
         this.defaultStyle = {
             transitionProperty: "opacity"
             // transition: `${this.props.duration}ms ease-in-out`

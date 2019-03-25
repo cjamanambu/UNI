@@ -22,4 +22,16 @@ router.route('/secret')
 router.route('/user/activities/attending')
 	.get(validateBody(activitySchema.authSchema), UsersController.userAttendingActivities);
 
+router.route('/user/activities/activity/attendanceList/:id')
+    .get(validateBody(activitySchema.authSchema), UsersController.attendanceList);
+
+router.route('/user/activities/activity/delete/:id')
+	.delete(UsersController.deleteMyActivity);
+
+router.route('/user/myActivities')
+    .get(validateBody(activitySchema.authSchema), UsersController.myActivities);
+
+router.route('/user/activities/activity/owner/:activityId')
+	.get(UsersController.creatorInformation);
+
 module.exports = router;

@@ -10,41 +10,66 @@ const ObjectId = require('mongoose').Types.ObjectId;
 module.exports = {
 
     activities: async (req, res , next) => {
-        await Activity.find({}, function(err, activities) {
+        let currentTime = new Date();
+        await Activity.find({activity_datetime: {$gte: currentTime}}, null,{sort: {activity_datetime: 1}},
+            function(err, activities) {
+            console.log("Returned a total of " +activities.length+" activities");
+            console.log("Activities must be after"+ currentTime);
             if(err) {
-                res.json({
+                res.status(500).json({
                     success: false,
-                    info: 'something went really wrong!'
+                    info: 'something went really wrong! '+err.message,
+                    activities: null
                 });
                 next();
             }
-            res.json({
-                success: true,
-                info: "Successfully retrieved all activities",
-                activities: activities
-            });
+            else {
+                res.status(200).json({
+                    success: true,
+                    info: "Successfully retrieved all current activities",
+                    activities: activities
+                });
+            }
         });   
     },
 
     activityId: async (req, res, next) => {
         try {
+            const testId = new ObjectId(req.params.id);
+            console.log(testId.toString(), (req.params.id).toString());
+            if (testId.toString() !== (req.params.id).toString()){
+                res.status(400).json({
+                    success: false,
+                    info: "Invalid Id provided",
+                    activity: null
+                });
+                next()
+            }
             const query = {_id: new ObjectId(req.params.id)};
             await Activity.find(query, function (err, activity) {
                 if (err) {
-                    res.json({
+                    res.status(500).json({
                         success: false,
-                        info: "Something went terribly wrong"
+                        info: "Something went terribly wrong. "+err.message,
+                        activity: null
                     });
                     next();
+                }else if (activity.length < 1 ){
+                    res.status(404).json({
+                        success: true,
+                        info: "Activity with that Id was not found",
+                        activity: null
+                    })
+                }else{
+                    res.status(200).json({
+                        success: true,
+                        info: "Successfully found required activity",
+                        activity: activity[0]
+                    })
                 }
-                res.json({
-                    success: true,
-                    info: "Successfully found required activity",
-                    activity: activity[0]
-                })
             })
         } catch(err){
-            res.status(400).json({
+            res.status(500).json({
                 success: false,
                 info: err.message,
                 activity: null
@@ -54,133 +79,163 @@ module.exports = {
 
     activityCreateId: async (req, res, next) => {
         passport.authenticate('jwt', {session: false}, async (err, user, info) => {
-            const data = req.body;
-            Activity.create(data, async function (db_err, db_response) {
-                if(db_err) {
-                    res.json({
+            if (!user) {
+                return res.status(401).json({
+                    success: false,
+                    info: "User not found. " + info.message,
+                    activity: null
+                });
+            }
+            else{
+                try {
+                    const data = {
+                        activity_datetime: req.body.activity_datetime,
+                        category: req.body.category,
+                        description: req.body.description,
+                        max_attendance: req.body.max_attendance,
+                        title: req.body.title,
+                        location: req.body.location
+                    };
+                    Activity.create(data, async function (db_err, db_response) {
+                        if (db_err) {
+                            res.status(400).json({
+                                success: false,
+                                info: "Database error Adding the activity was unsuccessful. " + db_err.message,
+                                activity: null
+                            });
+                            next();
+                        } else if (err) {
+                            return res.status(500).json({
+                                success: false,
+                                info: err,
+                                activity: null
+                            });
+                        } else {
+                            await User.updateOne(
+                                {_id: user.id},
+                                {$addToSet: {my_activities: db_response.id}});
+                            res.status(200).json({
+                                success: true,
+                                info: "Activity added successfully",
+                                activity: {id: db_response.id}
+                            })
+                        }
+                    });
+                } catch (error) {
+                    res.status(500).json({
                         success: false,
-                        info: "Database error Adding the activity was unsuccessful."
-                    });
-                    next();
-                }
-                else if (err){
-                    return res.status(500).json({
-                        success:false,
-                        info: err
-                    });
-                }
-                else if (!user) {
-                    return res.status(401).json({
-                        success: false,
-                        user: user,
-                        info: info.message
-                    });
-                }
-                else {
-                    await User.updateOne(
-                        { _id: user.id},
-                        {$addToSet: {my_activities: db_response.id}});
-                    res.json({
-                        success: true,
-                        info: "Activity added successfully",
-                        activity: {id: db_response.id}
+                        info: error+" "+info,
+                        activity: null
                     })
                 }
-            });
+            }
         })(req, res, next);
     },
 
     attendActivity: async (req, res, next) => {
         passport.authenticate('jwt', {session: false}, async (err, user, info) => {
-            const activityId = req.params.id;
-            const userId = user.id;
-            Activity.findOneAndUpdate({_id: activityId},
-                {$addToSet: {attendance_list: userId}},
-                null, function (db_err, db_response) {
-                if(db_err) {
-                    res.status(500);
-                    res.json({
+            if (!user) {
+                return res.status(401).json({
+                    success: false,
+                    user: user,
+                    info: info.message
+                });
+            }
+            else {
+                try{
+                const activityId = req.params.id;
+                const userId = user.id;
+                Activity.findOneAndUpdate({_id: activityId},
+                    {$addToSet: {attendance_list: userId}},
+                    null, function (db_err, db_response) {
+                        if (db_err) {
+                            res.status(500);
+                            res.json({
+                                success: false,
+                                info: "Database error. \n" + db_err,
+                            });
+                            next();
+                        } else if (err) {
+                            return res.status(500).json({
+                                success: false,
+                                info: err
+                            });
+                        }
+                        else if (db_response == null) {
+                            res.status(404).json({
+                                success: false,
+                                info: "Activity with that Id does not exits",
+                                activity: null
+                            })
+                        } else {
+                            res.status(200).json({
+                                success: true,
+                                info: "Activity successfully attended.",
+                                activity: {id: activityId}
+                            })
+                        }
+                    })
+                }catch (error){
+                    res.status(500).json({
                         success: false,
-                        info: "Database error. \n"+db_err,
-                    });
-                    next();
-                }
-                else if (err){
-                    return res.status(500).json({
-                        success:false,
-                        info: err
-                    });
-                }
-                else if (!user) {
-                    return res.status(401).json({
-                        success: false,
-                        user: user,
-                        info: info.message
-                    });
-                }
-
-                else if (db_response == null){
-                    res.status(404).json({
-                        success: false,
-                        info: "Activity with that Id does not exits",
+                        info: error,
                         activity: null
                     })
                 }
-                else {
-                    res.json({
-                        success: true,
-                        info: "Activity successfully attended.",
-                        activity: {id: activityId}
-                    })
-                }
-            })
+            }
         })(req, res, next);
     },
 
     unattendActivity: async (req, res, next) => {
         passport.authenticate('jwt', {session: false}, async (err, user, info) => {
-            const activityId = req.params.id;
-            const userId = user.id;
-            Activity.updateOne({_id: activityId},
-                {$pullAll: {attendance_list: [userId]}},
-                null, function (db_err, db_response) {
-                    if(db_err) {
-                        res.status(500);
-                        res.json({
-                            success: false,
-                            info: "Database error. \n"+db_err,
-                        });
-                        next();
-                    }
-                    else if (err){
-                        return res.status(500).json({
-                            success:false,
-                            info: err
-                        });
-                    }
-                    else if (!user) {
-                        return res.status(401).json({
-                            success: false,
-                            user: user,
-                            info: info.message
-                        });
-                    }
-
-                    else if (db_response == null){
-                        res.status(404).json({
-                            success: false,
-                            info: "Activity with that Id does not exits",
-                            activity: null
+            if (!user) {
+                return res.status(401).json({
+                    success: false,
+                    user: user,
+                    info: info.message
+                });
+            }
+            else {
+                try {
+                    const activityId = req.params.id;
+                    const userId = user.id;
+                    Activity.updateOne({_id: activityId},
+                        {$pullAll: {attendance_list: [userId]}},
+                        null, function (db_err, db_response) {
+                            if (db_err) {
+                                res.status(500);
+                                res.json({
+                                    success: false,
+                                    info: "Database error. \n" + db_err,
+                                });
+                                next();
+                            } else if (err) {
+                                return res.status(500).json({
+                                    success: false,
+                                    info: err
+                                });
+                            } else if (db_response == null) {
+                                res.status(404).json({
+                                    success: false,
+                                    info: "Activity with that Id does not exits",
+                                    activity: null
+                                })
+                            } else {
+                                res.status(200).json({
+                                    success: true,
+                                    info: "Activity successfully unattended.",
+                                    activity: {id: activityId}
+                                })
+                            }
                         })
-                    }
-                    else {
-                        res.json({
-                            success: true,
-                            info: "Activity successfully unattended.",
-                            activity: {id: activityId}
-                        })
-                    }
-                })
+                } catch (error){
+                    res.status(500).json({
+                        success: false,
+                        info: error,
+                        activity: null
+                    })
+                }
+            }
         })(req, res, next);
     }, 
 
@@ -188,23 +243,26 @@ module.exports = {
         try{
             await Activity.find({category: req.params.category.toUpperCase()}, function(err, activities) {
                 if(err) {
-                    res.json({
+                    res.status(400).json({
                         success: false,
-                        info: 'something went really wrong!'
+                        info: 'Something went really wrong when searching the database. '+err.message,
+                        activities: null
                     });
                     next();
                 }
-                res.json({
-                    success: true,
-                    info: "Successfully retrieved all activities",
-                    activities: activities
-                });
+                else {
+                    res.json({
+                        success: true,
+                        info: "Successfully retrieved all activities.",
+                        activities: activities
+                    });
+                }
             });
         } catch(err){
-            res.status(400).json({
-            success: false,
-            info: err.message,
-            activity: null
+            res.status(500).json({
+                success: false,
+                info: err,
+                activities: null
             })
         }
     },
