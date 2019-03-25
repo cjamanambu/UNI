@@ -157,7 +157,7 @@ module.exports = {
                     })
                 }
                 else {
-                    res.json({
+                    res.status(200).json({
                         success: true,
                         info: "Activity successfully attended.",
                         activity: {id: activityId}
@@ -204,7 +204,7 @@ module.exports = {
                         })
                     }
                     else {
-                        res.json({
+                        res.status(200).json({
                             success: true,
                             info: "Activity successfully unattended.",
                             activity: {id: activityId}

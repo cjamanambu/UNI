@@ -139,7 +139,7 @@ module.exports = {
                     });
                 }
                 else {
-                    res.json({
+                    res.status(200).json({
                         success: true,
                         info: "Found activities that the user is interested in...",
                         activities: activities
@@ -181,7 +181,6 @@ module.exports = {
         passport.authenticate('jwt', {session: false}, async (err, user, info) => {
             const data = req.body;
             const activityId = req.params.id;
-            console.log("\n\nMy activity id is:" + activityId);
             // look for the activity by id
             Activity.find({_id: activityId}, async function (db_err, db_response) {
                 if(db_err) {
@@ -207,7 +206,7 @@ module.exports = {
                 else {
                     // delete the activity
                     await Activity.remove({_id: activityId});
-                    res.json({
+                    res.status(200).json({
                         success: true,
                         info: "Activity removed successfully"
                     })
