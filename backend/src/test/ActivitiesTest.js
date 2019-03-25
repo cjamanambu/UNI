@@ -32,7 +32,7 @@ describe('Activities Unit Tests', async () => {
             const testInvalidID = await chai
                 .request(app)
                 .get('/activities/activity/:5c9575ad6394943867f91ccc');
-            assert.equal(testInvalidID.status, '400');
+            assert.equal(testInvalidID.status, '500');
             assert.isObject(testInvalidID.body);
             assert.hasAllKeys(testInvalidID.body, ['success', 'info', 'activity']);
             assert.isFalse(testInvalidID.body.success);

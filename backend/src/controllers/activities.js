@@ -36,12 +36,14 @@ module.exports = {
     activityId: async (req, res, next) => {
         try {
             const testId = new ObjectId(req.params.id);
-            if (testId.toString() != (req.params.id).toString()){
+            console.log(testId.toString(), (req.params.id).toString());
+            if (testId.toString() !== (req.params.id).toString()){
                 res.status(400).json({
                     success: false,
                     info: "Invalid Id provided",
                     activity: null
-                })
+                });
+                next()
             }
             const query = {_id: new ObjectId(req.params.id)};
             await Activity.find(query, function (err, activity) {
