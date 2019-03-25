@@ -6,7 +6,7 @@ Run the following command in backend/src to install the modules
 
 To run the integration tests as well as unit tests, run the command
 
-`npm run dev`
+`npm run test`
 
 ## Code Coverage
 Run the following command:
