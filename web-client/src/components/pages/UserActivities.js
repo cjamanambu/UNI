@@ -2,27 +2,25 @@ import React from 'react';
 import Modal from 'react-awesome-modal';
 import '../../App.css';
 import axios from "../../axios_def";
+import { Dropdown } from 'semantic-ui-react';
 
 class UserActivities extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            visible : false,
-            attend : false,
-            isFull : false,
-            token : this.props.token,
-            activityID : this.props.activityID,
-            isCreator : false
-        }
-
+            visible: false,
+            attend: false,
+            isFull: false,
+            token: this.props.token,
+            activityID: this.props.activityID,
+            isCreator: false,
+            attendances:[]
+        };
         /*
             TODO:
-                  show activities by latest date
                   time format
-                  show the attendances' name.
-                  close the sidebar when we re-render activity?
         */
-    }
+    };
 
     openModal() {
         const token = this.props.token;
@@ -32,11 +30,26 @@ class UserActivities extends React.Component{
                 "Content-Type": "application/json"}
         };
 
-        axios.get('users/user/activities/activity/owner/' + this.props.activityID,helper).then(res => {
+        //getting the creator of current activity
+        axios.get('users/user/activities/activity/owner/'
+            + this.props.activityID , helper).then(res => {
             if( this.props.userID === res.data.owner.id){
-                this.setState({
-                    isCreator : true
-                });
+                this.setState({ isCreator : true });
+            }
+        }).catch((error) => {
+            console.log(error);
+        });
+
+        //getting all attendances' name in the attendanceList
+        axios.get('/users/user/activities/activity/attendanceList/'
+            + this.state.activityID , helper).then(res => {
+            let attendances = [];
+            if(res.data.users.length > 0){
+                for (let i = 0; i< res.data.users.length; i++){
+                    attendances[i] = res.data.users[i].Email;
+                }
+
+                this.setState({ attendances: attendances });
             }
         }).catch((error) => {
             console.log(error);
@@ -124,7 +137,6 @@ class UserActivities extends React.Component{
         });
     };
 
-
     render() {
 
         return (
@@ -161,7 +173,21 @@ class UserActivities extends React.Component{
                                         <span className="cinema">LOCATION: {this.props.location}</span>
                                     </div>
                                     <div className="description">
-                                        {this.state.isCreator && (<li>WHO: {this.props.attendances}</li>)}
+                                        {
+                                            (this.state.isCreator) &&<li>
+                                                <Dropdown text='Attendances List'>
+                                                    <Dropdown.Menu>
+                                                        {this.state.attendances.map(
+                                                        x => <Dropdown.Item
+                                                            text = {x}
+                                                            key = {x}
+                                                    />)}
+
+                                                    </Dropdown.Menu>
+                                                </Dropdown>
+                                            </li>
+
+                                        }
                                         <li>category: {this.props.category}</li>
                                         <li>createdTime: {this.props.createdTime}</li>
                                         <li>description: {this.props.description}</li>
