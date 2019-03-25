@@ -5,37 +5,73 @@ body {
 
 #App {
   font-family: sans-serif;
-
-  /* Give app full page to work with */
   height: 100vh;
 }
 
 #page-wrap {
   text-align: center;
-
-  /* Prevent sidebar from showing a scrollbar on page */
   overflow: auto;
 }
 
-/* Individual item */
+#menuItem:focus{
+  outline: none;
+}
+
+#menuButton{
+  /* padding: 0; */
+  border: 0 !important;
+  background: none;
+  color: white !important;
+  letter-spacing: 0.2em;
+  /* float: right !important; */
+}
+
+#menuButton:focus{
+  outline: 0 !important;
+}
+
+#buttonGroup{
+  padding-top: 30%;
+}
+
+#buttonGroup:focus{
+  outline: 0 !important;
+}
+
+#headerGroup{
+  padding-top: 20%;
+}
+
+#headerGroup:focus{
+  outline: 0 !important;
+}
+
+#headerGroup #img{
+  border-radius: 50%;
+  border: 5px solid #8892b0;
+}
+
+#headerGroup #label{
+  background: none !important;
+  /* padding-top: 0.1em; */
+  /* letter-spacing: 0.2em; */
+  color: white;
+  /* margin: auto;
+  width: 50% */
+}
+
 .bm-item {
   display: inline-block;
-
-  /* Our sidebar item styling */
   text-decoration: none;
   margin-bottom: 10px;
   color: #d1d1d1;
   transition: color 0.2s;
 }
 
-/* Change color on hover */
 .bm-item:hover {
   color: white;
 }
 
-/* The rest copied directly from react-burger-menu docs */
-
-/* Position and sizing of burger button */
 .bm-burger-button {
   position: fixed;
   width: 36px;
@@ -44,40 +80,33 @@ body {
   top: 36px;
 }
 
-/* Color/shape of burger icon bars */
 .bm-burger-bars {
-  background: #373a47;
+  background: #0a192f;
 }
 
-/* Position and sizing of clickable cross button */
 .bm-cross-button {
   height: 24px;
   width: 24px;
 }
 
-/* Color/shape of close button cross */
 .bm-cross {
   background: #bdc3c7;
 }
 
-/* General sidebar styles */
 .bm-menu {
-  background: #373a47;
+  background: #0a192f;
   padding: 2.5em 1.5em 0;
   font-size: 1.15em;
 }
 
-/* Morph shape necessary with bubble or elastic */
 .bm-morph-shape {
-  fill: #373a47;
+  fill: #0a192f;
 }
 
-/* Wrapper for item list */
 .bm-item-list {
   color: #b8b7ad;
 }
 
-/* Styling of overlay */
 .bm-overlay {
   background: rgba(0, 0, 0, 0.3);
 }

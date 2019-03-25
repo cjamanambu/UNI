@@ -67,6 +67,38 @@
     margin-right: -50%;
     transform: translate(-50%, -50%)
 }
+#createActivityModalConfirmation{
+    height: 20vh;
+    width: 50vh;
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%)
+}
+#createActivityModalConfirmation1{
+    height: 30vh;
+    width: 50vh;
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%)
+}
+#viewActivityModal{
+    height: 30vh;
+    /* width: 50vh; */
+    /* text-align: center; */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%)
+}
+
+
 
 #link-button {
     font-weight: bolder;

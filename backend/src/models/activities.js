@@ -35,7 +35,6 @@ const activitySchema = new Schema({
     },
     attendance_list: {
         type: Array,
-        required: true
     },
     datetime_created:{
         type: Date,
