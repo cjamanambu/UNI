@@ -9,8 +9,8 @@ const activityController = require('../controllers/activities')
 router.route('')
     .get(validateBody(activitySchema.authSchema),activityController.activities);
 
-router.route('/activity/sortByTime')
-    .get(validateBody(activitySchema.authSchema),activityController.sortActivitiesByTime);
+/*router.route('/activity/sortByTime')
+    .get(validateBody(activitySchema.authSchema),activityController.sortActivitiesByTime);*/
 
 router.route('/activity/:id')
     .get(validateBody(activitySchema.authSchema), activityController.activityId);
