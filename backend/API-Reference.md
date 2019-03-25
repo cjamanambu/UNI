@@ -123,6 +123,8 @@ GET /activities
 ```
 
 This endpoint will return a list of all current activities.
+Updated to return only activities that are still active or havent happened yet.
+Uses current time of call to endpoint to return only activities that havnt happened as of time of call.
 
 #### Example Request
 
@@ -162,6 +164,7 @@ HTTP 200 Content-Type: application/json
             "max_attendance": 4,
             "title": "Salsa Dancer"
         },
+        ...
     ]
 }
 ```
@@ -171,7 +174,7 @@ HTTP 200 Content-Type: application/json
 ### Request
 
 ```
-GET /activities/activity/:id
+GET /activities/activity:id
 ```
 
 This endpoint will return the details about the Activity specified by :id.
@@ -379,7 +382,6 @@ This endpoint will return a list of sorted activities based on the category prov
             "title": "Basquiat chat",
             "location": "swimming pool"
         }
-    ]
 }
 ```
 
@@ -418,6 +420,83 @@ This endpoint will return a list of activities that the user has attended or is 
 }
 ```
 
+
+```
+GET /user/activities/activity/attendanceList/5c86bfe25c965c1b8a91c6f4
+```
+
+This endpoint will return a list of Users who have added their names to attend an event.
+
+
+#### Example Successful Response
+
+```json
+{
+    "success": true,
+    "info": "Details of the user's activities sucessfully retrieved.",
+    "users": [
+        {
+            "Name": "ynka",
+            "Email": "yinka@myumanitoba.ca"
+        },
+        {
+            "Name": "whatsup",
+            "Email": "supman@myumanitoba.ca"
+        }
+    ]
+}
+```
+
+```
+GET /activity/sortByTime
+```
+**Note that this endpoint does not require authorization.**
+**Returns the activities sorted in accending order by time.**
+#### Example Successful Response
+
+```
+HTTP 200 Content-Type: application/json
+```
+
+```json
+{
+    "success": true,
+    "info": "Successfully retrieved all activities",
+    "activities": [
+        {
+            "attendance_list": [
+                "5c97a3b8c7c41320ba3ddaf3"
+            ],
+            "datetime_created": "2019-03-24T02:04:19.694Z",
+            "_id": "5c97cf76c7c41320ba3ddb02",
+            "category": "SPORTS",
+            "activity_datetime": "2019-03-27T08:35:00.000Z",
+            "max_attendance": 1,
+            "description": "82849",
+            "title": "WEB TEST2",
+            "location": "LINUX LAB",
+            "__v": 0
+        },
+        {
+            "attendance_list": [
+                "5c97a3b8c7c41320ba3ddaf3",
+                "5c959857ac6b4f41fd32357e",
+                "5c97ce54c7c41320ba3ddb01"
+            ],
+            "datetime_created": "2019-03-24T02:04:19.694Z",
+            "_id": "5c97acbfc7c41320ba3ddaf5",
+            "category": "SPORTS",
+            "activity_datetime": "2019-03-29T07:40:00.000Z",
+            "max_attendance": 5,
+            "description": "rtyuio",
+            "title": "testing",
+            "location": "avm",
+            "__v": 0
+        },
+        ...
+    ]
+}
+```
 ## Deleting a user's activity
 
 ### Request
