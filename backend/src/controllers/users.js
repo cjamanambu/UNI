@@ -5,7 +5,6 @@ const { JWT_SECRET } = require('../configuration');
 const passport = require('passport');
 
 const ObjectId = require('mongoose').Types.ObjectId;
-var z = [];
 
 
 signToken = user => {
@@ -90,64 +89,50 @@ module.exports = {
         })(req, res, next);
     },
 
-    secret: async (req, res , next) => {
-         passport.authenticate('jwt', {session: false}, (err, user, info) => {
-             if (err){
-                 return res.status(500).json({
-                     success:false,
-                     info: err
-                 });
-             }
-             else if (!user) {
-                 return res.status(401).json({
-                     success: false,
-                     user: user,
-                     info: info.message
-                 });
-             }else{
-                 return res.status(200).json({
-                     success: true,
-                     secret: "resource"});
-             }
-         })(req, res, next);
-    },
-
      userAttendingActivities: async (req, res, next) => {
         passport.authenticate('jwt', {session: false}, async (err, user, info) => {
             const data = req.body;
             const userId = user.id;
             const query = { attendance_list: { $all: [userId] } };
 
-            Activity.find(query, async function (db_err, activities) {
-                if(db_err) {
-                    res.json({
+            if (!user) {
+                return res.status(401).json({
+                    success: false,
+                    info: info.message,
+                    activities: null
+                });
+            }else{
+                try {
+                    Activity.find(query, async function (db_err, activities) {
+                        if (db_err) {
+                            res.status(400).json({
+                                success: false,
+                                info: "Could not find the user's activities.",
+                                activities: null
+                            });
+                            next();
+                        } else if (err) {
+                            return res.status(400).json({
+                                success: false,
+                                info: err,
+                                activities: null
+                            });
+                        } else {
+                            res.status(200).json({
+                                success: true,
+                                info: "Found activities that the user is interested in...",
+                                activities: activities
+                            });
+                        }
+                    });
+                }catch (err) {
+                    res.status(500).json({
                         success: false,
-                        info: "Could not find the user's activities."
-                    });
-                    next();
-                }
-                else if (err){
-                    return res.status(500).json({
-                        success:false,
-                        info: err
+                        info: err,
+                        activities: null
                     });
                 }
-                else if (!user) {
-                    return res.status(401).json({
-                        success: false,
-                        user: user,
-                        info: info.message
-                    });
-                }
-                else {
-                    res.status(200).json({
-                        success: true,
-                        info: "Found activities that the user is interested in...",
-                        activities: activities
-                        // activity: {id: db_response.id}
-                    });
-                }
-            });
+            }
         })(req, res, next);
     },
 
@@ -155,7 +140,6 @@ module.exports = {
     attendanceList: async (req, res, next) => {
         passport.authenticate('jwt', {session: false}, async (err, user, info) => {
             const query = {_id: new ObjectId(req.params.id)};
-                //const query = { attendance_list: { $all: [] } };
 
             await Activity.find(query, function (err, activities) {
 
@@ -277,35 +261,46 @@ module.exports = {
     myActivities: async (req, res, next) => {
         passport.authenticate('jwt', {session: false}, async (err, user, info) => {
             const userActivities = user.my_activities;
-            let actualActivityIds = userActivities.map(s =>ObjectId(s));
+            let actualActivityIds = userActivities.map(s => ObjectId(s));
 
-            Activity.find({_id:{$in: actualActivityIds}}, async function (db_err, db_response) {
-                if (db_err) {
+            if (!user) {
+                res.status(401).json({
+                    success: false,
+                    info: info.message,
+                    my_activities: null
+                });
+            } else {
+                try {
+                    Activity.find({_id: {$in: actualActivityIds}}, async function (db_err, db_response) {
+                        if (db_err) {
+                            res.status(400).json({
+                                success: false,
+                                info: "Database error occurred. " + db_err,
+                                my_activities: null
+                            });
+                        } else if (err) {
+                            res.status(500).json({
+                                success: false,
+                                info: err,
+                                my_activities: null
+                            });
+                        } else {
+                            // Return the details about the activity for the user
+                            res.status(200).json({
+                                success: true,
+                                info: "Details of the user's activities sucessfully retrieved.",
+                                my_activities: db_response
+                            })
+                        }
+                    });
+                }catch (err) {
                     res.status(500).json({
-                        success: false,
-                        info: "Database error occurred. "+db_err
-                    });
-                }else if (err){
-                    res.status(500).json({
-                        success: false,
-                        info: err
-                    });
-                }else if (!user){
-                    res.status(401).json({
-                        success: false,
-                        user: user,
-                        info: info.message
-                    });
-                }else{
-                    // Return the details about the activity for the user
-                    res.status(200).json({
-                        success: true,
-                        info: "Details of the user's activities sucessfully retrieved.",
-                        my_activities: db_response
+                        success:false,
+                        info: err,
+                        my_activities: null
                     })
                 }
-
-            })
+            }
         })(req, res, next);
     },
 
@@ -330,7 +325,8 @@ module.exports = {
                         } else if (err) {
                             res.status(500).json({
                                 success: false,
-                                info: err
+                                info: err,
+                                owner:null
                             });
                         } else {
                             res.status(200).json({

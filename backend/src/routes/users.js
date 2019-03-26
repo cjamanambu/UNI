@@ -16,9 +16,6 @@ router.route('/signup')
 router.route('/signin')
     .post(validateBody(schemas.authSchema), UsersController.signIn);
 
-router.route('/secret')
-    .get(UsersController.secret);
-
 router.route('/user/activities/attending')
 	.get(validateBody(activitySchema.authSchema), UsersController.userAttendingActivities);
 
