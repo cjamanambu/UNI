@@ -1,6 +1,5 @@
 import React from 'react';
 import {AsyncStorage} from 'react-native';
-
 import {
     Image,
     Platform,
@@ -20,9 +19,9 @@ import { List, ListItem, SearchBar } from "react-native-elements";
 import * as App from '../App';
 import TabNavigator from 'react-native-tab-navigator';      //added 3.24
 
-// const URL = 'http://ec2-99-79-39-110.ca-central-1.compute.amazonaws.com:8000';
 
-export default class UserJoinedActivities extends React.Component {
+
+export default class MyCreatedActivityListScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -34,24 +33,22 @@ export default class UserJoinedActivities extends React.Component {
             refreshing: false,
             selectedCategory: "",
             token: "",
-            selectedTab: 'joined'     //added 3.24
+            selectedTab: 'my'     //added 3.24
         };
         const { navigation } = this.props;
-        const USER_DETAILS = {
-            email : navigation.getParam("email"),
-            token : navigation.getParam("token")
-        };
+
     }
 
     componentWillMount() {
-        const {setParams} = this.props.navigation;
-        setParams({token :this.state.token});
+        this._subscribe = this.props.navigation.addListener('didFocus', () => {
+            this.makeRemoteRequest();
+        });
     }
 
     static navigationOptions = ({ navigation }) => {
         const {state} = navigation;
         return {
-            headerTitle: "Joined Activities"
+            headerTitle: "My Created Activities"
         };
     };
 
@@ -69,7 +66,7 @@ export default class UserJoinedActivities extends React.Component {
         const { page, seed } = this.state;
         AsyncStorage.getItem("AuthToken").then(token => {
             if(token) {
-                fetch(App.URL + '/users/user/activities/attending', {
+                fetch(App.URL + '/users/user/myActivities', {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/json',
@@ -77,28 +74,26 @@ export default class UserJoinedActivities extends React.Component {
                         'Authorization' : token
                     }
                 })
-                    .then(res => res.json())
+                .then(res => res.json())
                     .then(res => {
+                        console.log(res)
                         this.setState({
-                            data: page === 1 ? res.activities : [...this.state.data, ...res.activities],
+                            data: page === 1 ? res.my_activities : [...this.state.data, ...res.my_activities],
                             error: res.error || null,
                             loading: false,
                             refreshing: false,
-
+        
                         });
                     })
                     .catch(error => {
-                            this.setState({ error, loading: false });
-                        }
-                    );
+                        console.log(error)
+                        this.setState({ error, loading: false });
+                    }
+                );
 
             }
         })
     };
-
-    onBack () {
-        this.makeRemoteRequest();
-    }
 
 
 
@@ -117,7 +112,7 @@ export default class UserJoinedActivities extends React.Component {
                             title={`${item.title} ${item.title}`}
                             subtitle={item.description}
                             leftAvatar={{ source: require('../assets/images/Octocat.png') }}
-                            onPress={() => this.props.navigation.navigate('JoinedActivityDetailsPage',
+                            onPress={() => this.props.navigation.navigate('ActivityAttendantListScreen',
                                 {
                                     activity_id : item._id,
                                     activity_datetime: item.activity_datetime,
@@ -127,7 +122,6 @@ export default class UserJoinedActivities extends React.Component {
                                     title: item.title,
                                     attendance_list: item.attendance_list,
                                     datetime_created: item.datetime_created,
-                                    onBack: this.onBack.bind(this)
                                 })
                             }
                         />
