@@ -34,5 +34,9 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "faker": "^4.1.0",
+    "puppeteer": "^1.13.0"
+  }
 }
