@@ -16,7 +16,10 @@ import styles from '../assets/Styles.js';
 import { Dropdown } from 'react-native-material-dropdown';
 import { List, ListItem, SearchBar } from "react-native-elements";
 import ActivityDetailsScreen  from './ActivityDetailsScreen';
+import UserJoinedActivitiesScreen  from './UserJoinedActivitiesScreen';
 import * as App from '../App';
+import TabNavigator from 'react-native-tab-navigator';      //added 3.24
+
 
 const dateFormat = require('dateformat');
 
@@ -34,6 +37,7 @@ export default class CurrentActivitiesScreen extends React.Component {
             refreshing: false,
             selectedCategory: "All",
             token: "",
+            selectedTab: 'curr'     //added 3.24
         };
         const { navigation } = this.props;
         const USER_DETAILS = {
@@ -60,7 +64,12 @@ export default class CurrentActivitiesScreen extends React.Component {
             headerTitle: "Current Activities",
             headerRight: (
                 <TouchableOpacity onPress={() => navigation.navigate('NewActivityScreen', {token: state.params.token})}>
-                    <Text style={{fontSize: 30, marginRight: 10, color: "#007aff"}}>+</Text>
+                    <Text style={styles.headerBarButton}>+</Text>
+                </TouchableOpacity>
+            ),
+            headerLeft: (
+                <TouchableOpacity onPress={() => navigation.navigate('MyCreatedActivityiesListScreen', {token: state.params.token})}>
+                    <Text style={{fontSize: 12, marginRight: 10, color: "#007aff"}}>My Activities</Text>
                 </TouchableOpacity>
             ),
         };
@@ -114,14 +123,13 @@ export default class CurrentActivitiesScreen extends React.Component {
                         />
                     </View>
 
-                    <View style={{ width: 96, marginLeft: 8 }}>
-                        <Dropdown
-                            label='Sort'
-                            data={sortByCriteria}
-                            onChangeText={value => this.onChangeSortByHandler(value)}
-                            propsExtractor={({ props }, index) => props}
-                        />
-                    </View>
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('NewActivityScreen', {token: this.state.token})}>
+                    <Text></Text>
+                        <Image
+                        source = {require('../assets/images/addition.png')}
+                        style={{width:40, height:40, marginLeft: 10}}/>
+                    </TouchableOpacity>
+
                 </View>
 
                 <FlatList
@@ -148,6 +156,9 @@ export default class CurrentActivitiesScreen extends React.Component {
                         />
                     )}
                 />
+
+
+
             </View>
         )
     }
