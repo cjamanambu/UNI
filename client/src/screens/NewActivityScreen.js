@@ -19,17 +19,12 @@ import DatePicker from 'react-native-datepicker'
 import styles from '../assets/Styles.js';
 import * as App from '../App';
 
-// const URL = 'http://ec2-99-79-39-110.ca-central-1.compute.amazonaws.com:8000';
-
 export default class NewActivityScreen extends React.Component {
-
-	//3.15 add variable token to store token
 
 	constructor(props){
 		super(props);
 
 		const {navigation} = this.props;
-		//console.log("Token: " + navigation.getParam("token"));
 		const USER_DETAILS ={
 			token : navigation.getParam("token")
 		};
@@ -38,7 +33,7 @@ export default class NewActivityScreen extends React.Component {
 			apiData:[],
 			time: this.datetime,
 			selectedCategory: "",
-		}
+		};
 		this.token = USER_DETAILS.token;
 		this.name= '';
 		this.location= '';
@@ -48,12 +43,6 @@ export default class NewActivityScreen extends React.Component {
 		this.category = '';
 	}
 
-
-
-
-
-	/**when value in inputBox changed, save changed value
-	 */
 	onNameChanged = (newName) => {
 		console.log(newName);
 		this.name = newName;
@@ -90,17 +79,14 @@ export default class NewActivityScreen extends React.Component {
 
 	createAct =() =>{
 
-		if (this.name != '' && this.location != '' && this.time != ''){
-			if (this.numberOfPeople == '') {
+		if (this.name !== '' && this.location !== '' && this.time !== ''){
+			if (this.numberOfPeople === '') {
 				this.numberOfPeople = 10;
 			}
-			if (this.description == '') {
+			if (this.description === '') {
 				this.description = "default"
 			}
-			//send  message
-			//***************add event here*****************
 			this.sendRequest();
-			//need go back to acts menu
 		}
 		else {
 			Alert.alert("You missed something!");
@@ -153,9 +139,8 @@ export default class NewActivityScreen extends React.Component {
 
 		return (
 			<ScrollView>
-			<TouchableOpacity	//using touchable opacity as background
-				activeOpacity={1.0}	//when clicked change active
-				//onPress={this.blurTextInput} //add click event
+			<TouchableOpacity
+				activeOpacity={1.0}
 				style={styles.signUpContainer}>
 				<KeyboardAvoidingView behavior = "padding" keyboardVerticalOffset={250} style = {styles.signUpContainer}>
 					<View style={styles.logoContainer}>
@@ -203,7 +188,6 @@ export default class NewActivityScreen extends React.Component {
 							<Dropdown
 								label='Activity Type'
 								data={activityTypes}
-								// onChangeText={value => {this.componentDidUpdate(this.props)}}
 								onChangeText={this.onCategoryChanged}
 							/>
 						</View>

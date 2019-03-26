@@ -18,12 +18,8 @@ import { List, ListItem, SearchBar } from "react-native-elements";
 import ActivityDetailsScreen  from './ActivityDetailsScreen';
 import UserJoinedActivitiesScreen  from './UserJoinedActivitiesScreen';
 import * as App from '../App';
-import TabNavigator from 'react-native-tab-navigator';      //added 3.24
-
 
 const dateFormat = require('dateformat');
-
-// const URL = 'http://ec2-99-79-39-110.ca-central-1.compute.amazonaws.com:8000';
 
 export default class CurrentActivitiesScreen extends React.Component {
     constructor(props) {
@@ -37,7 +33,7 @@ export default class CurrentActivitiesScreen extends React.Component {
             refreshing: false,
             selectedCategory: "All",
             token: "",
-            selectedTab: 'curr'     //added 3.24
+            selectedTab: 'curr',
         };
         const { navigation } = this.props;
         const USER_DETAILS = {
@@ -53,7 +49,6 @@ export default class CurrentActivitiesScreen extends React.Component {
     }
 
     componentWillMount() {
-        // this.makeRemoteRequest();
         const {setParams} = this.props.navigation;
         setParams({token :this.state.token});
     }
@@ -104,14 +99,9 @@ export default class CurrentActivitiesScreen extends React.Component {
             });
     };
 
-    onChangeSortByHandler(value) {
-        //TODO: update the list of all activities
-    };
-
 
     render() {
         let activityTypes = [{value: 'Sports'}, {value: 'Study'}, {value: 'Dance'}, {value: 'Politics'}, {value: 'Art'}, {value: 'Music'}, {value: 'All'}];
-        let sortByCriteria = [{value: 'Time'}];
         return (
             <View style={{flex: 1}}>
                 <View style={styles.dropdown}>
@@ -156,9 +146,6 @@ export default class CurrentActivitiesScreen extends React.Component {
                         />
                     )}
                 />
-
-
-
             </View>
         )
     }

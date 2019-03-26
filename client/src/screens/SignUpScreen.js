@@ -91,7 +91,6 @@ export default class RegisterScene extends React.Component {
 							autoCapitalize='none' //cancel first letter capital
 							autoCorrect={false}
 							underlineColorAndroid={'transparent'} //cancel under line
-
 						/>
 					</View>
 					<View
@@ -122,8 +121,6 @@ export default class RegisterScene extends React.Component {
 							returnKeyType="next"
 							autoCapitalize='none' //cancel first letter capital
 							underlineColorAndroid={'transparent'} //cancel under line
-
-
 						/>
 					</View>
 					<View
@@ -138,8 +135,6 @@ export default class RegisterScene extends React.Component {
 							returnKeyType="join"
 							autoCapitalize='none' //cancel first letter capital
 							underlineColorAndroid={'transparent'} //cancel under line
-
-
 						/>
 					</View>
 

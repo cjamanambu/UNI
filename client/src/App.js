@@ -7,14 +7,12 @@ import LoginScreen from "./screens/LogInScreen";
 import CurrentActivitiesScreen from "./screens/CurrentActivitiesScreen";
 import SignUpScreen from './screens/SignUpScreen';
 import ActivityDetailsScreen  from './screens/ActivityDetailsScreen';
-import SettingsScreen from "./screens/SettingsScreen";
 import NewActivityScreen from "./screens/NewActivityScreen";
 import UserJoinedActivitiesScreen from "./screens/UserJoinedActivitiesScreen";
 import JoinedActivityDetailsPage from "./screens/JoinedActivityDetailsPage";
 import MyCreatedActivityiesListScreen from "./screens/MyCreatedActivityListScreen";
 import ActivityAttendantListScreen from "./screens/ActivityAttendantListScreen";
-import HomeScreen from "./screens/HomeScreen";
-import LinksScreen from "./screens/LinksScreen";
+import ProfileScreen from "./screens/ProfileScreen";
 
 
 export const URL = 'http://ec2-99-79-39-110.ca-central-1.compute.amazonaws.com:8000';
@@ -73,6 +71,18 @@ const MainTabNavigator = createBottomTabNavigator({
         ),
     }
   },
+  ProfileScreen: {
+    screen:ProfileScreen,
+    navigationOptions:{
+      tabBarLabel:'Profile',
+      tabBarIcon:({focused,tintColor}) => (
+        <Image
+          source = {focused?require("./assets/images/people_fill.png"):require("./assets/images/people.png")}
+          style= {{width:25, height:25,tintColor:tintColor}}
+          />
+        ),
+    }
+  },
 },
 {
   tabBarOptions:{
@@ -85,11 +95,11 @@ const MainNavigator = createStackNavigator({
   LoginScreen: LoginScreen,
   MainTabNavigator: MainTabNavigator,
   SignUpScreen: SignUpScreen,
-  SettingsScreen: SettingsScreen,
   ActivityDetailsScreen: ActivityDetailsScreen,
   NewActivityScreen: NewActivityScreen,
   JoinedActivityDetailsPage: JoinedActivityDetailsPage,
   ActivityAttendantListScreen: ActivityAttendantListScreen,
+  ProfileScreen: ProfileScreen,
 });
 
 
