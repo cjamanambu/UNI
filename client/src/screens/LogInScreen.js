@@ -40,7 +40,7 @@ export default class LogInScreen extends React.Component {
                     headers: {
                         'Accept':       'application/json',
                         'Content-Type': 'application/json'
-                        
+
                     }
                 })
                     .then(res => res.json())
@@ -49,6 +49,8 @@ export default class LogInScreen extends React.Component {
                         if (response.success === true) {
                             this.setState({token: response.token});
                             AsyncStorage.setItem("AuthToken", response.token)
+                            //AsyncStorage.setItem("AuthName", response.user.username)
+                            AsyncStorage.setItem("AuthEmail", email)
                             this.props.navigation.navigate('CurrentActivitiesScreen', {
                                 email: this.state.email,
                                 token: this.state.token,

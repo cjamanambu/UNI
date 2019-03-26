@@ -24,24 +24,22 @@ import * as App from '../App';
 export default class ActivityDetailsScreen extends React.Component {
 
     componentWillUnmount() {
-        const { navigation } = this.props
+        const { navigation } = this.props;
         navigation.state.params.onBack();
     }
       
     render() {
         const { navigation } = this.props;
-        let icon = setCategoryIcon(navigation.getParam("category"))
+        let icon = setCategoryIcon(navigation.getParam("category"));
 
 
         const activityDetails = {
             activityTitle : navigation.getParam("title"),
             activityDescription : navigation.getParam("description")
-
-        }
+        };
 
 
         function setCategoryIcon(category) {
-            console.log(category)
             if (category === "SPORTS") {
                 return sportsIcon;
             } else if(category === "STUDY") {

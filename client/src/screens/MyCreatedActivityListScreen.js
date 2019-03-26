@@ -66,6 +66,7 @@ export default class MyCreatedActivityListScreen extends React.Component {
         const { page, seed } = this.state;
         AsyncStorage.getItem("AuthToken").then(token => {
             if(token) {
+                console.log("TOKEN: " + token);
                 fetch(App.URL + '/users/user/myActivities', {
                     method: 'GET',
                     headers: {

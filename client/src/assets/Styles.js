@@ -124,4 +124,50 @@ export default StyleSheet.create({
         width: 22,
         height: 22,
     },
+    containerProfile: {
+        flex: 1,
+        backgroundColor: '#F0F0F0'
+    },
+    viewTop: {
+        height: 60,
+        backgroundColor: '#F0F0F0',
+        alignItems: 'center',
+        borderBottomWidth: 1,
+        borderBottomColor: '#B7B7B7',
+        flexDirection: 'row'
+    },
+    txtTitle: {
+        flex: 1,
+        marginLeft: 10
+    },
+    iconSetting: {
+        marginRight: 10,
+        height:40,
+        width:40
+    },
+    viewUser: {
+        height: 250,
+        backgroundColor: '#F0F0F0'
+    },
+    viewUserTop: {
+        height: 100,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    imgUserTitle: {
+        height: 80,
+        width: 80,
+        borderRadius: 40
+    },
+    txtName: {
+        alignSelf: 'center'
+    },
+    subContainer: {
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+    header: {
+        textAlign: 'center',
+        fontSize: 30
+    }
 });
