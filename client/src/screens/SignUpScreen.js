@@ -149,7 +149,7 @@ export default class RegisterScene extends React.Component {
 						<Text
 							style={styles.btText}>Sign Up</Text>
 					</TouchableOpacity>
-					<Text style={styles.clickableText} onPress={this.props.navigation.navigate('LoginScreen')}>Already have a account? Log in!</Text>
+					<Text style={styles.clickableText} onPress={() => this.props.navigation.navigate('LoginScreen')}>Already have a account? Log in!</Text>
 
 				</TouchableOpacity>
 			</KeyboardAvoidingView>

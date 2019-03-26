@@ -6,9 +6,15 @@ import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
+import CurrentActivitiesScreen from "../screens/CurrentActivitiesScreen";
+import MyCreatedActivityListScreen from "../screens/MyCreatedActivityListScreen";
+import UserJoinedActivitiesScreen from "../screens/UserJoinedActivitiesScreen";
 
+// const HomeStack = createStackNavigator({
+//     Home: HomeScreen,
+// });
 const HomeStack = createStackNavigator({
-    Home: HomeScreen,
+    Home: CurrentActivitiesScreen,
 });
 
 HomeStack.navigationOptions = {
@@ -25,8 +31,12 @@ HomeStack.navigationOptions = {
     ),
 };
 
+// const LinksStack = createStackNavigator({
+//     Links: LinksScreen,
+//
+// });
 const LinksStack = createStackNavigator({
-    Links: LinksScreen,
+    Links: MyCreatedActivityListScreen,
 
 });
 
@@ -40,8 +50,11 @@ LinksStack.navigationOptions = {
     ),
 };
 
+// const SettingsStack = createStackNavigator({
+//     Settings: SettingsScreen,
+// });
 const SettingsStack = createStackNavigator({
-    Settings: SettingsScreen,
+    Settings: UserJoinedActivitiesScreen,
 });
 
 SettingsStack.navigationOptions = {
