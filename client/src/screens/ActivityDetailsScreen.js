@@ -34,7 +34,7 @@ export default class ActivityDetailsScreen extends React.Component {
 
 
         function setCategoryIcon(category) {
-            console.log(category)
+            console.log(category);
             if (category === "SPORTS") {
                 return sportsIcon;
             } else if(category === "STUDY") {
