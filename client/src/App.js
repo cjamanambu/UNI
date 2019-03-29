@@ -15,7 +15,7 @@ import ActivityAttendantListScreen from "./screens/ActivityAttendantListScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 
 
-export const URL = 'http://ec2-99-79-39-110.ca-central-1.compute.amazonaws.com:8000';
+export const URL = 'http://ec2-35-183-134-10.ca-central-1.compute.amazonaws.com:8000';
 
 class App extends React.Component {
 

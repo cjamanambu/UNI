@@ -8,6 +8,7 @@ import{
 	View,
 	Text,
 	Alert,
+	StatusBar,
 	Button,
 }from 'react-native';
 import styles from '../assets/Styles.js';
@@ -69,84 +70,69 @@ export default class RegisterScene extends React.Component {
 
 	render() {
 		return (
-			<KeyboardAvoidingView behavior="padding" style={styles.signUpContainer}>
-				<TouchableOpacity	//using touchable opacity as background
-					activeOpacity={1.0}	//when clicked change active
-					style={styles.signUpContainer}>
-
+			<KeyboardAvoidingView behavior="padding" style={styles.logInContainer}>
 					<View style={styles.logoContainer}>
 						<Image style={styles.logo} source={require('../assets/images/Octocat.png')}/>
 						<Text style={styles.title}>Uni.</Text>
 					</View>
-					<View
-						style={styles.inputBox}>
+					<View style={styles.logInFormContainer}>
+                	<StatusBar barStyle="light-content"/>
 						<TextInput
 							ref = "username"
 							onChangeText={(text) => this.setState({username: text})} //add value changing event
-							style={styles.signUpInput}
+							style={styles.input}
 							placeholder={'Username'}
-							placeholderTextColor ={'#ccc'}
+							placeholderTextColor ={'#rgba(255,255,255,0.7)'}
 							clearButtonMode="while-editing"
 							returnKeyType="next"
 							autoCapitalize='none' //cancel first letter capital
 							autoCorrect={false}
 							underlineColorAndroid={'transparent'} //cancel under line
 						/>
-					</View>
-					<View
-						style={styles.inputBox}>
 						<TextInput
 							ref = "emailAddress"
 							onChangeText={(text) => this.setState({email: text})} //add value changing event
-							style={styles.signUpInput}
+							style={styles.input}
 							keyboardType="email-address"
 							placeholder={'Email'}
-							placeholderTextColor ={'#ccc'}
+							placeholderTextColor ={'#rgba(255,255,255,0.7)'}
 							clearButtonMode="while-editing"
 							returnKeyType="next"
 							autoCapitalize='none' //cancel first letter capital
 							autoCorrect={false}
 							underlineColorAndroid={'transparent'} //cancel under line
 						/>
-					</View>
-					<View
-						style={styles.inputBox}>
 						<TextInput
 							ref = "password"
 							onChangeText={(text) => this.setState({password: text})} //add value changing event
-							style={styles.signUpInput}
+							style={styles.input}
 							secureTextEntry={true}
-							placeholderTextColor ={'#ccc'}
+							placeholderTextColor ={'#rgba(255,255,255,0.7)'}
 							placeholder={'Password'}
 							returnKeyType="next"
 							autoCapitalize='none' //cancel first letter capital
 							underlineColorAndroid={'transparent'} //cancel under line
 						/>
-					</View>
-					<View
-						style={styles.inputBox}>
 						<TextInput
 							ref = "confirmPassword"
 							onChangeText={(text) => this.setState({confirmedPassword: text})} //add value changing event
-							style={styles.signUpInput}
+							style={styles.input}
 							placeholder={'Confirm password'}
-							placeholderTextColor ={'#ccc'}
+							placeholderTextColor ={'#rgba(255,255,255,0.7)'}
 							secureTextEntry={true}
 							returnKeyType="join"
 							autoCapitalize='none' //cancel first letter capital
 							underlineColorAndroid={'transparent'} //cancel under line
 						/>
-					</View>
 
 					<TouchableOpacity
 						onPress={this.onSubmit}
-						style={styles.button}>
+						style={styles.buttonContainer}>
 						<Text
-							style={styles.btText}>Sign Up</Text>
+							style={styles.buttonText}>Sign Up</Text>
 					</TouchableOpacity>
 					<Text style={styles.clickableText} onPress={() => this.props.navigation.navigate('LoginScreen')}>Already have a account? Log in!</Text>
-
-				</TouchableOpacity>
+					</View>
 			</KeyboardAvoidingView>
 		);
 	}
