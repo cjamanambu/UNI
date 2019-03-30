@@ -173,12 +173,12 @@ export default class ActivityAttendantListScreen extends React.Component {
                 <View style={styles.subContainer}>
                     <Text style={styles.header}>{this.props.navigation.getParam("title")}</Text>
                     <Image style={styles.logo} source={this.state.icon}></Image>
-                    <Text>Event Type: {this.props.navigation.getParam("category")}</Text>
-                    <Text>Time of Event: {dateFormat(this.props.navigation.getParam("activity_datetime"), "dddd, mmmm dS, h:MM TT")}</Text>
+                    <Text>Activity Type: {this.props.navigation.getParam("category")}</Text>
+                    <Text>Time: {dateFormat(this.props.navigation.getParam("activity_datetime"), "dddd, mmmm dS, h:MM TT")}</Text>
                     <Text>Location: {this.props.navigation.getParam("location")}</Text>
                     <Text>{this.props.navigation.getParam("description")}</Text>
                 </View>
-                <View style={styles.container}>
+                <View>
                     <Text style={styles.sectionHeader}>Attendants: </Text>
                     <FlatList
                         data={this.state.data}
@@ -190,10 +190,11 @@ export default class ActivityAttendantListScreen extends React.Component {
                             />
                         )}
                     />
-                    <TouchableOpacity style={styles.buttonContainer}>
-                        <Text style={styles.buttonText} onPress={() => this.showDeleteConfirmedMessage(this.props.navigation)}>Delete Activity</Text>
-                    </TouchableOpacity>
+
                 </View>
+                <TouchableOpacity style={styles.buttonDetailsScreenContainer}>
+                    <Text style={styles.buttonText} onPress={() => this.showDeleteConfirmedMessage(this.props.navigation)}>Delete Activity</Text>
+                </TouchableOpacity>
             </View>
         )
     }

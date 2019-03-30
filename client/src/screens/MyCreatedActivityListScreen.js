@@ -19,7 +19,7 @@ import { List, ListItem, SearchBar } from "react-native-elements";
 import * as App from '../App';
 import TabNavigator from 'react-native-tab-navigator';      //added 3.24
 
-
+const dateFormat = require('dateformat');
 
 export default class MyCreatedActivityListScreen extends React.Component {
     constructor(props) {
@@ -110,8 +110,8 @@ export default class MyCreatedActivityListScreen extends React.Component {
                     keyExtractor={(item, index) => index.toString()}
                     renderItem={({item}) => (
                         <ListItem
-                            title={`${item.title} ${item.title}`}
-                            subtitle={item.description}
+                            title={item.title}
+                            subtitle={dateFormat(item.activity_datetime, "dddd, mmmm dS, h:MM TT") + ' - ' + item.location}
                             leftAvatar={{ source: require('../assets/images/Octocat.png') }}
                             onPress={() => this.props.navigation.navigate('ActivityAttendantListScreen',
                                 {

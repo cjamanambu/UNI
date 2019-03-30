@@ -115,7 +115,7 @@ const MainNavigator = createStackNavigator({
   LoginScreen: {screen: LoginScreen, navigationOptions: {header: null}},
   MainTabNavigator: {screen: MainTabNavigator, navigationOptions:{headerLeft: null}},
   SignUpScreen: SignUpScreen,
-  ActivityDetailsScreen: ActivityDetailsScreen,
+  ActivityDetailsScreen: {screen: ActivityDetailsScreen, navigationOptions: {title: 'Activity Details'}},
   NewActivityScreen: NewActivityScreen,
   JoinedActivityDetailsPage: JoinedActivityDetailsPage,
   ActivityAttendantListScreen: ActivityAttendantListScreen,

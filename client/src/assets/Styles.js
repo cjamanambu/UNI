@@ -27,7 +27,10 @@ export default StyleSheet.create({
         backgroundColor: '#4db0f2',
         alignItems: 'center',
         flexGrow: 1,
-        justifyContent: 'center'
+
+
+        flexDirection: 'column',
+
     },
     imageContainer: {
         alignItems: 'center',
@@ -46,7 +49,16 @@ export default StyleSheet.create({
     },
     buttonContainer: {
         backgroundColor: '#2980b9',
-        paddingVertical: 15
+        paddingVertical: 15,
+    },
+    buttonDetailsScreenContainer: {
+        width: '100%',
+        height: 50,
+        backgroundColor: '#2980b9',
+        justifyContent: 'center',
+        alignItems: 'center',
+        position: 'absolute',
+        bottom: 0
     },
     buttonText: {
         textAlign: 'center',
@@ -169,5 +181,15 @@ export default StyleSheet.create({
     header: {
         textAlign: 'center',
         fontSize: 30
-    }
+    },
+    buttonDetailsScreen: {
+        width: '100%',
+        height: 50,
+        backgroundColor: '#2980b9',
+        justifyContent: 'center',
+        alignItems: 'center',
+        position: 'absolute',
+        bottom: 0,
+        marginRight: 10,
+    },
 });
