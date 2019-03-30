@@ -103,7 +103,7 @@ export default class CurrentActivitiesScreen extends React.Component {
     render() {
         let activityTypes = [{value: 'Sports'}, {value: 'Study'}, {value: 'Dance'}, {value: 'Politics'}, {value: 'Art'}, {value: 'Music'}, {value: 'All'}];
         return (
-            <View style={{flex: 1}}>
+            <View testID="currentActivitiesScreen" style={{flex: 1}}>
                 <View style={styles.dropdown}>
                     <View style={{ flex: 1 }}>
                         <Dropdown
@@ -113,7 +113,7 @@ export default class CurrentActivitiesScreen extends React.Component {
                         />
                     </View>
 
-                    <TouchableOpacity onPress={() => this.props.navigation.navigate('NewActivityScreen', {token: this.state.token})}>
+                    <TouchableOpacity testId="addButton" onPress={() => this.props.navigation.navigate('NewActivityScreen', {token: this.state.token})}>
                     <Text></Text>
                         <Image
                         source = {require('../assets/images/addition.png')}
@@ -122,7 +122,7 @@ export default class CurrentActivitiesScreen extends React.Component {
 
                 </View>
 
-                <FlatList
+                <FlatList testID="currentActivitiesListView"
                     data={this.state.data}
                     keyExtractor={(item, index) => index.toString()}
                     extraData={this.state.data}

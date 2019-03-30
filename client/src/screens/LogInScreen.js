@@ -73,14 +73,15 @@ export default class LogInScreen extends React.Component {
 
     render() {
         return(
-            <KeyboardAvoidingView behavior="padding" style={styles.logInContainer}>
-                <View style={styles.logoContainer}>
+            <KeyboardAvoidingView testID="SignInComponent" behavior="padding" style={styles.logInContainer}>
+                <View testID="logoComponent" style={styles.logoContainer}>
                     <Image style={styles.logo} source={require('../assets/images/Octocat.png')}/>
                     <Text style={styles.title} >Uni.</Text>
                 </View>
                 <View style={styles.logInFormContainer}>
                 <StatusBar barStyle="light-content"/>
                 <TextInput
+                    testID="emailSignInText"
                     value="supman@myumanitoba.ca"
                     style={styles.input}
                     placeholder="email"
@@ -93,6 +94,7 @@ export default class LogInScreen extends React.Component {
                     onChangeText = {text => this.setState({email: text})}
                 />
                 <TextInput
+                    testID="passwordSignInText"
                     value="supping"
                     style={styles.input}
                     placeholder="password"
@@ -103,10 +105,10 @@ export default class LogInScreen extends React.Component {
                     onChangeText = {text => this.setState({password: text})}
                 />
 
-                <TouchableOpacity style={styles.buttonContainer}>
+                <TouchableOpacity testID="logInButton" style={styles.buttonContainer}>
                     <Text style={styles.buttonText} onPress={() => this.onSubmit()} >LOG IN</Text>
                 </TouchableOpacity>
-                <Text style={styles.clickableText} onPress={() => this.props.navigation.navigate('SignUpScreen')}>Not a member yet? Sign up!</Text>
+                <Text testID="goToSignUpPageLink" style={styles.clickableText} onPress={() => this.props.navigation.navigate('SignUpScreen')}>Not a member yet? Sign up!</Text>
             </View>
             </KeyboardAvoidingView>
         )
