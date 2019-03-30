@@ -1,26 +1,30 @@
 import React from "react"
-import {Segment, Grid } from "semantic-ui-react"
+import {Segment, Grid, Modal, Header, Button, Icon} from "semantic-ui-react"
 import '../_loginSty.scss';
 import FadeTransition from "../transitions/fadeTransition.jsx";
 import {Redirect} from 'react-router-dom'
 import axios from "../../axios_def"
+import {HomePageHelper} from "../../helper/HomePageHelper";
 
-class HomePage extends React.Component{
+export class HomePage extends React.Component{
 
     constructor(props) {
         super(props);
+        this.showLoginBox = this.showLoginBox.bind(this);
         this.state = {
             isLoginOpen: true,
             isRegisterOpen: false
         };
     }
+
     showLoginBox() {
-        this.setState({isLoginOpen: true, isRegisterOpen: false});
+        this.setState({isLoginOpen: true, isRegisterOpen:false});
     }
 
     showRegisterBox() {
         this.setState({isRegisterOpen: true, isLoginOpen: false});
     }
+
     render()
     {
         return (
@@ -39,7 +43,7 @@ class HomePage extends React.Component{
                                     <div className="item" id = "a">
                                         <i className="university icon"/>
                                         <div className="content">
-                                            Safe and monitored envirnoment.
+                                            Safe and monitored environment.
                                         </div>
                                     </div>
                                     <div className="item" id = "a">
@@ -87,7 +91,7 @@ class HomePage extends React.Component{
                             </FadeTransition>
                             <FadeTransition isOpen={this.state.isRegisterOpen} duration={300}>
                                 <div className="box-container">
-                                    <RegisterBox/>
+                                    <RegisterBox showLogin={this.showLoginBox}/>
                                 </div>
                             </FadeTransition>
                         </div>
@@ -97,7 +101,8 @@ class HomePage extends React.Component{
         )
     }
 }
-class LoginBox extends React.Component {
+
+export class LoginBox extends React.Component {
 
     constructor(props) {
         super(props);
@@ -107,61 +112,38 @@ class LoginBox extends React.Component {
             password: "",
             invalidUser:false,
             errors: [],
-            token:null
+            token: null,
+            userId: null
         };
     }
-    showValidationErr(elm, msg) {
-        this.setState((prevState) => ({
-            errors: [
-                ...prevState.errors, {
-                    elm,
-                    msg
-                }
-            ]
-        }));
-    }
 
-    clearValidationErr(elm) {
-        this.setState((prevState) => {
-            let newArr = [];
-            for (let err of prevState.errors) {
-                if (elm !== err.elm) {
-                    newArr.push(err);
-                }
-            }
-            return {errors: newArr};
-        });
-    }
-
-    onUsernameChange(e) {
+    onEmailChange(e) {
         this.setState({email: e.target.value, invalidUser: false});
-        // this.setState({});
-        this.clearValidationErr("email");
+        HomePageHelper.clearValidationErr(this,"email");
     }
 
     onPasswordChange(e) {
         this.setState({password: e.target.value, invalidUser: false});
-        // this.setState({invalidUser: false});
-        this.clearValidationErr("password");
+        HomePageHelper.clearValidationErr(this,"password");
     }
 
     submitLogin() {
-        console.log(this.props);
-        if (this.state.email === "") {
-            this.showValidationErr("email", "Email Cannot be empty!");
+        let emailErrorMessage= HomePageHelper.validateEmail(this.state.email),
+            passwordErrorMessage = HomePageHelper.validatePassword(this.state.password);
+        if (emailErrorMessage !=="") {
+            HomePageHelper.showValidationErr(this,"email", emailErrorMessage);
         }
-        if (this.state.password === "") {
-            this.showValidationErr("password", "Password Cannot be empty!");
+        if (passwordErrorMessage !=="") {
+            HomePageHelper.showValidationErr(this,"password", passwordErrorMessage);
         }
-        if(this.state.password !== "" && this.state.email !== "" ) {
+        if( emailErrorMessage === "" &&  passwordErrorMessage === "" ) {
             const userInfo = {
                 email: this.state.email,
                 password: this.state.password
             };
-            axios.post('http://ec2-99-79-39-110.ca-central-1.compute.amazonaws.com:8000/users/signin', userInfo).then( (res) => {
+            axios.post('/users/signin', userInfo).then( (res) => {
                 if(res.data.success) {
-                    this.setState({token: res.data.token});
-                    this.setState({toUserPage: true});
+                    this.setState({token: res.data.token, toUserPage: true, userId: res.data.user._id});
                 }
             }).catch(error => {
                 this.setState({invalidUser: true});
@@ -185,7 +167,7 @@ class LoginBox extends React.Component {
         }
 
         if(this.state.toUserPage === true ){
-            return (<Redirect to = {{pathname : '/user' , state: { stateName: this.state.email, token: this.state.token}}}/>);
+            return (<Redirect to = {{pathname : '/user' , state: { stateName: this.state.email, token: this.state.token, userId: this.state.userId}}}/>);
         }
 
         else if (this.state.invalidUser === true){
@@ -209,7 +191,7 @@ class LoginBox extends React.Component {
                             className="login-input"
                             placeholder="Email"
                             onChange={this
-                                .onUsernameChange
+                                .onEmailChange
                                 .bind(this)}/>
                         <small className="danger-error">{emailErr
                             ? emailErr
@@ -242,91 +224,75 @@ class LoginBox extends React.Component {
 
 }
 
-class RegisterBox extends React.Component {
+export class RegisterBox extends React.Component {
 
     constructor(props) {
+
         super(props);
         this.state = {
-            username: "",
             email: "",
             password: "",
             errors: [],
-            pwdState: null
+            pwdState: null,
+            successConfirmation:false
         };
     }
 
-    showValidationErr(elm, msg) {
-        this.setState((prevState) => ({
-            errors: [
-                ...prevState.errors, {
-                    elm,
-                    msg
-                }
-            ]
-        }));
-    }
-
-    clearValidationErr(elm) {
-        this.setState((prevState) => {
-            let newArr = [];
-            for (let err of prevState.errors) {
-                if (elm !== err.elm) {
-                    newArr.push(err);
-                }
-            }
-            return {errors: newArr};
-        });
-    }
-
-    onUsernameChange(e) {
-        this.setState({username: e.target.value});
-        this.clearValidationErr("username");
-    }
-
     onEmailChange(e) {
-        this.setState({email: e.target.value});
-        this.clearValidationErr("email");
+        this.setState({email: e.target.value, invalidUser: false});
+        HomePageHelper.clearValidationErr(this,"email");
     }
 
     onPasswordChange(e) {
         this.setState({password: e.target.value});
-        this.clearValidationErr("password");
-
+        HomePageHelper.clearValidationErr(this,"password");
         this.setState({pwdState: "weak"});
-        if (e.target.value.length > 8) {
+        if (e.target.value.length >8 && e.target.value.length <12) {
             this.setState({pwdState: "medium"});
-        } else if (e.target.value.length > 12) {
+        } else if (e.target.value.length >= 12) {
             this.setState({pwdState: "strong"});
         }
-
     }
 
     submitRegister() {
-
-        console.log(this.state);
-
-        if (this.state.username === "") {
-            this.showValidationErr("username", "Username Cannot be empty!");
+        let emailErrorMessage= HomePageHelper.validateEmail(this.state.email),
+            passwordErrorMessage = HomePageHelper.validatePassword(this.state.password);
+        if (emailErrorMessage !=="") {
+            HomePageHelper.showValidationErr(this,"email", emailErrorMessage);
         }
-        if (this.state.email === "") {
-            this.showValidationErr("email", "Email Cannot be empty!");
+        if (passwordErrorMessage !=="") {
+            HomePageHelper.showValidationErr(this,"password", passwordErrorMessage);
         }
-        if (this.state.password === "") {
-            this.showValidationErr("password", "Password Cannot be empty!");
+        if(emailErrorMessage === "" &&  passwordErrorMessage === "" ) {
+            let username= this.state.email.split("@")[0];
+            const userInfo = {
+                username: username,
+                email: this.state.email,
+                password: this.state.password
+            };
+            axios.post('/users/signup', userInfo).then( (res) => {
+                if(res.data.success) {
+                    this.setState({successConfirmation: true});
+                }
+            }).catch(error => {
+                this.setState({invalidUser: true,successConfirmation: false});
+                console.log(error.response);
+            });
         }
-
     }
+
+    closeCreateModal = () => {
+        this.props.showLogin();
+        this.setState({successConfirmation: false})
+    };
 
     render() {
 
-        let usernameErr = null,
-            passwordErr = null,
-            emailErr = null;
+        let passwordErr = null,
+            emailErr = null,
+            invalidUserErr="";
 
         for (let err of this.state.errors) {
-            if (err.elm === "username") {
-                usernameErr = err.msg;
-            }
             if (err.elm === "password") {
                 passwordErr = err.msg;
             }
@@ -349,6 +315,9 @@ class RegisterBox extends React.Component {
             pwdMedium = true;
             pwdStrong = true;
         }
+        if (this.state.invalidUser === true){
+            invalidUserErr = "Email has already been used try another one";
+        }
 
         return (
             <div className="inner-container">
@@ -356,21 +325,25 @@ class RegisterBox extends React.Component {
                     Register
                 </div>
                 <div className="box">
-                    <div className="input-group">
-                        <label htmlFor="username">Username</label>
-                        <input
-                            type="text"
-                            name="username"
-                            className="login-input"
-                            placeholder="Username"
-                            onChange={this
-                                .onUsernameChange
-                                .bind(this)}/>
-                        <small className="danger-error">{usernameErr
-                            ? usernameErr
-                            : ""}</small>
-                    </div>
+                    <Modal onClose={this.closeCreateModal} open={this.state.successConfirmation} size='small' closeIcon id='createActivityModalConfirmation1'>
+                        <Modal.Content>
+                            <Modal.Description>
+                                <Header>Your account has been created</Header>
+                                <Header>Log in to access UNI.</Header>
+                            </Modal.Description>
 
+                            <br/>
+                            <Modal.Actions>
+                                <Button color='green'
+                                        onClick={this.closeCreateModal}
+                                >
+                                    <Icon name='checkmark'/> OK
+                                </Button>
+                            </Modal.Actions>
+                        </Modal.Content>
+                    </Modal>
+                    <small className="danger-error">{invalidUserErr
+                    }</small>
                     <div className="input-group">
                         <label htmlFor="email">Email</label>
                         <input
@@ -385,7 +358,6 @@ class RegisterBox extends React.Component {
                             ? emailErr
                             : ""}</small>
                     </div>
-
                     <div className="input-group">
                         <label htmlFor="password">Password</label>
                         <input
@@ -404,37 +376,28 @@ class RegisterBox extends React.Component {
                             <div
                                 className={"pwd pwd-weak " + (pwdWeak
                                     ? "show"
-                                    : "")}></div>
+                                    : "")}/>
                             <div
                                 className={"pwd pwd-medium " + (pwdMedium
                                     ? "show"
-                                    : "")}></div>
+                                    : "")}/>
                             <div
                                 className={"pwd pwd-strong " + (pwdStrong
                                     ? "show"
-                                    : "")}></div>
+                                    : "")}/>
                         </div>}
-
                     </div>
-
                     <button
                         type="button"
                         className="login-btn"
                         onClick={this
                             .submitRegister
                             .bind(this)}>Register</button>
-
-
                 </div>
             </div>
-
         );
-
     }
-
 }
-
-
 
 export default HomePage
 

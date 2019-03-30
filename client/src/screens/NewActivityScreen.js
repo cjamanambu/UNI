@@ -12,6 +12,7 @@ import{
 	Text,
 	Alert,
 	Button,
+	StatusBar,
 	ScrollView
 }from 'react-native';
 import { Dropdown } from 'react-native-material-dropdown';
@@ -138,51 +139,39 @@ export default class NewActivityScreen extends React.Component {
 		let activityTypes = [{value: 'Sports'}, {value: 'Study'}, {value: 'Dance'}, {value: 'Politics'}, {value: 'Art'}, {value: 'Music'}];
 
 		return (
-			<ScrollView>
-			<TouchableOpacity
-				activeOpacity={1.0}
-				style={styles.signUpContainer}>
-				<KeyboardAvoidingView behavior = "padding" keyboardVerticalOffset={250} style = {styles.signUpContainer}>
+			<View style={styles.logInContainer}>
+				<ScrollView>
+
+				<KeyboardAvoidingView behavior = "padding" keyboardVerticalOffset={250} style = {styles.logInFormContainer}>
 					<View style={styles.logoContainer}>
 						<Text style={styles.title}>Create Activity</Text>
 					</View>
 
-
-					<KeyboardAvoidingView>
-					<View
-						style={styles.inputBox}>
+                	<StatusBar barStyle="light-content"/>
 						<TextInput
 							ref = "name"
 							onChangeText={this.onNameChanged} //add value changing event
-							style={styles.signUpInput}
+							style={styles.input}
 							placeholder={'Name of Activity'}
-							placeholderTextColor ={'#ccc'}
+							placeholderTextColor ={'#rgba(255,255,255,0.7)'}
 							clearButtonMode="while-editing"
 							returnKeyType="next"
 							autoCapitalize='none' //cancel first letter capital
 							autoCorrect={false}
 							underlineColorAndroid={'transparent'} //cancel under line
 						/>
-					</View>
-					</KeyboardAvoidingView>
-
-
-					<View
-						style={styles.inputBox}>
 						<TextInput
 							ref = "location"
 							onChangeText={this.onLocationChanged} //add value changing event
-							style={styles.signUpInput}
+							style={styles.input}
 							placeholder={'Location of Activity'}
-							placeholderTextColor ={'#ccc'}
+							placeholderTextColor ={'#rgba(255,255,255,0.7)'}
 							clearButtonMode="while-editing"
 							returnKeyType="next"
 							autoCapitalize='none' //cancel first letter capital
 							autoCorrect={false}
 							underlineColorAndroid={'transparent'} //cancel under line
 						/>
-					</View>
-
 					<View style={styles.dropdown}>
 						<View style={{ flex: 1 }}>
 							<Dropdown
@@ -192,8 +181,6 @@ export default class NewActivityScreen extends React.Component {
 							/>
 						</View>
 					</View>
-
-
 					<DatePicker
 						style={{width:200}}
 						date ={this.state.time}
@@ -218,44 +205,38 @@ export default class NewActivityScreen extends React.Component {
 						minuteInterval={10}
 						onDateChange={this.onTimeChanged}
 					/>
-					<View
-						style={styles.inputBox}>
 						<TextInput
 							ref = "numberOfPeople"
 							onChangeText={this.onNumberOfPeopleChanged} //add value changing event
-							style={styles.signUpInput}
+							style={styles.input}
 							placeholder={'Number of People (Optional)'}
-							placeholderTextColor ={'#ccc'}
+							placeholderTextColor ={'#rgba(255,255,255,0.7)'}
 							returnKeyType="next"
 							autoCapitalize='none' //cancel first letter capital
 							underlineColorAndroid={'transparent'} //cancel under line
 						/>
-					</View>
-					<View
-						style={styles.inputBox}>
 						<TextInput
 							ref = "description"
 							onChangeText={this.onDescriptionChanged} //add value changing event
-							style={styles.signUpInput}
+							style={styles.input}
 							placeholder={'Description (Optional)'}
-							placeholderTextColor ={'#ccc'}
+							placeholderTextColor ={'#rgba(255,255,255,0.7)'}
 							returnKeyType="next"
 							autoCapitalize='none' //cancel first letter capital
 							underlineColorAndroid={'transparent'} //cancel under line
 						/>
-					</View>
 				<TouchableOpacity
 					onPress={this.createAct}
-					style={styles.button}>
+					style={styles.buttonContainer}>
 					<Text
-						style={styles.btText}>Create Activity</Text>
+						style={styles.buttonText}>Create Activity
+					</Text>
 				</TouchableOpacity>
 
 				</KeyboardAvoidingView>
 
-
-			</TouchableOpacity>
-			</ScrollView>
+				</ScrollView>
+			</View>
 		);
 	}
 }

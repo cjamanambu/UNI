@@ -1,7 +1,5 @@
 const express = require('express');
 const router = require('express-promise-router')();
-//const passport = require('passport');
-//const passportConf = require('../passport');
 
 const {validateBody, activitySchema} = require('../helpers/routeHelpers');
 const activityController = require('../controllers/activities')
@@ -25,3 +23,4 @@ router.route('/activity/sortBy/:category')
     .get(validateBody(activitySchema.authSchema), activityController.sortByCategory);
 
   module.exports = router;
+
