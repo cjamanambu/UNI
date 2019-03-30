@@ -10,7 +10,7 @@ import ActivityDetailsScreen  from './screens/ActivityDetailsScreen';
 import NewActivityScreen from "./screens/NewActivityScreen";
 import UserJoinedActivitiesScreen from "./screens/UserJoinedActivitiesScreen";
 import JoinedActivityDetailsPage from "./screens/JoinedActivityDetailsPage";
-import MyCreatedActivityiesListScreen from "./screens/MyCreatedActivityListScreen";
+import MyCreatedActivitiesListScreen from "./screens/MyCreatedActivityListScreen";
 import ActivityAttendantListScreen from "./screens/ActivityAttendantListScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 
@@ -29,7 +29,6 @@ class App extends React.Component {
 
   render() {
     return (
-      /*<MainNavigator/>*/
         <MainTabNavigator/>
     )
   }
@@ -59,8 +58,8 @@ const MainTabNavigator = createBottomTabNavigator({
         ),
     }
   },
-  MyCreatedActivityiesListScreen: {
-    screen:MyCreatedActivityiesListScreen,
+  MyCreatedActivitiesListScreen: {
+    screen:MyCreatedActivitiesListScreen,
     navigationOptions:{
       tabBarLabel:'My Activities',
       tabBarIcon:({focused,tintColor}) => (
@@ -91,9 +90,30 @@ const MainTabNavigator = createBottomTabNavigator({
   },
 });
 
+MainTabNavigator.navigationOptions = ({ navigation }) => {
+  let { routeName } = navigation.state.routes[navigation.state.index];
+  let title;
+  if (routeName === 'CurrentActivitiesScreen') {
+    title = 'Current Activities';
+  }
+  else if (routeName === 'UserJoinedActivitiesScreen') {
+    title = 'Joined Activities';
+  }
+  else if (routeName === 'MyCreatedActivitiesListScreen') {
+    title = 'My Activities';
+  }
+  else {
+    title = 'Profile';
+  }
+  return {
+    title,
+  };
+};
+
+
 const MainNavigator = createStackNavigator({
-  LoginScreen: LoginScreen,
-  MainTabNavigator: MainTabNavigator,
+  LoginScreen: {screen: LoginScreen, navigationOptions: {header: null}},
+  MainTabNavigator: {screen: MainTabNavigator, navigationOptions:{headerLeft: null}},
   SignUpScreen: SignUpScreen,
   ActivityDetailsScreen: ActivityDetailsScreen,
   NewActivityScreen: NewActivityScreen,
