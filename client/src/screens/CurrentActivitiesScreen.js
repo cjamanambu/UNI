@@ -95,6 +95,14 @@ export default class CurrentActivitiesScreen extends React.Component {
                             onChangeText={value => this.setState({selectedCategory: value})}
                         />
                     </View>
+
+                    <TouchableOpacity testId="addButton" onPress={() => this.props.navigation.navigate('NewActivityScreen', {token: this.state.token})}>
+                    <Text></Text>
+                        <Image testID='addButton'
+                        source = {require('../assets/images/addition.png')}
+                        style={{width:40, height:40, marginLeft: 10}}/>
+                    </TouchableOpacity>
+
                 </View>
 
                 <FlatList testID="currentActivitiesListView"
@@ -121,9 +129,6 @@ export default class CurrentActivitiesScreen extends React.Component {
                         />
                     )}
                 />
-                <TouchableOpacity style={styles.buttonDetailsScreen}>
-                    <Text style={styles.buttonText} onPress={() => this.props.navigation.navigate('NewActivityScreen', {token: this.state.token})}>New Activity</Text>
-                </TouchableOpacity>
             </View>
         )
     }
