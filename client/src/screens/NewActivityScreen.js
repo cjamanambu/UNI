@@ -34,7 +34,6 @@ export default class NewActivityScreen extends React.Component {
 			apiData:[],
 			time: this.datetime,
 			selectedCategory: "",
-			member:"",
 		};
 		this.token = USER_DETAILS.token;
 		this.name= '';
@@ -66,9 +65,6 @@ export default class NewActivityScreen extends React.Component {
 	onNumberOfPeopleChanged = (newNumberOfPeople) => {
 		console.log(newNumberOfPeople);
 		this.numberOfPeople = parseInt(newNumberOfPeople);
-		this.setState({member:newNumberOfPeople});
-		this.numberOfPeople = newNumberOfPeople;
-		console.log(this.newNumberOfPeople);
 	};
 
 	onDescriptionChanged = (newDescription) => {
@@ -84,7 +80,10 @@ export default class NewActivityScreen extends React.Component {
 
 	createAct =() =>{
 
-		if (this.name !== '' && this.location !== '' && this.time !== ''&& this.numberOfPeople !== ''){
+		if (this.name !== '' && this.location !== '' && this.time !== ''){
+			if (this.numberOfPeople === '') {
+				this.numberOfPeople = 10;
+			}
 			if (this.description === '') {
 				this.description = "default"
 			}
@@ -138,7 +137,6 @@ export default class NewActivityScreen extends React.Component {
 	render(){
 
 		let activityTypes = [{value: 'Sports'}, {value: 'Study'}, {value: 'Dance'}, {value: 'Politics'}, {value: 'Art'}, {value: 'Music'}];
-		let numberOfMember = [{value: '1'}, {value: '2'}, {value: '3'}, {value: '4'}, {value: '5'}, {value: '6'}, {value: '7'}, {value: '8'}, {value: '9'}, {value: '10'}];
 
 		return (
 			<View style={styles.logInContainer}>
@@ -184,12 +182,12 @@ export default class NewActivityScreen extends React.Component {
 							</View>
 						</View>
 						<DatePicker
-							style={{width:280,justifyContent:'center',alignItems:'center'}}
+							style={{width:200}}
 							date ={this.state.time}
 							mode="datetime"
 							placeholder= {this.time}
 							format = "YYYY-MM-DD HH:mm"
-							minDate="2019-04-01"
+							minDate="2019-03-15"
 							maxDate="2029-03-15"
 							confirmBtnText="Confirm"
 							cancelBtnText="Cancel"
@@ -207,15 +205,16 @@ export default class NewActivityScreen extends React.Component {
 							minuteInterval={10}
 							onDateChange={this.onTimeChanged}
 						/>
-						<View style={styles.dropdown}>
-							<View style={{ flex: 1 }}>
-								<Dropdown
-									label='Maximum number of members'
-									data={numberOfMember}
-									onChangeText={this.onNumberOfPeopleChanged}
-								/>
-							</View>
-						</View>
+						<TextInput
+							ref = "numberOfPeople"
+							onChangeText={this.onNumberOfPeopleChanged} //add value changing event
+							style={styles.input}
+							placeholder={'Number of People (Optional)'}
+							placeholderTextColor ={'#rgba(255,255,255,0.7)'}
+							returnKeyType="next"
+							autoCapitalize='none' //cancel first letter capital
+							underlineColorAndroid={'transparent'} //cancel under line
+						/>
 						<TextInput
 							ref = "description"
 							onChangeText={this.onDescriptionChanged} //add value changing event
