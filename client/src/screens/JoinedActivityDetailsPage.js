@@ -84,7 +84,7 @@ export default class ActivityDetailsScreen extends React.Component {
                     <Text>Activity Type: {navigation.getParam("category")}</Text>
                     <Text>Time: {dateFormat(navigation.getParam("activity_datetime"), "dddd, mmmm dS, h:MM TT")}</Text>
                     <Text>Location: {this.props.navigation.getParam("location")}</Text>
-                    <Text>{navigation.getParam("description")}</Text>
+                    <Text>Description: {navigation.getParam("description")}</Text>
 
                 </View>
                 <TouchableOpacity style={styles.buttonDetailsScreen}>

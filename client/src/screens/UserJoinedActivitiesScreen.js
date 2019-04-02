@@ -60,9 +60,7 @@ export default class UserJoinedActivities extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (this.state.selectedCategory !== prevState.selectedCategory && this.state.selectedCategory !== "") {
-            this.onChangeTypeHandler(this.state.selectedCategory);
-        }
+        this.makeRemoteRequest();
     }
 
     makeRemoteRequest = () => {

@@ -1,6 +1,6 @@
 const { reloadApp } = require('detox-expo-helpers');
 
-describe('View activity detail', () => {
+describe.only('View activity detail', () => {
     beforeAll(async () => {
         await reloadApp();
     });
@@ -43,18 +43,7 @@ describe('View activity detail', () => {
         await expect(element(by.id('currentActivitiesListView'))).toBeVisible();
     });
 
-    it('should scroll', async () => {
-        await element(by.id('currentActivitiesListView')).swipe('up');
-        await element(by.id('currentActivitiesListView')).swipe('down');
+    it('should click on the add button', async () => {
+        await element(by.id('addButton')).tap();
     });
-
-    it('should tap on the first row', async () => {
-        await element(by.id('currentActivitiesListItem')).atIndex(5).tap();
-    });
-
-    it('should show activity details', async () => {
-        await expect(element(by.id('activityDetailTitle'))).toBeVisible();
-        await expect(element(by.id('activityDetailsTypePicture'))).toBeVisible();
-        await expect(element(by.id('activityDetailsTime'))).toBeVisible();
-    })
 });

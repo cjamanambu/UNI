@@ -98,7 +98,7 @@ export default class CurrentActivitiesScreen extends React.Component {
 
                     <TouchableOpacity testId="addButton" onPress={() => this.props.navigation.navigate('NewActivityScreen', {token: this.state.token})}>
                     <Text></Text>
-                        <Image
+                        <Image testID='addButton'
                         source = {require('../assets/images/addition.png')}
                         style={{width:40, height:40, marginLeft: 10}}/>
                     </TouchableOpacity>
@@ -110,7 +110,7 @@ export default class CurrentActivitiesScreen extends React.Component {
                     keyExtractor={(item, index) => index.toString()}
                     extraData={this.state.data}
                     renderItem={({item}) => (
-                        <ListItem
+                        <ListItem testID='currentActivitiesListItem'
                             title={item.title}
                             subtitle={dateFormat(item.activity_datetime, "dddd, mmmm dS, h:MM TT") + ' - ' + item.location}
                             leftAvatar={{ source: require('../assets/images/Octocat.png') }}

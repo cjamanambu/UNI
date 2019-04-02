@@ -72,13 +72,13 @@ export default class ActivityDetailsScreen extends React.Component {
         return (
             <View style={styles.actAttendantScreenContainer}>
                 <View style={styles.subContainer}>
-                <Text style={styles.header}>{navigation.getParam("title")}</Text>
+                <Text testID='activityDetailTitle' style={styles.header}>{navigation.getParam("title")}</Text>
                 
-                <Image style={styles.logo} source={icon}></Image>
+                <Image testID='activityDetailsTypePicture' style={styles.logo} source={icon}></Image>
                 <Text>Activity Type: {navigation.getParam("category")}</Text>
-                <Text>Time: {dateFormat(navigation.getParam("activity_datetime"), "dddd, mmmm dS, h:MM TT")}</Text>
-                <Text>Location: {this.props.navigation.getParam("location")}</Text>
-                <Text>{navigation.getParam("description")}</Text>
+                <Text testID='activityDetailsTime'>Time: {dateFormat(navigation.getParam("activity_datetime"), "dddd, mmmm dS, h:MM TT")}</Text>
+                <Text testID='activityDetailsLocation'>Location: {navigation.getParam("location")}</Text>
+                <Text>Description: {navigation.getParam("description")}</Text>
 
                 </View>
                 <TouchableOpacity style={styles.buttonDetailsScreen}>

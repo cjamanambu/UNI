@@ -113,23 +113,23 @@ export default class NewActivityScreen extends React.Component {
 					'location': this.location
 				})
 			})
-			.then((response) => response.json())
-			.then((responseJson) => {
-				console.log(responseJson);
-				if (responseJson.success == true) {
+				.then((response) => response.json())
+				.then((responseJson) => {
 					console.log(responseJson);
-					Alert.alert("Create Activity Success!");
-					//jump back to current Act Screen
-					this.props.navigation.navigate('CurrentActivitiesScreen');
-				} else {
-					console.log(responseJson);
-					Alert.alert("Fail to Create Activity");
-				}
+					if (responseJson.success == true) {
+						console.log(responseJson);
+						Alert.alert("Create Activity Success!");
+						//jump back to current Act Screen
+						this.props.navigation.navigate('CurrentActivitiesScreen');
+					} else {
+						console.log(responseJson);
+						Alert.alert("Fail to Create Activity");
+					}
 
-			})
-			.catch((error) => {
-				console.error(error);
-			});
+				})
+				.catch((error) => {
+					console.error(error);
+				});
 		}).catch(error => console.log(error))
 	};
 
@@ -142,12 +142,12 @@ export default class NewActivityScreen extends React.Component {
 			<View style={styles.logInContainer}>
 				<ScrollView>
 
-				<KeyboardAvoidingView behavior = "padding" keyboardVerticalOffset={250} style = {styles.logInFormContainer}>
-					<View style={styles.logoContainer}>
-						<Text style={styles.title}>Create Activity</Text>
-					</View>
+					<KeyboardAvoidingView behavior = "padding" keyboardVerticalOffset={250} style = {styles.logInFormContainer}>
+						<View style={styles.logoContainer}>
+							<Text style={styles.title}>Create Activity</Text>
+						</View>
 
-                	<StatusBar barStyle="light-content"/>
+						<StatusBar barStyle="light-content"/>
 						<TextInput
 							ref = "name"
 							onChangeText={this.onNameChanged} //add value changing event
@@ -172,39 +172,39 @@ export default class NewActivityScreen extends React.Component {
 							autoCorrect={false}
 							underlineColorAndroid={'transparent'} //cancel under line
 						/>
-					<View style={styles.dropdown}>
-						<View style={{ flex: 1 }}>
-							<Dropdown
-								label='Activity Type'
-								data={activityTypes}
-								onChangeText={this.onCategoryChanged}
-							/>
+						<View style={styles.dropdown}>
+							<View style={{ flex: 1 }}>
+								<Dropdown
+									label='Activity Type'
+									data={activityTypes}
+									onChangeText={this.onCategoryChanged}
+								/>
+							</View>
 						</View>
-					</View>
-					<DatePicker
-						style={{width:200}}
-						date ={this.state.time}
-						mode="datetime"
-						placeholder= {this.time}
-						format = "YYYY-MM-DD HH:mm"
-						minDate="2019-03-15"
-						maxDate="2029-03-15"
-						confirmBtnText="Confirm"
-						cancelBtnText="Cancel"
-						customStyles={{
-							dateIcon: {
-								position: 'absolute',
-								left: 0,
-								top: 4,
-								marginLeft: 0
-							},
-							dateInput: {
-								marginLeft: 36
-							}
-						}}
-						minuteInterval={10}
-						onDateChange={this.onTimeChanged}
-					/>
+						<DatePicker
+							style={{width:200}}
+							date ={this.state.time}
+							mode="datetime"
+							placeholder= {this.time}
+							format = "YYYY-MM-DD HH:mm"
+							minDate="2019-03-15"
+							maxDate="2029-03-15"
+							confirmBtnText="Confirm"
+							cancelBtnText="Cancel"
+							customStyles={{
+								dateIcon: {
+									position: 'absolute',
+									left: 0,
+									top: 4,
+									marginLeft: 0
+								},
+								dateInput: {
+									marginLeft: 36
+								}
+							}}
+							minuteInterval={10}
+							onDateChange={this.onTimeChanged}
+						/>
 						<TextInput
 							ref = "numberOfPeople"
 							onChangeText={this.onNumberOfPeopleChanged} //add value changing event
@@ -225,15 +225,15 @@ export default class NewActivityScreen extends React.Component {
 							autoCapitalize='none' //cancel first letter capital
 							underlineColorAndroid={'transparent'} //cancel under line
 						/>
-				<TouchableOpacity
-					onPress={this.createAct}
-					style={styles.buttonContainer}>
-					<Text
-						style={styles.buttonText}>Create Activity
-					</Text>
-				</TouchableOpacity>
+						<TouchableOpacity
+							onPress={this.createAct}
+							style={styles.buttonContainer}>
+							<Text
+								style={styles.buttonText}>Create Activity
+							</Text>
+						</TouchableOpacity>
 
-				</KeyboardAvoidingView>
+					</KeyboardAvoidingView>
 
 				</ScrollView>
 			</View>

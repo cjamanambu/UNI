@@ -176,7 +176,7 @@ export default class ActivityAttendantListScreen extends React.Component {
                     <Text>Activity Type: {this.props.navigation.getParam("category")}</Text>
                     <Text>Time: {dateFormat(this.props.navigation.getParam("activity_datetime"), "dddd, mmmm dS, h:MM TT")}</Text>
                     <Text>Location: {this.props.navigation.getParam("location")}</Text>
-                    <Text>{this.props.navigation.getParam("description")}</Text>
+                    <Text>Description: {this.props.navigation.getParam("description")}</Text>
                 </View>
                 <View>
                     <Text style={styles.sectionHeader}>Attendants: </Text>
