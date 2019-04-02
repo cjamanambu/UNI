@@ -226,17 +226,18 @@ export default class NewActivityScreen extends React.Component {
 							autoCapitalize='none' //cancel first letter capital
 							underlineColorAndroid={'transparent'} //cancel under line
 						/>
-						<TouchableOpacity
+						
+
+					</KeyboardAvoidingView>
+
+				</ScrollView>
+				<TouchableOpacity
 							onPress={this.createAct}
 							style={styles.buttonContainer}>
 							<Text
 								style={styles.buttonText}>Create Activity
 							</Text>
-						</TouchableOpacity>
-
-					</KeyboardAvoidingView>
-
-				</ScrollView>
+				</TouchableOpacity>
 			</View>
 		);
 	}
