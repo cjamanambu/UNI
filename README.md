@@ -9,7 +9,7 @@ UNI is an application that will allow University of Manitoba students create spo
 ## To run the web client, navigate into web-client and run the following command(s):
 
 `npm install`
-### NOTE: DO NOT RUN `npm install` IN THE web-client DIRECTORY AS THIS WOULD LEAD TO ERRORS!
+### NOTE: DO NOT RUN `npm install` IN THE web-client/src DIRECTORY AS THIS WOULD LEAD TO ERRORS!
 
 **Then navigate into web-client/src and run the following command(s)** 
 
@@ -39,9 +39,9 @@ It will start the server on the localhost on port 8000
 
 ## The current web-page can be accessed through the following link:
 
-[Uni](http://ec2-99-79-39-110.ca-central-1.compute.amazonaws.com:3000)
+[Uni](http://ec2-35-183-134-10.ca-central-1.compute.amazonaws.com:3000)
 
 ## The base url for the api can be accessed using the link below:
 
-[Uni API](http://ec2-99-79-39-110.ca-central-1.compute.amazonaws.com:8000)
+[Uni API](http://ec2-35-183-134-10.ca-central-1.compute.amazonaws.com:8000)
 
