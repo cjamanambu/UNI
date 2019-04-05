@@ -188,7 +188,7 @@ module.exports = {
                         success: false,
                         info: error,
                         activity: null
-                    })
+                    });
                 }
             }
         })(req, res, next);

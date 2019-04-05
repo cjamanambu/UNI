@@ -14,77 +14,106 @@ signToken = user => {
         iat: new Date().getTime(), //(issued at) current time
         exp: new Date().setDate(new Date().getDate() + 1) // ( expiry date) current time + 1 day
     }, JWT_SECRET);
-}
+};
 
 module.exports = {
     //exports a username,  email and password from all new users
     signUp: async (req, res , next) => {
-        
-       const {username, email, password}= req.value.body;
 
-        //check for users with the same email
-        //check for users with the same email
-        const foundUserName = await User.findOne({ username: username});
-        const foundUserEmail = await User.findOne({ email: email});
+       try {
+           const {username, email, password} = req.value.body;
 
-        if(foundUserName && foundUserEmail) {
-            return res.status(403).json({
-                success: false,
-                info: 'Username annd Email address already exist'});
+           //check for users with the same email
+           const foundUserName = await User.findOne({username: username});
+           const foundUserEmail = await User.findOne({email: email});
 
-        } else if(foundUserName) {
-            return res.status(403).json({
-                success: false,
-                info: 'Select a new username, this username already exist'});
-        } else if(foundUserEmail) {
-            return res.status(403).json({
-                success: false,
-                info: 'Email address already exist'});
-        } 
+           if (foundUserName && foundUserEmail) {
+               return res.status(403).json({
+                   success: false,
+                   info: 'Username and Email address already exist',
+                   token: null,
+                   user: null
+               });
 
-       //create new user if username and email is specific
-       const newUser = new User({
-           username: username,
-           email: email,
-           password: password
-       });
+           } else if (foundUserName) {
+               return res.status(403).json({
+                   success: false,
+                   info: 'Select a new username, this username already exist',
+                   token: null,
+                   user: null
+               });
+           } else if (foundUserEmail) {
+               return res.status(403).json({
+                   success: false,
+                   info: 'Email address already exist',
+                   token: null,
+                   user: null
+               });
+           }
 
+           //create new user if username and email is unique
+           const newUser = new User({
+               username: username,
+               email: email,
+               password: password
+           });
 
-       await newUser.save();
+           await newUser.save();
 
-       //respond with token instead of json
-       //generate the token
-       const token = signToken(newUser);
-       res.status(200).json({
-            success: true,
-            info: 'new user successfully created',
-            token: token,
-            user: {username, email}
-        });
+           //Generate and send token
+           const token = signToken(newUser);
+           res.status(200).json({
+               success: true,
+               info: 'new user successfully created',
+               token: token,
+               user: {username, email}
+           });
+       } catch(err) {
+           res.status(500).json({
+               success: true,
+               info: 'Error occured during signup process '+err,
+               token: null,
+               user: null
+           });
+       }
     },
 
     signIn: async (req, res , next) => {
         passport.authenticate('local', {session: false}, (err, user, info)=>{
-            if (err){
-                return res.status(500).json({
-                   success:false,
-                   info: err
+            if (!user) {
+                return res.status(401).json({
+                    success: false,
+                    info: "User not found "+info.message,
+                    user: null,
+                    token: null
                 });
             }
-            else if (!user){
-                return res.status(400).json({
-                    success: false,
-                    info: info.message,
-                    user   : null,
+            else if (err){
+                return res.status(500).json({
+                    success:false,
+                    info: err,
+                    token: null,
+                    user: null
                 });
-            }else{
-                //generate a token to validate
-                const token = signToken(user);
-                res.status(200).json({
-                    token,
-                    success: true,
-                    user: { _id: user.id}
-                });
+            }
+            else {
+                try{
+                    //generate a token to validate
+                    const token = signToken(user);
+                    res.status(200).json({
+                        token: token,
+                        success: true,
+                        user: { _id: user.id}
+                    });
+                } catch (error) {
+                    return res.status(500).json({
+                        success:false,
+                        info: err,
+                        token: null,
+                        user: null
+                    });
+                }
+
             }
         })(req, res, next);
     },
@@ -98,7 +127,7 @@ module.exports = {
             if (!user) {
                 return res.status(401).json({
                     success: false,
-                    info: info.message,
+                    info: "User not found "+info.message,
                     activities: null
                 });
             }else{
@@ -112,7 +141,7 @@ module.exports = {
                             });
                             next();
                         } else if (err) {
-                            return res.status(400).json({
+                            return res.status(500).json({
                                 success: false,
                                 info: err,
                                 activities: null
@@ -139,51 +168,62 @@ module.exports = {
 
     attendanceList: async (req, res, next) => {
         passport.authenticate('jwt', {session: false}, async (err, user, info) => {
-            const query = {_id: new ObjectId(req.params.id)};
+            if (!user) {
+                return res.status(401).json({
+                    success: false,
+                    info: "User authentication failed "+info.message,
+                    users: null
+                });
+            }
+            else {
+                try {
+                    const query = {_id: new ObjectId(req.params.id)};
+                    await Activity.find(query, function (err, activities) {
 
-            await Activity.find(query, function (err, activities) {
+                        const attendanceListIds = activities[0].attendance_list;
+                        let actualAttendanceListIds = attendanceListIds.map(s => ObjectId(s));
 
-                const attendanceListIds = activities[0].attendance_list;
-                let actualAttendanceListIds = attendanceListIds.map(s =>ObjectId(s));
+                        User.find({_id: {$in: actualAttendanceListIds}}, async function (db_err, users) {
+                            var i;
+                            var userList = [];
+                            for (i = 0; i < users.length; i++) {
+                                userList[i] = {
+                                    Name: users[i].username,
+                                    Email: users[i].email
+                                };
+                            }
 
-                User.find({_id:{$in: actualAttendanceListIds}}, async function (db_err, users) {
-                    var i;
-                    var userList = [];
-                    for (i = 0; i < users.length; i++)
-                    {
-                        userList[i] = {
-                            Name:   users[i].username,
-                            Email: users[i].email
-                        };
-                    }
+                            if (db_err) {
+                                res.status(400).json({
+                                    success: false,
+                                    info: "Database error occurred. " + db_err,
+                                    users: null
+                                });
+                            } else if (err) {
+                                res.status(500).json({
+                                    success: false,
+                                    info: err,
+                                    users: null
+                                });
+                            } else {
+                                // Return the details about the activity for the user
+                                res.status(200).json({
+                                    success: true,
+                                    info: "Details of the users attending the activity successfully retrieved.",
+                                    users: userList
+                                })
+                            }
 
-                    if (db_err) {
-                        res.status(500).json({
-                            success: false,
-                            info: "Database error occurred. "+db_err
-                        });
-                    }else if (err){
-                        res.status(500).json({
-                            success: false,
-                            info: err
-                        });
-                    }else if (!user){
-                        res.status(401).json({
-                            success: false,
-                            user: user,
-                            info: info.message
-                        });
-                    }else{
-                        // Return the details about the activity for the user
-                        res.status(200).json({
-                            success: true,
-                            info: "Details of the user's activities sucessfully retrieved.",
-                            users: userList
                         })
-                    }
-
-                })
-            })
+                    })
+                } catch (error) {
+                    res.status(500).json({
+                        success: false,
+                        info: "Internal error occurred. " + error,
+                        users: null
+                    });
+                }
+            }
         })(req, res, next);
     },
 
@@ -192,8 +232,8 @@ module.exports = {
             if (!user) {
                 return res.status(401).json({
                     success: false,
-                    user: user,
-                    info: info.message
+                    activity: null,
+                    info: "User authentication failed" +info.message
                 });
             } else {
                 try {
@@ -288,7 +328,7 @@ module.exports = {
                             // Return the details about the activity for the user
                             res.status(200).json({
                                 success: true,
-                                info: "Details of the user's activities sucessfully retrieved.",
+                                info: "Details of the user's activities successfully retrieved.",
                                 my_activities: db_response
                             })
                         }
@@ -325,7 +365,7 @@ module.exports = {
                         } else if (err) {
                             res.status(500).json({
                                 success: false,
-                                info: err,
+                                info: err + info,
                                 owner:null
                             });
                         } else {
