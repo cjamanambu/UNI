@@ -4,7 +4,7 @@ const assert = chai.assert;
 const app = require('../app');
 
 chai.use(chaiHttp);
-describe('Activities Unit Tests', async () => {
+describe(' Tests for endpoints that have to do with activities', async () => {
 
     let token;
     let createdId;
@@ -121,6 +121,18 @@ describe('Activities Unit Tests', async () => {
             for (i=0; i<returnedActivities.length; i++){
                 assert.equal(returnedActivities[i].category, 'SPORTS');
             }
+        });
+
+        it('It should GET the activities that have the category specified. This should be no activities', async () => {
+            const testSuccessResult = await chai
+                .request(app)
+                .get('/activities/activity/sortBy/sps');
+            assert.equal(testSuccessResult.status, '200');
+            assert.isObject(testSuccessResult.body);
+            assert.hasAllKeys(testSuccessResult.body, ['success', 'info', 'activities']);
+            assert.isTrue(testSuccessResult.body.success);
+            let returnedActivities = testSuccessResult.body.activities;
+            assert.equal(returnedActivities.length, 0);
         });
     });
 
