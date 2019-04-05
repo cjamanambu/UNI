@@ -49,7 +49,7 @@ export default class LogInScreen extends React.Component {
                         if (response.success === true) {
                             this.setState({token: response.token});
                             AsyncStorage.setItem("AuthToken", response.token)
-                            //AsyncStorage.setItem("AuthName", response.user.username)
+                            AsyncStorage.setItem("AuthName", response.user._id)
                             AsyncStorage.setItem("AuthEmail", email)
                             this.props.navigation.navigate('CurrentActivitiesScreen', {
                                 email: this.state.email,

@@ -52,6 +52,13 @@ export default class ProfileScreen extends React.Component {
                 console.log("email: " + this.state.email);
             }
         })
+        AsyncStorage.getItem("AuthName").then(name => {
+            if(name) {
+                console.log("username: " + name);
+                this.setState({username:name});
+                console.log("username: " + this.state.username);
+            }
+        })
     };
 
     logout =() => {

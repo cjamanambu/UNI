@@ -121,7 +121,7 @@ export default class NewActivityScreen extends React.Component {
 						console.log(responseJson);
 						Alert.alert("Create Activity Success!");
 						//jump back to current Act Screen
-						this.props.navigation.navigate('CurrentActivitiesScreen');
+						this.props.navigation.navigate('MyCreatedActivitiesListScreen');
 					} else {
 						console.log(responseJson);
 						Alert.alert("Fail to Create Activity");
