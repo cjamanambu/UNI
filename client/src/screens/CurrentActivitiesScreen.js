@@ -34,14 +34,20 @@ export default class CurrentActivitiesScreen extends React.Component {
             selectedCategory: "All",
             token: "",
             selectedTab: 'curr',
+            creator: '',
+            username: '',
+            joined:'',
         };
         const { navigation } = this.props;
         const USER_DETAILS = {
             email : navigation.getParam("email"),
-            token : navigation.getParam("token")
+            token : navigation.getParam("token"),
+            username : navigation.getParam("username")
         };
         this.state.token = USER_DETAILS.token;
         console.log("TOKEN: " + USER_DETAILS.token);
+        this.state.username = USER_DETAILS.username;
+        console.log("username: " + USER_DETAILS.username);
 
         this.props.navigation.addListener('willFocus', () => {
             this.onChangeActivityTypeHandler(this.state.selectedCategory)
@@ -58,6 +64,13 @@ export default class CurrentActivitiesScreen extends React.Component {
             this.onChangeActivityTypeHandler(this.state.selectedCategory);
         }
     }
+
+    //i have to add this code since if it is not here, goback from JoinedActivityDetailsPage will drop error
+    onBack () {
+         this.makeRemoteRequest();
+     }
+     //same to above, have to add,actually do nothing
+     makeRemoteRequest(){}
 
     onChangeActivityTypeHandler(value) {
         let link = "";
@@ -81,6 +94,89 @@ export default class CurrentActivitiesScreen extends React.Component {
                 this.setState({ error, loading: false });
             });
     };
+
+    //added 4.05
+    //help app figure out activity are created by user, joined already by user or no relationship
+    async activityHandler(item){
+        console.log("activity_id :"+item._id);
+        console.log("attendance_list:"+ item.attendance_list);
+        console.log("TOKEN: " + this.state.token);
+        console.log("URL: " + App.URL + '/users/user/activities/activity/owner/' + item._id);
+        //must wait from fetch call complete to do next step
+        await fetch(App.URL + '/users/user/activities/activity/owner/' + item._id,{
+            method: 'GET',
+            headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'Authorization' : this.state.token
+            }
+        })
+            .then(res => res.json())
+            .then(res => {
+                this.setState({
+                    creator: res.owner.id,
+                });
+            })
+            .catch(error => {
+                this.setState({ error, loading: false });
+            });
+        if(item.attendance_list != null){
+            let i = 0;
+            this.setState({joined: ''})
+            while(item.attendance_list[i] != null)
+            {             
+                if(item.attendance_list[i].toString() == this.state.username.toString()){
+                    this.setState({joined: 'ture'})
+                }
+                i++;
+            }
+        }
+        this.activitiesNavigator(item);
+    };
+    //do real navigate
+    activitiesNavigator(item){
+        if(this.state.creator == this.state.username){
+            this.props.navigation.navigate('ActivityAttendantListScreen',
+                {
+                    activity_id : item._id,
+                    activity_datetime: item.activity_datetime,
+                    category: item.category,
+                    description: item.description,
+                    max_attendance: item.max_attendance,
+                    title: item.title,
+                    attendance_list: item.attendance_list,
+                    datetime_created: item.datetime_created,
+                })
+        }
+        else if(this.state.joined == 'ture'){
+            this.props.navigation.navigate('JoinedActivityDetailsPage',
+                {
+                    activity_id : item._id,
+                    activity_datetime: item.activity_datetime,
+                    category: item.category,
+                    description: item.description,
+                    max_attendance: item.max_attendance,
+                    title: item.title,
+                    attendance_list: item.attendance_list,
+                    datetime_created: item.datetime_created,
+                    onBack: this.onBack.bind(this)  //have to add this list or will be error
+                })
+        }
+        else{
+            this.props.navigation.navigate('ActivityDetailsScreen',
+                {
+                    activity_id : item._id,
+                    activity_datetime: item.activity_datetime,
+                    category: item.category,
+                    description: item.description,
+                    max_attendance: item.max_attendance,
+                    title: item.title,
+                    attendance_list: item.attendance_list,
+                    datetime_created: item.datetime_created,
+                })
+        }
+    };
+
 
 
     render() {
@@ -114,18 +210,7 @@ export default class CurrentActivitiesScreen extends React.Component {
                             title={item.title}
                             subtitle={dateFormat(item.activity_datetime, "dddd, mmmm dS, h:MM TT") + ' - ' + item.location}
                             leftAvatar={{ source: require('../assets/images/Octocat.png') }}
-                            onPress={() => this.props.navigation.navigate('ActivityDetailsScreen',
-                                {
-                                    activity_id : item._id,
-                                    activity_datetime: item.activity_datetime,
-                                    category: item.category,
-                                    description: item.description,
-                                    max_attendance: item.max_attendance,
-                                    title: item.title,
-                                    attendance_list: item.attendance_list,
-                                    datetime_created: item.datetime_created,
-                                })
-                            }
+                            onPress={()=> this.activityHandler(item)}
                         />
                     )}
                 />
