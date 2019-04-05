@@ -26,6 +26,7 @@ export default class LogInScreen extends React.Component {
         email: "supman@myumanitoba.ca",
         password: "supping",
         token: "",
+        username:"",
     };
 
 
@@ -48,12 +49,14 @@ export default class LogInScreen extends React.Component {
                         console.log("response: " +typeof response.success);
                         if (response.success === true) {
                             this.setState({token: response.token});
+                            this.setState({username: response.user._id});
                             AsyncStorage.setItem("AuthToken", response.token)
                             AsyncStorage.setItem("AuthName", response.user._id)
                             AsyncStorage.setItem("AuthEmail", email)
                             this.props.navigation.navigate('CurrentActivitiesScreen', {
                                 email: this.state.email,
                                 token: this.state.token,
+                                username: this.state.username,
                             });
                         }
                         else {

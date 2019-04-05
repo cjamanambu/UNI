@@ -93,9 +93,9 @@ export default class UserJoinedActivities extends React.Component {
         })
     };
 
-    onBack () {
-        this.makeRemoteRequest();
-    }
+     onBack () {
+         this.makeRemoteRequest();
+     }
 
     render() {
         return (
