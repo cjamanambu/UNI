@@ -73,7 +73,7 @@ export default class LogInScreen extends React.Component {
 
     render() {
         return(
-            <KeyboardAvoidingView testID="SignInComponent" behavior="padding" style={styles.logInContainer}>
+            <KeyboardAvoidingView testID="signInComponent" behavior="padding" style={styles.logInContainer}>
                 <View testID="logoComponent" style={styles.logoContainer}>
                     <Image style={styles.logo} source={require('../assets/images/Octocat.png')}/>
                     <Text style={styles.title} >Uni.</Text>

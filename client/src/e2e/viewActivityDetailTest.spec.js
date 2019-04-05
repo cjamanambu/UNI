@@ -6,7 +6,7 @@ describe('View activity detail', () => {
     });
 
     it('should have sign in screen', async () => {
-        await expect(element(by.id('SignInComponent'))).toBeVisible();
+        await expect(element(by.id('signInComponent'))).toBeVisible();
     });
 
     it('should have logo on screen', async () => {
@@ -48,7 +48,7 @@ describe('View activity detail', () => {
         await element(by.id('currentActivitiesListView')).swipe('down');
     });
 
-    it('should tap on the first row', async () => {
+    it('should tap a row', async () => {
         await element(by.id('currentActivitiesListItem')).atIndex(5).tap();
     });
 

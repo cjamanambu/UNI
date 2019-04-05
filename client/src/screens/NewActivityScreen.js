@@ -142,15 +142,15 @@ export default class NewActivityScreen extends React.Component {
 
 		return (
 			<View style={styles.logInContainer}>
-				<ScrollView>
+				<ScrollView testID="newActivityView">
 
 					<KeyboardAvoidingView behavior = "padding" keyboardVerticalOffset={250} style = {styles.logInFormContainer}>
-						<View style={styles.logoContainer}>
+						<View testID="createActivityTitle" style={styles.logoContainer}>
 							<Text style={styles.title}>Create Activity</Text>
 						</View>
 
 						<StatusBar barStyle="light-content"/>
-						<TextInput
+						<TextInput testID="newActivityName"
 							ref = "name"
 							onChangeText={this.onNameChanged} //add value changing event
 							style={styles.input}

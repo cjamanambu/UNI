@@ -6,7 +6,7 @@ describe.only('View activity detail', () => {
     });
 
     it('should have sign in screen', async () => {
-        await expect(element(by.id('SignInComponent'))).toBeVisible();
+        await expect(element(by.id('signInComponent'))).toBeVisible();
     });
 
     it('should have logo on screen', async () => {
@@ -46,4 +46,13 @@ describe.only('View activity detail', () => {
     it('should click on the add button', async () => {
         await element(by.id('addButton')).tap();
     });
+
+    it('should show the new activity form', async () => {
+        await expect(element(by.id('newActivityView'))).toBeVisible();
+        await expect(element(by.id('createActivityTitle'))).toBeVisible();
+        await expect(element(by.id('newActivityName'))).toBeVisible();
+        await element(by.id('newActivityName')).tap();
+        await element(by.id('newActivityName')).typeText('john@example.com');
+        // await element(by.id('newActivityName')).typeText('Added by TEST');
+    })
 });
