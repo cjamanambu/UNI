@@ -146,6 +146,7 @@ export default class CurrentActivitiesScreen extends React.Component {
                     title: item.title,
                     attendance_list: item.attendance_list,
                     datetime_created: item.datetime_created,
+                    location: item.location,
                 })
         }
         else if(this.state.joined == 'ture'){
@@ -159,6 +160,7 @@ export default class CurrentActivitiesScreen extends React.Component {
                     title: item.title,
                     attendance_list: item.attendance_list,
                     datetime_created: item.datetime_created,
+                    location: item.location,
                     onBack: this.onBack.bind(this)  //have to add this list or will be error
                 })
         }
@@ -173,6 +175,7 @@ export default class CurrentActivitiesScreen extends React.Component {
                     title: item.title,
                     attendance_list: item.attendance_list,
                     datetime_created: item.datetime_created,
+                    location: item.location,
                 })
         }
     };
