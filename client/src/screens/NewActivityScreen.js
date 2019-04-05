@@ -121,7 +121,7 @@ export default class NewActivityScreen extends React.Component {
 						console.log(responseJson);
 						Alert.alert("Create Activity Success!");
 						//jump back to current Act Screen
-						this.props.navigation.navigate('CurrentActivitiesScreen');
+						this.props.navigation.navigate('MyCreatedActivitiesListScreen');
 					} else {
 						console.log(responseJson);
 						Alert.alert("Fail to Create Activity");
@@ -162,7 +162,7 @@ export default class NewActivityScreen extends React.Component {
 							autoCorrect={false}
 							underlineColorAndroid={'transparent'} //cancel under line
 						/>
-						<TextInput
+						<TextInput testID="newActivityLocation"
 							ref = "location"
 							onChangeText={this.onLocationChanged} //add value changing event
 							style={styles.input}
@@ -175,7 +175,7 @@ export default class NewActivityScreen extends React.Component {
 							underlineColorAndroid={'transparent'} //cancel under line
 						/>
 						<View style={styles.dropdown}>
-							<View style={{ flex: 1 }}>
+							<View style={{ flex: 1 }} testID="newActivityTypeDropdown">
 								<Dropdown
 									label='Activity Type'
 									data={activityTypes}

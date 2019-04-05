@@ -52,7 +52,12 @@ describe.only('View activity detail', () => {
         await expect(element(by.id('createActivityTitle'))).toBeVisible();
         await expect(element(by.id('newActivityName'))).toBeVisible();
         await element(by.id('newActivityName')).tap();
-        await element(by.id('newActivityName')).typeText('john@example.com');
-        // await element(by.id('newActivityName')).typeText('Added by TEST');
+        await element(by.id('newActivityName')).typeText('Added by TEST');
+        await element(by.id('newActivityLocation')).tap();
+        await element(by.id('newActivityLocation')).typeText('University Centre');
+        await expect(element(by.id('newActivityTypeDropdown'))).toBeVisible();
+        // await element(by.id('newActivityTypeDropdown')).tap();
+        // await element(by.id('newActivityTypeDropdown')).swipe('up');
+        // await element(by.id('newActivityTypeDropdown')).atIndex(5).tap();
     })
 });
