@@ -45,7 +45,7 @@ describe('Testing attending and unattending', () => {
 		try {
 		const result = await chai
 			.request(app)
-			.put('/activities/activity/attend/5c97a539c7c41320ba3ddaf4')
+			.put('/activities/activity/attend/5c95786b6394943867f91cd0')
 			.set('Authorization', token);
 
 		expect(result.status).to.equal(200);
@@ -110,7 +110,7 @@ describe('Testing attending and unattending', () => {
 
 		expect(result.status).to.equal(401);
 		expect(result.body).not.to.be.empty;
-		expect(result.body.activities).to.be.a('undefined');
+		expect(result.body.activities).to.be.a('null');
 
 		} catch (err) {
 			console.log(err);
