@@ -49,6 +49,7 @@ const MainTabNavigator = createBottomTabNavigator({
   UserJoinedActivitiesScreen : {
     screen:UserJoinedActivitiesScreen,
     navigationOptions:{
+      tabBarTestID: 'joinedActivitiesTabButton',
       tabBarLabel:'Joined Activities',
       tabBarIcon:({focused,tintColor}) => (
         <Image

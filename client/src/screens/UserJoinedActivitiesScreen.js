@@ -101,11 +101,11 @@ export default class UserJoinedActivities extends React.Component {
         return (
             <View style={{flex: 1}}>
 
-                <FlatList
+                <FlatList testID="joinedActivityListView"
                     data={this.state.data}
                     keyExtractor={(item, index) => index.toString()}
                     renderItem={({item}) => (
-                        <ListItem
+                        <ListItem testID="joinedActivityListItem"
                             title={item.title}
                             subtitle={dateFormat(item.activity_datetime, "dddd, mmmm dS, h:MM TT") + ' - ' + item.location}
                             leftAvatar={{ source: require('../assets/images/Octocat.png') }}

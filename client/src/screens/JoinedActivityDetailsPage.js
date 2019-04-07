@@ -87,7 +87,7 @@ export default class ActivityDetailsScreen extends React.Component {
                     <Text>Description: {navigation.getParam("description")}</Text>
 
                 </View>
-                <TouchableOpacity style={styles.buttonDetailsScreen}>
+                <TouchableOpacity testID="leaveActivityButton" style={styles.buttonDetailsScreen}>
                     <Text style={styles.buttonText} onPress={() => leaveActivity(this.props.navigation)}>Leave Activity</Text>
                 </TouchableOpacity>
             </View>
