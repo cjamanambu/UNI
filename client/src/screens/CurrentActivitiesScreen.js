@@ -37,6 +37,7 @@ export default class CurrentActivitiesScreen extends React.Component {
             creator: '',
             username: '',
             joined:'',
+            full:'',
         };
         const { navigation } = this.props;
         const USER_DETAILS = {
@@ -100,6 +101,7 @@ export default class CurrentActivitiesScreen extends React.Component {
     async activityHandler(item){
         console.log("activity_id :"+item._id);
         console.log("attendance_list:"+ item.attendance_list);
+        console.log("max_attendance:"+ item.max_attendance);
         console.log("TOKEN: " + this.state.token);
         console.log("URL: " + App.URL + '/users/user/activities/activity/owner/' + item._id);
         //must wait from fetch call complete to do next step
@@ -122,7 +124,7 @@ export default class CurrentActivitiesScreen extends React.Component {
             });
         if(item.attendance_list != null){
             let i = 0;
-            this.setState({joined: ''})
+            this.setState({joined: '', full:''})
             while(item.attendance_list[i] != null)
             {             
                 if(item.attendance_list[i].toString() == this.state.username.toString()){
@@ -130,7 +132,16 @@ export default class CurrentActivitiesScreen extends React.Component {
                 }
                 i++;
             }
+            if(i.toString() == item.max_attendance.toString()){
+                console.log("full");
+                this.setState({full:'true'});
+            }
+            else{
+                console.log("not full");
+                this.setState({full:'false'});
+            }
         }
+        console.log("full?: "+this.state.full);
         this.activitiesNavigator(item);
     };
     //do real navigate
@@ -176,6 +187,7 @@ export default class CurrentActivitiesScreen extends React.Component {
                     attendance_list: item.attendance_list,
                     datetime_created: item.datetime_created,
                     location: item.location,
+                    full: this.state.full,
                 })
         }
     };
