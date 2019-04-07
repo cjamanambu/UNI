@@ -1,5 +1,5 @@
 import React from 'react';
-import {Image, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Image, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View, Alert} from 'react-native';
 import {AsyncStorage} from 'react-native';
 import styles from '../assets/Styles.js';
 import * as App from '../App';
@@ -63,6 +63,7 @@ export default class ProfileScreen extends React.Component {
 
     logout =() => {
       AsyncStorage.clear();
+      Alert.alert("Logout successfully!");
       this.props.navigation.navigate('LoginScreen');
       console.log("Token: " + AsyncStorage.getItem("AuthToken"));
     };
@@ -70,10 +71,6 @@ export default class ProfileScreen extends React.Component {
     render(){
     	return(
     		<View style={styles.containerProfile}>
-    			<View style = {styles.viewTop}>
-    				<Text style ={styles.txtTitle}>My Profile</Text>
-    				<Image name='cog' style={styles.iconSetting} source={require('../assets/images/setup.png')}/>
-    			</View>
     			<View style = {styles.viewUser}>
     				<View style ={styles.viewUserTop}>
     					<Image style= {styles.imgUserTitle} source={require('../assets/images/pic.jpg')}/>

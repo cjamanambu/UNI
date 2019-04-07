@@ -3,5 +3,5 @@
   "lanType": "ip",
   "dev": true,
   "minify": false,
-  "urlRandomness": "is-i32"
+  "urlRandomness": "mr-ci4"
 }
