@@ -133,11 +133,11 @@ export default class CurrentActivitiesScreen extends React.Component {
                 i++;
             }
             if(i.toString() == item.max_attendance.toString()){
-                console.log("full");
+                console.log("full!");
                 this.setState({full:'true'});
             }
             else{
-                console.log("not full");
+                console.log("not full!");
                 this.setState({full:'false'});
             }
         }

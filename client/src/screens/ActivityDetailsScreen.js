@@ -16,7 +16,8 @@ import {
     Text,
     TouchableOpacity,
     View,
-    KeyboardAvoidingView
+    KeyboardAvoidingView,
+    Alert,
 } from 'react-native';
 import styles from '../assets/Styles.js';
 import * as App from '../App';
@@ -52,7 +53,7 @@ export default class ActivityDetailsScreen extends React.Component {
 
         function joinActivity(navigation) {
             console.log("full? :"+ navigation.getParam("full"));
-            if(navigation.getParam("full") == 'ture'){
+            if(navigation.getParam("full").toString() == 'true'){
                 Alert.alert("Fail to join, this activity is full");
             }
             else{
