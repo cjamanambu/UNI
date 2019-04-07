@@ -16,7 +16,8 @@ import {
     Text,
     TouchableOpacity,
     View,
-    KeyboardAvoidingView
+    KeyboardAvoidingView,
+    Alert
 } from 'react-native';
 import styles from '../assets/Styles.js';
 import * as App from '../App';
@@ -67,8 +68,9 @@ export default class ActivityDetailsScreen extends React.Component {
                             'Authorization' : token
                         }
                     }).then(res => {
-                        console.log(res)
-                        pageNavigation.goBack()
+                        console.log(res);
+                        Alert.alert("Leave activity " + navigation.getParam("title") + "!");
+                        pageNavigation.goBack();
                     })
                 }
             })

@@ -2,9 +2,9 @@
   "devToolsPort": 19002,
   "expoServerPort": 19000,
   "packagerPort": 19001,
-  "packagerPid": 32495,
-  "expoServerNgrokUrl": "https://is-i32.anonymous.src.exp.direct",
-  "packagerNgrokUrl": "https://packager.is-i32.anonymous.src.exp.direct",
-  "ngrokPid": 32515,
+  "packagerPid": 33066,
+  "expoServerNgrokUrl": "https://mr-ci4.anonymous.src.exp.direct",
+  "packagerNgrokUrl": "https://packager.mr-ci4.anonymous.src.exp.direct",
+  "ngrokPid": 33086,
   "webpackServerPort": null
 }

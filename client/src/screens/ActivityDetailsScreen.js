@@ -68,6 +68,7 @@ export default class ActivityDetailsScreen extends React.Component {
                                 'Authorization' : token
                             }
                         }).then(_ => {
+                            Alert.alert("Joined activity "+ navigation.getParam("title"));
                             navigation.navigate('UserJoinedActivitiesScreen')
                         })
                     }
