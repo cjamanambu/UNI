@@ -77,7 +77,7 @@ export default class RegisterScene extends React.Component {
 					</View>
 					<View style={styles.logInFormContainer}>
                 	<StatusBar barStyle="light-content"/>
-						<TextInput
+						<TextInput testID='usernameTextInput'
 							ref = "username"
 							onChangeText={(text) => this.setState({username: text})} //add value changing event
 							style={styles.input}
@@ -89,7 +89,7 @@ export default class RegisterScene extends React.Component {
 							autoCorrect={false}
 							underlineColorAndroid={'transparent'} //cancel under line
 						/>
-						<TextInput
+						<TextInput testID='emailTextInput'
 							ref = "emailAddress"
 							onChangeText={(text) => this.setState({email: text})} //add value changing event
 							style={styles.input}
@@ -102,7 +102,7 @@ export default class RegisterScene extends React.Component {
 							autoCorrect={false}
 							underlineColorAndroid={'transparent'} //cancel under line
 						/>
-						<TextInput
+						<TextInput testID='passwordTextInput'
 							ref = "password"
 							onChangeText={(text) => this.setState({password: text})} //add value changing event
 							style={styles.input}
@@ -113,7 +113,7 @@ export default class RegisterScene extends React.Component {
 							autoCapitalize='none' //cancel first letter capital
 							underlineColorAndroid={'transparent'} //cancel under line
 						/>
-						<TextInput
+						<TextInput testID='confirmPasswordTextInput'
 							ref = "confirmPassword"
 							onChangeText={(text) => this.setState({confirmedPassword: text})} //add value changing event
 							style={styles.input}
@@ -125,7 +125,7 @@ export default class RegisterScene extends React.Component {
 							underlineColorAndroid={'transparent'} //cancel under line
 						/>
 
-					<TouchableOpacity
+					<TouchableOpacity testID='signUpButton'
 						onPress={this.onSubmit}
 						style={styles.buttonContainer}>
 						<Text
