@@ -51,21 +51,27 @@ export default class ActivityDetailsScreen extends React.Component {
         }
 
         function joinActivity(navigation) {
-            AsyncStorage.getItem("AuthToken").then(token =>{
-                if(token) {
-                    const activityID = navigation.getParam("activity_id");
-                    fetch(App.URL + '/activities/activity/attend/' + activityID, {
-                        method: 'PUT',
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                            'Authorization' : token
-                        }
-                    }).then(_ => {
-                        navigation.navigate('UserJoinedActivitiesScreen')
-                    })
-                }
-            })
+            console.log("full? :"+ navigation.getParam("full"));
+            if(navigation.getParam("full") == 'ture'){
+                Alert.alert("Fail to join, this activity is full");
+            }
+            else{
+                AsyncStorage.getItem("AuthToken").then(token =>{
+                    if(token) {
+                        const activityID = navigation.getParam("activity_id");
+                        fetch(App.URL + '/activities/activity/attend/' + activityID, {
+                            method: 'PUT',
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json',
+                                'Authorization' : token
+                            }
+                        }).then(_ => {
+                            navigation.navigate('UserJoinedActivitiesScreen')
+                        })
+                    }
+                })
+            }
         }
 
 
