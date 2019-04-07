@@ -61,6 +61,7 @@ const MainTabNavigator = createBottomTabNavigator({
   MyCreatedActivitiesListScreen: {
     screen:MyCreatedActivitiesListScreen,
     navigationOptions:{
+      tabBarTestID: 'myActivitiesTabButton',
       tabBarLabel:'My Activities',
       tabBarIcon:({focused,tintColor}) => (
         <Image

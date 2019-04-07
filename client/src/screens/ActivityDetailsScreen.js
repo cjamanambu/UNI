@@ -70,7 +70,7 @@ export default class ActivityDetailsScreen extends React.Component {
 
 
         return (
-            <View style={styles.actAttendantScreenContainer}>
+            <View testID="activityDetailScreen" style={styles.actAttendantScreenContainer}>
                 <View style={styles.subContainer}>
                 <Text testID='activityDetailTitle' style={styles.header}>{navigation.getParam("title")}</Text>
                 

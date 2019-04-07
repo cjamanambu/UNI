@@ -174,16 +174,16 @@ export default class NewActivityScreen extends React.Component {
 							autoCorrect={false}
 							underlineColorAndroid={'transparent'} //cancel under line
 						/>
-						<View style={styles.dropdown}>
-							<View style={{ flex: 1 }} testID="newActivityTypeDropdown">
-								<Dropdown
+						<View style={styles.dropdown} testID="newActivityTypeDropdownView">
+							<View style={{ flex: 1 }}>
+								<Dropdown testID="newActivityTypeDropdown"
 									label='Activity Type'
 									data={activityTypes}
 									onChangeText={this.onCategoryChanged}
 								/>
 							</View>
 						</View>
-						<DatePicker
+						<DatePicker testID="datePicker"
 							style={{width:280,justifyContent:'center',alignItems:'center'}}
 							date ={this.state.time}
 							mode="datetime"
@@ -207,16 +207,16 @@ export default class NewActivityScreen extends React.Component {
 							minuteInterval={10}
 							onDateChange={this.onTimeChanged}
 						/>
-						<View style={styles.dropdown}>
+						<View testID="maxAttendantsDropdownView" style={styles.dropdown}>
 							<View style={{ flex: 1 }}>
-								<Dropdown
+								<Dropdown testID="maxAttendantsDropdown"
 									label='Maximum number of members'
 									data={numberOfMember}
 									onChangeText={this.onNumberOfPeopleChanged}
 								/>
 							</View>
 						</View>
-						<TextInput
+						<TextInput testID="newActivityDescriptionView"
 							ref = "description"
 							onChangeText={this.onDescriptionChanged} //add value changing event
 							style={styles.input}
@@ -231,7 +231,7 @@ export default class NewActivityScreen extends React.Component {
 					</KeyboardAvoidingView>
 
 				</ScrollView>
-				<TouchableOpacity
+				<TouchableOpacity testID="createNewActivityButton"
 							onPress={this.createAct}
 							style={styles.buttonContainer}>
 							<Text

@@ -1,6 +1,6 @@
 const { reloadApp } = require('detox-expo-helpers');
 
-describe('View activity detail', () => {
+describe('Delete one of my activities', () => {
     beforeAll(async () => {
         await reloadApp();
     });
@@ -35,28 +35,29 @@ describe('View activity detail', () => {
         await expect(element(by.id('currentActivitiesScreen'))).toBeVisible();
     });
 
-    it('should have the add button', async () => {
-        await expect(element(by.id('addButton'))).toBeVisible();
-    });
-
     it('should have the list view', async () => {
         await expect(element(by.id('currentActivitiesListView'))).toBeVisible();
     });
 
-    it('should scroll', async () => {
-        await element(by.id('currentActivitiesListView')).swipe('up');
-        await element(by.id('currentActivitiesListView')).swipe('down');
+    it('should go to my activities tab', async () => {
+        await expect(element(by.id('myActivitiesTabButton'))).toBeVisible();
+        await element(by.id('myActivitiesTabButton')).tap();
     });
 
-    it('should tap a row', async () => {
-        await element(by.id('currentActivitiesListItem')).atIndex(5).tap();
-        // await expect(element(by.id('activityDetailScreen'))).toBeVisible();
+    it('should click on the last item', async () => {
+        await expect(element(by.id('myActivityListView'))).toBeVisible();
+        await element(by.id('myActivityListItem')).atIndex(0).tap();
     });
 
-    // it('should show activity details', async () => {
-    //
-    //     // await expect(element(by.id('activityDetailTitle'))).toBeVisible();
-    //     // await expect(element(by.id('activityDetailsTypePicture'))).toBeVisible();
-    //     // await expect(element(by.id('activityDetailsTime'))).toBeVisible();
-    // })
+    it('should check for the visibility of information and the delete button', async () => {
+        await expect(element(by.id('activityAttendantListView'))).toBeVisible();
+        await expect(element(by.id('deleteButton'))).toBeVisible();
+    });
+
+    it('should click on delete button', async () => {
+        await element(by.id('deleteButton')).tap();
+        await element(by.label('OK').and(by.type('_UIAlertControllerActionView'))).tap();
+
+    });
+
 });

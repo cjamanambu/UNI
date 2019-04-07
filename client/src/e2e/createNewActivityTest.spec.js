@@ -50,14 +50,50 @@ describe.only('View activity detail', () => {
     it('should show the new activity form', async () => {
         await expect(element(by.id('newActivityView'))).toBeVisible();
         await expect(element(by.id('createActivityTitle'))).toBeVisible();
+    });
+
+    it('should add activity title', async () => {
         await expect(element(by.id('newActivityName'))).toBeVisible();
         await element(by.id('newActivityName')).tap();
         await element(by.id('newActivityName')).typeText('Added by TEST');
+    });
+
+    it('should add activity location', async () => {
         await element(by.id('newActivityLocation')).tap();
         await element(by.id('newActivityLocation')).typeText('University Centre');
+    });
+
+    it('should select a type for the activity', async () => {
+        await expect(element(by.id('newActivityTypeDropdownView'))).toBeVisible();
         await expect(element(by.id('newActivityTypeDropdown'))).toBeVisible();
-        // await element(by.id('newActivityTypeDropdown')).tap();
-        // await element(by.id('newActivityTypeDropdown')).swipe('up');
-        // await element(by.id('newActivityTypeDropdown')).atIndex(5).tap();
+        await element(by.id('newActivityTypeDropdown')).tap();
+        await element(by.id('newActivityTypeDropdown')).tap();
+        await element(by.id('newActivityTypeDropdown')).tap();
+    });
+
+    it('should choose a time for the activity', async () => {
+        await expect(element(by.id('datePicker'))).toBeVisible();
+        await element(by.id('datePicker')).tap();
+        await expect(element(by.type('UIDatePicker'))).toBeVisible();
+        await element(by.type('UIDatePicker')).setDatePickerDate('2019-04-15T05:10:00-08:00', "yyyy-MM-dd'T'HH:mm:ssZZZZZ");
+        await element(by.type('UIDatePicker')).tapAtPoint({x: 330, y: -4});
+    });
+
+    it('should set a maximum number of attendants', async () => {
+        await expect(element(by.id('maxAttendantsDropdownView'))).toBeVisible();
+        await expect(element(by.id('maxAttendantsDropdown'))).toBeVisible();
+        await element(by.id('maxAttendantsDropdown')).tap();
+        await element(by.id('maxAttendantsDropdown')).tap();
+    });
+
+    it('should add activity description', async () => {
+        await element(by.id('newActivityDescriptionView')).tap();
+        await element(by.id('newActivityDescriptionView')).typeText('This is a very long description for this activity, the reason is this is a test activity, so the team just want to make it long so it looks real and see if it works.');
+        await element(by.id('newActivityDescriptionView')).tapReturnKey();
+    });
+
+    it('should click the create new activity button', async () => {
+        await element(by.id('createNewActivityButton')).tap();
+        await element(by.label('OK').and(by.type('_UIAlertControllerActionView'))).tap();
     })
 });

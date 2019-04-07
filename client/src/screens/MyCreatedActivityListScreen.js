@@ -105,11 +105,11 @@ export default class MyCreatedActivityListScreen extends React.Component {
         return (
             <View style={{flex: 1}}>
 
-                <FlatList
+                <FlatList testID="myActivityListView"
                     data={this.state.data}
                     keyExtractor={(item, index) => index.toString()}
                     renderItem={({item}) => (
-                        <ListItem
+                        <ListItem testID="myActivityListItem"
                             title={item.title}
                             subtitle={dateFormat(item.activity_datetime, "dddd, mmmm dS, h:MM TT") + ' - ' + item.location}
                             leftAvatar={{ source: require('../assets/images/Octocat.png') }}
@@ -123,6 +123,7 @@ export default class MyCreatedActivityListScreen extends React.Component {
                                     title: item.title,
                                     attendance_list: item.attendance_list,
                                     datetime_created: item.datetime_created,
+                                    location: item.location,
                                 })
                             }
                         />

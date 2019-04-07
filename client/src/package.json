@@ -68,7 +68,7 @@
       "ios.sim": {
         "binaryPath": "bin/Exponent.app",
         "type": "ios.simulator",
-        "name": "iPhone X"
+        "name": "iPhone 8"
       }
     }
   }

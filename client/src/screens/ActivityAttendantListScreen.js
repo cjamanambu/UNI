@@ -169,7 +169,7 @@ export default class ActivityAttendantListScreen extends React.Component {
 
     render() {
         return (
-            <View style={styles.actAttendantScreenContainer}>
+            <View testID="activityAttendantListView" style={styles.actAttendantScreenContainer}>
                 <View style={styles.subContainer}>
                     <Text style={styles.header}>{this.props.navigation.getParam("title")}</Text>
                     <Image style={styles.logo} source={this.state.icon}></Image>
@@ -180,7 +180,7 @@ export default class ActivityAttendantListScreen extends React.Component {
                 </View>
                 <View>
                     <Text style={styles.sectionHeader}>Attendants: </Text>
-                    <FlatList
+                    <FlatList testID="attendantListView"
                         data={this.state.data}
                         keyExtractor={(item, index) => index.toString()}
                         renderItem={({item}) => (
@@ -192,7 +192,7 @@ export default class ActivityAttendantListScreen extends React.Component {
                     />
 
                 </View>
-                <TouchableOpacity style={styles.buttonDetailsScreenContainer}>
+                <TouchableOpacity testID="deleteButton" style={styles.buttonDetailsScreenContainer}>
                     <Text style={styles.buttonText} onPress={() => this.showDeleteConfirmedMessage(this.props.navigation)}>Delete Activity</Text>
                 </TouchableOpacity>
             </View>

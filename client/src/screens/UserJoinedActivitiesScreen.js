@@ -119,6 +119,7 @@ export default class UserJoinedActivities extends React.Component {
                                     title: item.title,
                                     attendance_list: item.attendance_list,
                                     datetime_created: item.datetime_created,
+                                    location: item.location,
                                     onBack: this.onBack.bind(this)
                                 })
                             }
