@@ -75,6 +75,7 @@ const MainTabNavigator = createBottomTabNavigator({
   ProfileScreen: {
     screen:ProfileScreen,
     navigationOptions:{
+      tabBarTestID: 'myProfileTabButton',
       tabBarLabel:'Profile',
       tabBarIcon:({focused,tintColor}) => (
         <Image

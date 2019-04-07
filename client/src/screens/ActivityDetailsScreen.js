@@ -79,17 +79,17 @@ export default class ActivityDetailsScreen extends React.Component {
 
         return (
             <View testID="activityDetailScreen" style={styles.actAttendantScreenContainer}>
-                <View style={styles.subContainer}>
-                <Text testID='activityDetailTitle' style={styles.header}>{navigation.getParam("title")}</Text>
-                
-                <Image testID='activityDetailsTypePicture' style={styles.logo} source={icon}></Image>
-                <Text>Activity Type: {navigation.getParam("category")}</Text>
-                <Text testID='activityDetailsTime'>Time: {dateFormat(navigation.getParam("activity_datetime"), "dddd, mmmm dS, h:MM TT")}</Text>
-                <Text testID='activityDetailsLocation'>Location: {navigation.getParam("location")}</Text>
-                <Text>Description: {navigation.getParam("description")}</Text>
+                <View testID="detailFormView" style={styles.subContainer}>
+                    <Text testID='activityDetailTitle' style={styles.header}>{navigation.getParam("title")}</Text>
+
+                    <Image testID='activityDetailsTypePicture' style={styles.logo} source={icon}></Image>
+                    <Text>Activity Type: {navigation.getParam("category")}</Text>
+                    <Text testID='activityDetailsTime'>Time: {dateFormat(navigation.getParam("activity_datetime"), "dddd, mmmm dS, h:MM TT")}</Text>
+                    <Text testID='activityDetailsLocation'>Location: {navigation.getParam("location")}</Text>
+                    <Text>Description: {navigation.getParam("description")}</Text>
 
                 </View>
-                <TouchableOpacity style={styles.buttonDetailsScreen}>
+                <TouchableOpacity testID="joinActivityButton" style={styles.buttonDetailsScreen}>
                     <Text style={styles.buttonText} onPress={() => joinActivity(this.props.navigation)}>Join Activity</Text>
                 </TouchableOpacity>
             </View>

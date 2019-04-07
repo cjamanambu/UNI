@@ -70,15 +70,15 @@ export default class ProfileScreen extends React.Component {
 
     render(){
     	return(
-    		<View style={styles.containerProfile}>
+    		<View testID="profileScreen" style={styles.containerProfile}>
     			<View style = {styles.viewUser}>
-    				<View style ={styles.viewUserTop}>
+    				<View testID="profilePicture" style ={styles.viewUserTop}>
     					<Image style= {styles.imgUserTitle} source={require('../assets/images/pic.jpg')}/>
     				</View>
     				<Text style={styles.txtName}>{this.state.username}</Text>
 
-    				<Text style={styles.txtName}>{this.state.email}</Text>
-    				<TouchableOpacity onPress={this.logout}>
+    				<Text testID="userEmail" style={styles.txtName}>{this.state.email}</Text>
+    				<TouchableOpacity testID="logOutButton" onPress={this.logout}>
                         <Image
                         source = {require('../assets/images/delete_fill.png')}
                         style={{width:40, height:40, alignSelf: 'center'}}/>
