@@ -13,11 +13,8 @@ import {
     Picker,
     Button,
 } from 'react-native';
-import styles from '../assets/Styles.js';
-import { Dropdown } from 'react-native-material-dropdown';
 import { List, ListItem, SearchBar } from "react-native-elements";
 import * as App from '../App';
-import TabNavigator from 'react-native-tab-navigator';      //added 3.24
 
 const dateFormat = require('dateformat');
 
@@ -56,17 +53,10 @@ export default class MyCreatedActivityListScreen extends React.Component {
         this.makeRemoteRequest();
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        if (this.state.selectedCategory !== prevState.selectedCategory && this.state.selectedCategory !== "") {
-            this.onChangeTypeHandler(this.state.selectedCategory);
-        }
-    }
-
     makeRemoteRequest = () => {
         const { page, seed } = this.state;
         AsyncStorage.getItem("AuthToken").then(token => {
             if(token) {
-                console.log("TOKEN: " + token);
                 fetch(App.URL + '/users/user/myActivities', {
                     method: 'GET',
                     headers: {
@@ -77,7 +67,7 @@ export default class MyCreatedActivityListScreen extends React.Component {
                 })
                 .then(res => res.json())
                     .then(res => {
-                        console.log(res)
+                        // console.log(res)
                         this.setState({
                             data: page === 1 ? res.my_activities : [...this.state.data, ...res.my_activities],
                             error: res.error || null,
@@ -87,7 +77,6 @@ export default class MyCreatedActivityListScreen extends React.Component {
                         });
                     })
                     .catch(error => {
-                        console.log(error)
                         this.setState({ error, loading: false });
                     }
                 );
@@ -96,15 +85,9 @@ export default class MyCreatedActivityListScreen extends React.Component {
         })
     };
 
-
-
-
     render() {
-        let activityTypes = [{value: 'Sports'}, {value: 'Study'}, {value: 'Dance'}, {value: 'Politics'}, {value: 'Art'}, {value: 'Music'}, {value: 'All'}];
-        let sortByCriteria = [{value: 'Time'}];
         return (
             <View style={{flex: 1}}>
-
                 <FlatList testID="myActivityListView"
                     data={this.state.data}
                     keyExtractor={(item, index) => index.toString()}
@@ -129,8 +112,6 @@ export default class MyCreatedActivityListScreen extends React.Component {
                         />
                     )}
                 />
-
-
             </View>
         )
     }

@@ -30,7 +30,6 @@ export default class NewActivityScreen extends React.Component {
 		const USER_DETAILS ={
 			token : navigation.getParam("token")
 		};
-		console.log("Token: " + USER_DETAILS.token);
 		this.state = {
 			apiData:[],
 			time: this.datetime,
@@ -47,40 +46,33 @@ export default class NewActivityScreen extends React.Component {
 	}
 
 	onNameChanged = (newName) => {
-		console.log(newName);
 		this.name = newName;
 	};
 
 	onLocationChanged = (newLocation) => {
-		console.log(newLocation);
 		this.location = newLocation;
 	};
 
 	onTimeChanged = (newTime) => {
-		console.log(newTime);
-		console.log(moment().format('YYYY-MM-DD HH:mm'));
 		this.setState({time: newTime});
 		this.time = newTime;
 	};
 
 	onNumberOfPeopleChanged = (newNumberOfPeople) => {
-		console.log(newNumberOfPeople);
 		this.numberOfPeople = parseInt(newNumberOfPeople);
 		this.setState({member:newNumberOfPeople});
 		this.numberOfPeople = newNumberOfPeople;
-		console.log(this.newNumberOfPeople);
 	};
 
 	onDescriptionChanged = (newDescription) => {
 		console.log(newDescription);
 		this.description = newDescription;
 	};
+
 	onCategoryChanged = (newCategory) =>{
-		console.log(newCategory);
 		this.setState({selectedCategory:newCategory});
 		this.category = newCategory;
-		console.log(this.category);
-	}
+	};
 
 	createAct =() =>{
 		if(this.time <= moment().format('YYYY-MM-DD HH:mm')){
@@ -122,17 +114,12 @@ export default class NewActivityScreen extends React.Component {
 			})
 				.then((response) => response.json())
 				.then((responseJson) => {
-					console.log(responseJson);
-					if (responseJson.success == true) {
-						console.log(responseJson);
+					if (responseJson.success === true) {
 						Alert.alert("Create Activity Success!");
-						//jump back to current Act Screen
 						this.props.navigation.navigate('MyCreatedActivitiesListScreen');
 					} else {
-						console.log(responseJson);
 						Alert.alert("Fail to Create Activity");
 					}
-
 				})
 				.catch((error) => {
 					console.error(error);
@@ -158,27 +145,27 @@ export default class NewActivityScreen extends React.Component {
 						<StatusBar barStyle="light-content"/>
 						<TextInput testID="newActivityName"
 							ref = "name"
-							onChangeText={this.onNameChanged} //add value changing event
+							onChangeText={this.onNameChanged}
 							style={styles.input}
 							placeholder={'Name of Activity'}
 							placeholderTextColor ={'#rgba(255,255,255,0.7)'}
 							clearButtonMode="while-editing"
 							returnKeyType="next"
-							autoCapitalize='none' //cancel first letter capital
+							autoCapitalize='none'
 							autoCorrect={false}
-							underlineColorAndroid={'transparent'} //cancel under line
+							underlineColorAndroid={'transparent'}
 						/>
 						<TextInput testID="newActivityLocation"
 							ref = "location"
-							onChangeText={this.onLocationChanged} //add value changing event
+							onChangeText={this.onLocationChanged}
 							style={styles.input}
 							placeholder={'Location of Activity'}
 							placeholderTextColor ={'#rgba(255,255,255,0.7)'}
 							clearButtonMode="while-editing"
 							returnKeyType="next"
-							autoCapitalize='none' //cancel first letter capital
+							autoCapitalize='none'
 							autoCorrect={false}
-							underlineColorAndroid={'transparent'} //cancel under line
+							underlineColorAndroid={'transparent'}
 						/>
 						<View style={styles.dropdown} testID="newActivityTypeDropdownView">
 							<View style={{ flex: 1 }}>
@@ -224,25 +211,23 @@ export default class NewActivityScreen extends React.Component {
 						</View>
 						<TextInput testID="newActivityDescriptionView"
 							ref = "description"
-							onChangeText={this.onDescriptionChanged} //add value changing event
+							onChangeText={this.onDescriptionChanged}
 							style={styles.input}
 							placeholder={'Description (Optional)'}
 							placeholderTextColor ={'#rgba(255,255,255,0.7)'}
 							returnKeyType="next"
-							autoCapitalize='none' //cancel first letter capital
-							underlineColorAndroid={'transparent'} //cancel under line
+							autoCapitalize='none'
+							underlineColorAndroid={'transparent'}
 						/>
-						
-
 					</KeyboardAvoidingView>
 
 				</ScrollView>
 				<TouchableOpacity testID="createNewActivityButton"
-							onPress={this.createAct}
-							style={styles.buttonContainer}>
-							<Text
-								style={styles.buttonText}>Create Activity
-							</Text>
+					onPress={this.createAct}
+					style={styles.buttonContainer}>
+					<Text
+						style={styles.buttonText}>Create Activity
+					</Text>
 				</TouchableOpacity>
 			</View>
 		);

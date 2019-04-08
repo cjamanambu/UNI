@@ -14,11 +14,8 @@ import {
     Picker,
     Button,
 } from 'react-native';
-import styles from '../assets/Styles.js';
-import { Dropdown } from 'react-native-material-dropdown';
 import { List, ListItem, SearchBar } from "react-native-elements";
 import * as App from '../App';
-import TabNavigator from 'react-native-tab-navigator';      //added 3.24
 
 const dateFormat = require('dateformat');
 
@@ -34,7 +31,7 @@ export default class UserJoinedActivities extends React.Component {
             refreshing: false,
             selectedCategory: "",
             token: "",
-            selectedTab: 'joined'     //added 3.24
+            selectedTab: 'joined'
         };
         const { navigation } = this.props;
         const USER_DETAILS = {
@@ -82,7 +79,6 @@ export default class UserJoinedActivities extends React.Component {
                             error: res.error || null,
                             loading: false,
                             refreshing: false,
-
                         });
                     })
                     .catch(error => {

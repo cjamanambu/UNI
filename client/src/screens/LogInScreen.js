@@ -16,11 +16,6 @@ import {
 import styles from '../assets/Styles.js';
 import * as App from '../App';
 
-
-import { WebBrowser } from 'expo';
-
-import { MonoText } from '../components/StyledText';
-
 export default class LogInScreen extends React.Component {
     state = {
         email: "supman@myumanitoba.ca",
@@ -29,15 +24,13 @@ export default class LogInScreen extends React.Component {
         username:"",
     };
 
-
     onSubmit() {
         const { email, password } = this.state;
         if (email !== "" && password !== "") {
             if (email.endsWith("@myumanitoba.ca")) {
-                console.log("link: " + App.URL + "/users/signin");
                 fetch(App.URL + "/users/signin", {
                     method: "POST",
-                    body:  JSON.stringify({"email": email, "password": password}),
+                    body: JSON.stringify({"email": email, "password": password}),
                     headers: {
                         'Accept':       'application/json',
                         'Content-Type': 'application/json'
@@ -46,13 +39,12 @@ export default class LogInScreen extends React.Component {
                 })
                     .then(res => res.json())
                     .then(response => {
-                        console.log("response: " +typeof response.success);
                         if (response.success === true) {
                             this.setState({token: response.token});
                             this.setState({username: response.user._id});
-                            AsyncStorage.setItem("AuthToken", response.token)
-                            AsyncStorage.setItem("AuthName", response.user._id)
-                            AsyncStorage.setItem("AuthEmail", email)
+                            AsyncStorage.setItem("AuthToken", response.token);
+                            AsyncStorage.setItem("AuthName", response.user._id);
+                            AsyncStorage.setItem("AuthEmail", email);
                             this.props.navigation.navigate('CurrentActivitiesScreen', {
                                 email: this.state.email,
                                 token: this.state.token,

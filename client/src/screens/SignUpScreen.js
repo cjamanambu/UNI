@@ -24,7 +24,6 @@ export default class RegisterScene extends React.Component {
 		confirmedPassword: '',
 	};
 
-	//regist button, check whether regist successful based on input data
 	onSubmit =() =>{
 		const { username, email, password, confirmedPassword } = this.state;
 		if (username !== '' && password !== '' && email !== '' && confirmedPassword !== '') {
@@ -71,68 +70,68 @@ export default class RegisterScene extends React.Component {
 	render() {
 		return (
 			<KeyboardAvoidingView behavior="padding" style={styles.logInContainer}>
-					<View style={styles.logoContainer}>
-						<Image style={styles.logo} source={require('../assets/images/Octocat.png')}/>
-						<Text style={styles.title}>Uni.</Text>
-					</View>
-					<View style={styles.logInFormContainer}>
-                	<StatusBar barStyle="light-content"/>
-						<TextInput testID='usernameTextInput'
-							ref = "username"
-							onChangeText={(text) => this.setState({username: text})} //add value changing event
-							style={styles.input}
-							placeholder={'Username'}
-							placeholderTextColor ={'#rgba(255,255,255,0.7)'}
-							clearButtonMode="while-editing"
-							returnKeyType="next"
-							autoCapitalize='none' //cancel first letter capital
-							autoCorrect={false}
-							underlineColorAndroid={'transparent'} //cancel under line
-						/>
-						<TextInput testID='emailTextInput'
-							ref = "emailAddress"
-							onChangeText={(text) => this.setState({email: text})} //add value changing event
-							style={styles.input}
-							keyboardType="email-address"
-							placeholder={'Email'}
-							placeholderTextColor ={'#rgba(255,255,255,0.7)'}
-							clearButtonMode="while-editing"
-							returnKeyType="next"
-							autoCapitalize='none' //cancel first letter capital
-							autoCorrect={false}
-							underlineColorAndroid={'transparent'} //cancel under line
-						/>
-						<TextInput testID='passwordTextInput'
-							ref = "password"
-							onChangeText={(text) => this.setState({password: text})} //add value changing event
-							style={styles.input}
-							secureTextEntry={true}
-							placeholderTextColor ={'#rgba(255,255,255,0.7)'}
-							placeholder={'Password'}
-							returnKeyType="next"
-							autoCapitalize='none' //cancel first letter capital
-							underlineColorAndroid={'transparent'} //cancel under line
-						/>
-						<TextInput testID='confirmPasswordTextInput'
-							ref = "confirmPassword"
-							onChangeText={(text) => this.setState({confirmedPassword: text})} //add value changing event
-							style={styles.input}
-							placeholder={'Confirm password'}
-							placeholderTextColor ={'#rgba(255,255,255,0.7)'}
-							secureTextEntry={true}
-							returnKeyType="join"
-							autoCapitalize='none' //cancel first letter capital
-							underlineColorAndroid={'transparent'} //cancel under line
-						/>
+				<View style={styles.logoContainer}>
+					<Image style={styles.logo} source={require('../assets/images/Octocat.png')}/>
+					<Text style={styles.title}>Uni.</Text>
+				</View>
+				<View style={styles.logInFormContainer}>
+				<StatusBar barStyle="light-content"/>
+					<TextInput testID='usernameTextInput'
+						ref = "username"
+						onChangeText={(text) => this.setState({username: text})}
+						style={styles.input}
+						placeholder={'Username'}
+						placeholderTextColor ={'#rgba(255,255,255,0.7)'}
+						clearButtonMode="while-editing"
+						returnKeyType="next"
+						autoCapitalize='none'
+						autoCorrect={false}
+						underlineColorAndroid={'transparent'}
+					/>
+					<TextInput testID='emailTextInput'
+						ref = "emailAddress"
+						onChangeText={(text) => this.setState({email: text})}
+						style={styles.input}
+						keyboardType="email-address"
+						placeholder={'Email'}
+						placeholderTextColor ={'#rgba(255,255,255,0.7)'}
+						clearButtonMode="while-editing"
+						returnKeyType="next"
+						autoCapitalize='none'
+						autoCorrect={false}
+						underlineColorAndroid={'transparent'}
+					/>
+					<TextInput testID='passwordTextInput'
+						ref = "password"
+						onChangeText={(text) => this.setState({password: text})}
+						style={styles.input}
+						secureTextEntry={true}
+						placeholderTextColor ={'#rgba(255,255,255,0.7)'}
+						placeholder={'Password'}
+						returnKeyType="next"
+						autoCapitalize='none'
+						underlineColorAndroid={'transparent'}
+					/>
+					<TextInput testID='confirmPasswordTextInput'
+						ref = "confirmPassword"
+						onChangeText={(text) => this.setState({confirmedPassword: text})}
+						style={styles.input}
+						placeholder={'Confirm password'}
+						placeholderTextColor ={'#rgba(255,255,255,0.7)'}
+						secureTextEntry={true}
+						returnKeyType="join"
+						autoCapitalize='none'
+						underlineColorAndroid={'transparent'}
+					/>
 
-					<TouchableOpacity testID='signUpButton'
-						onPress={this.onSubmit}
-						style={styles.buttonContainer}>
-						<Text
-							style={styles.buttonText}>Sign Up</Text>
-					</TouchableOpacity>
-					<Text style={styles.clickableText} onPress={() => this.props.navigation.navigate('LoginScreen')}>Already have a account? Log in!</Text>
-					</View>
+				<TouchableOpacity testID='signUpButton'
+					onPress={this.onSubmit}
+					style={styles.buttonContainer}>
+					<Text
+						style={styles.buttonText}>Sign Up</Text>
+				</TouchableOpacity>
+				<Text style={styles.clickableText} onPress={() => this.props.navigation.navigate('LoginScreen')}>Already have a account? Log in!</Text>
+				</View>
 			</KeyboardAvoidingView>
 		);
 	}

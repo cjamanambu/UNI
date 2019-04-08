@@ -2,9 +2,9 @@ const dateFormat = require('dateformat');
 const sportsIcon = require("../assets/images/sportIcon.png");
 const studyIcon = require("../assets/images/study.jpeg");
 const danceIcon = require("../assets/images/danceIcon.png");
-const artIcon = require("../assets/images/art.png")
-const musicIcon = require("../assets/images/music.png")
-const politicsIcon = require("../assets/images/politics.png")
+const artIcon = require("../assets/images/art.png");
+const musicIcon = require("../assets/images/music.png");
+const politicsIcon = require("../assets/images/politics.png");
 
 import React from 'react';
 import {AsyncStorage} from 'react-native';
@@ -25,17 +25,9 @@ import * as App from '../App';
 export default class ActivityDetailsScreen extends React.Component {
     render() {
         const { navigation } = this.props;
-        let icon = setCategoryIcon(navigation.getParam("category"))
-
-        const activityDetails = {
-            activityTitle : navigation.getParam("title"),
-            activityDescription : navigation.getParam("description")
-
-        }
-
+        let icon = setCategoryIcon(navigation.getParam("category"));
 
         function setCategoryIcon(category) {
-            console.log(category);
             if (category === "SPORTS") {
                 return sportsIcon;
             } else if(category === "STUDY") {
@@ -52,8 +44,7 @@ export default class ActivityDetailsScreen extends React.Component {
         }
 
         function joinActivity(navigation) {
-            console.log("full? :"+ navigation.getParam("full"));
-            if(navigation.getParam("full").toString() == 'true'){
+            if (navigation.getParam("full").toString() === 'true') {
                 Alert.alert("Fail to join, this activity is full");
             }
             else{

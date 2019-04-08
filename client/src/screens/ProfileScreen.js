@@ -40,32 +40,26 @@ export default class ProfileScreen extends React.Component {
     makeRemoteRequest = () => {
         const { page, seed } = this.state;
         AsyncStorage.getItem("AuthToken").then(token => {
-            if(token) {
-                console.log("TOKEN: " + token);
+            if (token) {
                 this.state.token = token;
             }
         });
         AsyncStorage.getItem("AuthEmail").then(email => {
-            if(email) {
-                console.log("email: " + email);
+            if (email) {
                 this.setState({email:email});
-                console.log("email: " + this.state.email);
             }
-        })
+        });
         AsyncStorage.getItem("AuthName").then(name => {
-            if(name) {
-                console.log("username: " + name);
+            if (name) {
                 this.setState({username:name});
-                console.log("username: " + this.state.username);
             }
         })
     };
 
     logout =() => {
-      AsyncStorage.clear();
-      Alert.alert("Logout successfully!");
-      this.props.navigation.navigate('LoginScreen');
-      console.log("Token: " + AsyncStorage.getItem("AuthToken"));
+        AsyncStorage.clear();
+        Alert.alert("Logout successfully!");
+        this.props.navigation.navigate('LoginScreen');
     };
 
     render(){
@@ -86,7 +80,6 @@ export default class ProfileScreen extends React.Component {
                     </TouchableOpacity>
                 </View>
     		</View>
-
     		)
     }
 }

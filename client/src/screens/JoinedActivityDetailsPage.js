@@ -82,11 +82,11 @@ export default class ActivityDetailsScreen extends React.Component {
                 <View style={styles.subContainer}>
                     <Text style={styles.header}>{navigation.getParam("title")}</Text>
 
-                    <Image style={styles.logo} source={icon}></Image>
-                    <Text>Activity Type: {navigation.getParam("category")}</Text>
-                    <Text>Time: {dateFormat(navigation.getParam("activity_datetime"), "dddd, mmmm dS, h:MM TT")}</Text>
-                    <Text>Location: {this.props.navigation.getParam("location")}</Text>
-                    <Text>Description: {navigation.getParam("description")}</Text>
+                    <Image testID="detailLogo" style={styles.logo} source={icon}></Image>
+                    <Text testID="activityTypeTest">Activity Type: {navigation.getParam("category")}</Text>
+                    <Text testID="timeTest">Time: {dateFormat(navigation.getParam("activity_datetime"), "dddd, mmmm dS, h:MM TT")}</Text>
+                    <Text testID="activityLocationText">Location: {this.props.navigation.getParam("location")}</Text>
+                    <Text testID="descriptionTest">Description: {navigation.getParam("description")}</Text>
 
                 </View>
                 <TouchableOpacity testID="leaveActivityButton" style={styles.buttonDetailsScreen}>

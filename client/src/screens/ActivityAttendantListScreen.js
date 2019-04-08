@@ -2,9 +2,9 @@ const dateFormat = require('dateformat');
 const sportsIcon = require("../assets/images/sportIcon.png");
 const studyIcon = require("../assets/images/study.jpeg");
 const danceIcon = require("../assets/images/danceIcon.png");
-const artIcon = require("../assets/images/art.png")
-const musicIcon = require("../assets/images/music.png")
-const politicsIcon = require("../assets/images/politics.png")
+const artIcon = require("../assets/images/art.png");
+const musicIcon = require("../assets/images/music.png");
+const politicsIcon = require("../assets/images/politics.png");
 import React from 'react';
 import {AsyncStorage} from 'react-native';
 
@@ -23,10 +23,8 @@ import {
     Alert
 } from 'react-native';
 import styles from '../assets/Styles.js';
-import { Dropdown } from 'react-native-material-dropdown';
 import { List, ListItem, SearchBar } from "react-native-elements";
 import * as App from '../App';
-import TabNavigator from 'react-native-tab-navigator';      //added 3.24
 
 export default class ActivityAttendantListScreen extends React.Component {
     constructor(props) {
@@ -40,13 +38,8 @@ export default class ActivityAttendantListScreen extends React.Component {
             refreshing: false,
             selectedCategory: "",
             token: "",
-            selectedTab: 'joined',     //added 3.24
+            selectedTab: 'joined',
             icon: this.setCategoryIcon(this.props.navigation.getParam("category"))
-        };
-        const { navigation } = this.props;
-        const USER_DETAILS = {
-            email : navigation.getParam("email"),
-            token : navigation.getParam("token")
         };
     }
 
@@ -66,12 +59,6 @@ export default class ActivityAttendantListScreen extends React.Component {
         this.makeRemoteRequest();
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        if (this.state.selectedCategory !== prevState.selectedCategory && this.state.selectedCategory !== "") {
-            this.onChangeTypeHandler(this.state.selectedCategory);
-        }
-    }
-
     makeRemoteRequest = () => {
         const { page, seed } = this.state;
         const activityID = this.props.navigation.getParam("activity_id");
@@ -88,8 +75,6 @@ export default class ActivityAttendantListScreen extends React.Component {
                 })
                 .then(res => res.json())
                 .then(res => {
-                    console.log("BAD25")
-                    console.log(res.users)
                     this.setState({
                         data: page === 1 ? res.users : [...this.state.data, ...res.users],
                         error: res.error || null,
@@ -111,7 +96,6 @@ export default class ActivityAttendantListScreen extends React.Component {
     }
 
     setCategoryIcon(category) {
-        console.log(category);
         if (category === "SPORTS") {
             return sportsIcon;
         } else if(category === "STUDY") {
@@ -156,7 +140,6 @@ export default class ActivityAttendantListScreen extends React.Component {
                 })
                     .then(res => res.json())
                     .then(res => {
-                    console.log(res.success);
                     if (res.success)
                         Alert.alert("Activity deleted successfully!");
                     else
@@ -186,11 +169,9 @@ export default class ActivityAttendantListScreen extends React.Component {
                         renderItem={({item}) => (
                             <ListItem
                                 title={item.Name}
-
                             />
                         )}
                     />
-
                 </View>
                 <TouchableOpacity testID="deleteButton" style={styles.buttonDetailsScreenContainer}>
                     <Text style={styles.buttonText} onPress={() => this.showDeleteConfirmedMessage(this.props.navigation)}>Delete Activity</Text>
