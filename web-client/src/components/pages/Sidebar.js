@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import { Image, Icon, Button, Header, Divider } from 'semantic-ui-react'
-import { push as Menu } from 'react-burger-menu';
-import { Link } from 'react-router-dom';
+import React, {Component} from 'react';
+import {Image, Icon, Button, Header, Divider} from 'semantic-ui-react';
+import {push as Menu} from 'react-burger-menu';
+import {Link} from 'react-router-dom';
 
 
-export default class Sidebar extends Component{
+export default class Sidebar extends Component {
 
     state = {
         menuOpen: false,
@@ -14,81 +14,81 @@ export default class Sidebar extends Component{
 
     handleStateChange = (state) => this.setState({menuOpen: state.isOpen});
 
-    render(){
-        return(
-            <Menu 
+    render() {
+        return (
+            <Menu
                 {...this.props}
                 isOpen={this.state.menuOpen}
                 onStateChange={(state) => this.handleStateChange(state)}
-            > 
+            >
                 <div id="headerGroup">
-                    <Image 
+                    <Image
                         id="img"
-                        src='https://react.semantic-ui.com/images/wireframe/square-image.png' 
-                        size='tiny' 
-                        circular 
+                        src='https://react.semantic-ui.com/images/wireframe/square-image.png'
+                        size='tiny'
+                        circular
                         centered
                     />
                     <Header as="h4" id="label"> {this.props.email} </Header>
                 </div>
 
                 <div id="buttonGroup">
-            
-                    <Divider horizontal></Divider>
+
+                    <Divider horizontal/>
                     <Button
                         onClick={() => {
                             this.closeMenu();
-                            this.props.createActivity() 
+                            this.props.createActivity()
                         }}
                         fluid
-                        id="menuButton"  
+                        id="menuButton"
                     >
-                        <Icon name='comments outline' />
+                        <Icon name='comments outline'/>
                         Create
                     </Button>
-    
-                    <Divider horizontal></Divider>
-                    
+
+                    <Divider horizontal/>
+
                     <Button
                         onClick={() => {
                             this.closeMenu();
-                            this.props.viewActivity() 
+                            this.props.viewActivity()
                         }}
                         fluid
-                        id="menuButton" 
+                        id="menuButton"
                     >
-                        <Icon name='tasks' />
+                        <Icon name='tasks'/>
                         Activities
                     </Button>
-        
-                    <Divider horizontal></Divider>
-        
-                    <Button 
+
+                    <Divider horizontal/>
+
+                    <Button
                         fluid
                         id="menuButton"
                         onClick={() => {
                             this.closeMenu();
-                            this.props.sortActivity() 
+                            this.props.sortActivity()
                         }}
                     >
-                        <Icon name='sort' />
+                        <Icon name='sort'/>
                         Sort
                     </Button>
-                    
-                    <Divider horizontal></Divider>
-        
-                    <Button 
+
+                    <Divider horizontal/>
+
+                    <Button
                         fluid
-                        id="menuButton" 
-                        as={ Link }
+                        id="menuButton"
+                        as={Link}
                         to="/"
                     >
-                        <Icon name='log out' />
+                        <Icon name='log out'/>
                         Log Out
                     </Button>
                 </div>
             </Menu>
         );
     };
-    
+
 }

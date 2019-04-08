@@ -1,35 +1,42 @@
 import React from 'react';
-import Enzyme, {shallow,mount}from 'enzyme';
+import Enzyme, {shallow, mount} from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import {HomePage, LoginBox, RegisterBox} from '../components/pages/HomePage';
-import {HomePageHelper} from "../helper/HomePageHelper"
-Enzyme.configure({ adapter: new Adapter() });
+import {HomePageHelper} from "../helper/HomePageHelper";
 
-describe('Homepage', ()=>{
-    it('HomePage Component showing',()=>{
+Enzyme.configure({adapter: new Adapter()});
+
+describe('Homepage', () => {
+    it('HomePage Component showing', () => {
         const wrapper = shallow(<HomePage/>);
-        wrapper.setState({isLoginOpen: false,
-            isRegisterOpen: false});
+        wrapper.setState({
+            isLoginOpen: false,
+            isRegisterOpen: false
+        });
         expect(wrapper.exists()).toBe(true);
     });
 
-    it('Login Component showing',()=>{
+    it('Login Component showing', () => {
         const wrapper = mount(<HomePage/>);
-        wrapper.setState({isLoginOpen: true,
-            isRegisterOpen: false});
-        expect(wrapper.contains(<LoginBox />)).toBe(true);
+        wrapper.setState({
+            isLoginOpen: true,
+            isRegisterOpen: false
+        });
+        expect(wrapper.contains(<LoginBox/>)).toBe(true);
     });
-    it('Register Component showing',()=>{
+    it('Register Component showing', () => {
         const wrapper = shallow(<HomePage/>);
-        wrapper.setState({isLoginOpen: false,
-            isRegisterOpen: true});
+        wrapper.setState({
+            isLoginOpen: false,
+            isRegisterOpen: true
+        });
         expect(wrapper.contains(<RegisterBox showLogin={wrapper.instance().showLoginBox}/>)).toBe(true);
     });
-    it('login should contain 2 input box',()=>{
+    it('login should contain 2 input box', () => {
         const wrapper1 = shallow(<LoginBox/>);
         expect(wrapper1.find("input")).toHaveLength(2);
     });
-    it('Register should contain 2 input box',()=>{
+    it('Register should contain 2 input box', () => {
         const wrapper = shallow(<HomePage/>);
         const wrapper1 = shallow(<RegisterBox showLogin={wrapper.instance().showLoginBox}/>);
         expect(wrapper1.find("input")).toHaveLength(2);

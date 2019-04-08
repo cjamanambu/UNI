@@ -1,12 +1,12 @@
-import React from "react"
-import {Segment, Grid, Modal, Header, Button, Icon} from "semantic-ui-react"
+import React from "react";
+import {Segment, Grid, Modal, Header, Button, Icon} from "semantic-ui-react";
 import '../_loginSty.scss';
 import FadeTransition from "../transitions/fadeTransition.jsx";
-import {Redirect} from 'react-router-dom'
-import axios from "../../axios_def"
+import {Redirect} from 'react-router-dom';
+import axios from "../../axios_def";
 import {HomePageHelper} from "../../helper/HomePageHelper";
 
-export class HomePage extends React.Component{
+export class HomePage extends React.Component {
 
     constructor(props) {
         super(props);
@@ -18,47 +18,46 @@ export class HomePage extends React.Component{
     }
 
     showLoginBox() {
-        this.setState({isLoginOpen: true, isRegisterOpen:false});
+        this.setState({isLoginOpen: true, isRegisterOpen: false});
     }
 
     showRegisterBox() {
         this.setState({isRegisterOpen: true, isLoginOpen: false});
     }
 
-    render()
-    {
+    render() {
         return (
             <Segment placeholder>
-                <Grid style={{height: '100vh'}} >
-                    <Grid.Column width={8} color={'blue'} >
-                        <div className = 'B'  >
-                                <h1> UNI. </h1>
-                                <div className="ui list">
-                                    <div className="item" id = "a">
-                                        <i className="search icon"/>
-                                        <div className="content">
-                                            Follow your interests
-                                        </div>
-                                    </div>
-                                    <div className="item" id = "a">
-                                        <i className="university icon"/>
-                                        <div className="content">
-                                            Safe and monitored environment.
-                                        </div>
-                                    </div>
-                                    <div className="item" id = "a">
-                                        <i className="users icon"/>
-                                        <div className="content">
-                                            Meet people.
-                                        </div>
-                                    </div>
-                                    <div className="item" id = "a">
-                                        <i className="conversation icon"/>
-                                        <div className="content">
-                                            Join the conversion
-                                        </div>
+                <Grid style={{height: '100vh'}}>
+                    <Grid.Column width={8} color={'blue'}>
+                        <div className='B'>
+                            <h1> UNI. </h1>
+                            <div className="ui list">
+                                <div className="item" id="a">
+                                    <i className="search icon"/>
+                                    <div className="content">
+                                        Follow your interests
                                     </div>
                                 </div>
+                                <div className="item" id="a">
+                                    <i className="university icon"/>
+                                    <div className="content">
+                                        Safe and monitored environment.
+                                    </div>
+                                </div>
+                                <div className="item" id="a">
+                                    <i className="users icon"/>
+                                    <div className="content">
+                                        Meet people.
+                                    </div>
+                                </div>
+                                <div className="item" id="a">
+                                    <i className="conversation icon"/>
+                                    <div className="content">
+                                        Join the conversion
+                                    </div>
+                                </div>
+                            </div>
 
                         </div>
                     </Grid.Column>
@@ -107,10 +106,10 @@ export class LoginBox extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            toUserPage:false,
+            toUserPage: false,
             email: "",
             password: "",
-            invalidUser:false,
+            invalidUser: false,
             errors: [],
             token: null,
             userId: null
@@ -119,30 +118,30 @@ export class LoginBox extends React.Component {
 
     onEmailChange(e) {
         this.setState({email: e.target.value, invalidUser: false});
-        HomePageHelper.clearValidationErr(this,"email");
+        HomePageHelper.clearValidationErr(this, "email");
     }
 
     onPasswordChange(e) {
         this.setState({password: e.target.value, invalidUser: false});
-        HomePageHelper.clearValidationErr(this,"password");
+        HomePageHelper.clearValidationErr(this, "password");
     }
 
     submitLogin() {
-        let emailErrorMessage= HomePageHelper.validateEmail(this.state.email),
+        let emailErrorMessage = HomePageHelper.validateEmail(this.state.email),
             passwordErrorMessage = HomePageHelper.validatePassword(this.state.password);
-        if (emailErrorMessage !=="") {
-            HomePageHelper.showValidationErr(this,"email", emailErrorMessage);
+        if (emailErrorMessage !== "") {
+            HomePageHelper.showValidationErr(this, "email", emailErrorMessage);
         }
-        if (passwordErrorMessage !=="") {
-            HomePageHelper.showValidationErr(this,"password", passwordErrorMessage);
+        if (passwordErrorMessage !== "") {
+            HomePageHelper.showValidationErr(this, "password", passwordErrorMessage);
         }
-        if( emailErrorMessage === "" &&  passwordErrorMessage === "" ) {
+        if (emailErrorMessage === "" && passwordErrorMessage === "") {
             const userInfo = {
                 email: this.state.email,
                 password: this.state.password
             };
-            axios.post('/users/signin', userInfo).then( (res) => {
-                if(res.data.success) {
+            axios.post('/users/signin', userInfo).then((res) => {
+                if (res.data.success) {
                     this.setState({token: res.data.token, toUserPage: true, userId: res.data.user._id});
                 }
             }).catch(error => {
@@ -155,7 +154,7 @@ export class LoginBox extends React.Component {
     render() {
         let emailErr = null,
             passwordErr = null,
-            invalidUserErr="";
+            invalidUserErr = "";
 
         for (let err of this.state.errors) {
             if (err.elm === "email") {
@@ -166,11 +165,14 @@ export class LoginBox extends React.Component {
             }
         }
 
-        if(this.state.toUserPage === true ){
-            return (<Redirect to = {{pathname : '/user' , state: { stateName: this.state.email, token: this.state.token, userId: this.state.userId}}}/>);
+        if (this.state.toUserPage === true) {
+            return (<Redirect to={{
+                pathname: '/user',
+                state: {stateName: this.state.email, token: this.state.token, userId: this.state.userId}
+            }}/>);
         }
 
-        else if (this.state.invalidUser === true){
+        else if (this.state.invalidUser === true) {
             invalidUserErr = "Invalid Email address or Password." +
                 "Try again";
         }
@@ -182,7 +184,7 @@ export class LoginBox extends React.Component {
                 </div>
                 <div className="box">
                     <small className="danger-error">{invalidUserErr
-                      }</small>
+                    }</small>
                     <div className="input-group">
                         <label htmlFor="Email">Email</label>
                         <input
@@ -216,7 +218,8 @@ export class LoginBox extends React.Component {
                         className="login-btn"
                         onClick={this
                             .submitLogin
-                            .bind(this)}>Login</button>
+                            .bind(this)}>Login
+                    </button>
                 </div>
             </div>
         );
@@ -234,48 +237,49 @@ export class RegisterBox extends React.Component {
             password: "",
             errors: [],
             pwdState: null,
-            successConfirmation:false
+            successConfirmation: false
         };
     }
 
     onEmailChange(e) {
         this.setState({email: e.target.value, invalidUser: false});
-        HomePageHelper.clearValidationErr(this,"email");
+        HomePageHelper.clearValidationErr(this, "email");
     }
 
     onPasswordChange(e) {
         this.setState({password: e.target.value});
-        HomePageHelper.clearValidationErr(this,"password");
+        HomePageHelper.clearValidationErr(this, "password");
         this.setState({pwdState: "weak"});
-        if (e.target.value.length >8 && e.target.value.length <12) {
+        if (e.target.value.length > 8 && e.target.value.length < 12) {
             this.setState({pwdState: "medium"});
-        } else if (e.target.value.length >= 12) {
+        }
+        else if (e.target.value.length >= 12) {
             this.setState({pwdState: "strong"});
         }
     }
 
     submitRegister() {
-        let emailErrorMessage= HomePageHelper.validateEmail(this.state.email),
+        let emailErrorMessage = HomePageHelper.validateEmail(this.state.email),
             passwordErrorMessage = HomePageHelper.validatePassword(this.state.password);
-        if (emailErrorMessage !=="") {
-            HomePageHelper.showValidationErr(this,"email", emailErrorMessage);
+        if (emailErrorMessage !== "") {
+            HomePageHelper.showValidationErr(this, "email", emailErrorMessage);
         }
-        if (passwordErrorMessage !=="") {
-            HomePageHelper.showValidationErr(this,"password", passwordErrorMessage);
+        if (passwordErrorMessage !== "") {
+            HomePageHelper.showValidationErr(this, "password", passwordErrorMessage);
         }
-        if(emailErrorMessage === "" &&  passwordErrorMessage === "" ) {
-            let username= this.state.email.split("@")[0];
+        if (emailErrorMessage === "" && passwordErrorMessage === "") {
+            let username = this.state.email.split("@")[0];
             const userInfo = {
                 username: username,
                 email: this.state.email,
                 password: this.state.password
             };
-            axios.post('/users/signup', userInfo).then( (res) => {
-                if(res.data.success) {
+            axios.post('/users/signup', userInfo).then((res) => {
+                if (res.data.success) {
                     this.setState({successConfirmation: true});
                 }
             }).catch(error => {
-                this.setState({invalidUser: true,successConfirmation: false});
+                this.setState({invalidUser: true, successConfirmation: false});
                 console.log(error.response);
             });
         }
@@ -290,7 +294,7 @@ export class RegisterBox extends React.Component {
 
         let passwordErr = null,
             emailErr = null,
-            invalidUserErr="";
+            invalidUserErr = "";
 
         for (let err of this.state.errors) {
             if (err.elm === "password") {
@@ -307,15 +311,17 @@ export class RegisterBox extends React.Component {
 
         if (this.state.pwdState === "weak") {
             pwdWeak = true;
-        } else if (this.state.pwdState === "medium") {
+        }
+        else if (this.state.pwdState === "medium") {
             pwdWeak = true;
             pwdMedium = true;
-        } else if (this.state.pwdState === "strong") {
+        }
+        else if (this.state.pwdState === "strong") {
             pwdWeak = true;
             pwdMedium = true;
             pwdStrong = true;
         }
-        if (this.state.invalidUser === true){
+        if (this.state.invalidUser === true) {
             invalidUserErr = "Email has already been used try another one";
         }
 
@@ -325,7 +331,8 @@ export class RegisterBox extends React.Component {
                     Register
                 </div>
                 <div className="box">
-                    <Modal onClose={this.closeCreateModal} open={this.state.successConfirmation} size='small' closeIcon id='createActivityModalConfirmation1'>
+                    <Modal onClose={this.closeCreateModal} open={this.state.successConfirmation} size='small' closeIcon
+                           id='createActivityModalConfirmation1'>
                         <Modal.Content>
                             <Modal.Description>
                                 <Header>Your account has been created</Header>
@@ -392,7 +399,8 @@ export class RegisterBox extends React.Component {
                         className="login-btn"
                         onClick={this
                             .submitRegister
-                            .bind(this)}>Register</button>
+                            .bind(this)}>Register
+                    </button>
                 </div>
             </div>
         );
