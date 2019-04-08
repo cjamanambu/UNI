@@ -189,7 +189,7 @@ export default class NewActivityScreen extends React.Component {
 							mode="datetime"
 							placeholder= {this.time}
 							format = "YYYY-MM-DD HH:mm"
-							minDate="2019-04-01"
+							minDate={new Date()}
 							maxDate="2029-03-15"
 							confirmBtnText="Confirm"
 							cancelBtnText="Cancel"
