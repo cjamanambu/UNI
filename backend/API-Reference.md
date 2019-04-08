@@ -59,7 +59,9 @@ HTTP 200 Content-Type: application/json
 ```json
 {
     "success": false,
-    "info": "Username annd Email address already exist"
+    "info": "Username annd Email address already exist",
+    "token": null,
+    "user": null
 }
 ```
 
