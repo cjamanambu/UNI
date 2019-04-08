@@ -18,6 +18,7 @@ import{
 import { Dropdown } from 'react-native-material-dropdown';
 import DatePicker from 'react-native-datepicker'
 import styles from '../assets/Styles.js';
+import moment from 'moment';
 import * as App from '../App';
 
 export default class NewActivityScreen extends React.Component {
@@ -57,10 +58,9 @@ export default class NewActivityScreen extends React.Component {
 
 	onTimeChanged = (newTime) => {
 		console.log(newTime);
+		console.log(moment().format('YYYY-MM-DD HH:mm'));
 		this.setState({time: newTime});
 		this.time = newTime;
-		console.log(this.time);
-
 	};
 
 	onNumberOfPeopleChanged = (newNumberOfPeople) => {
@@ -83,15 +83,21 @@ export default class NewActivityScreen extends React.Component {
 	}
 
 	createAct =() =>{
-
-		if (this.name !== '' && this.location !== '' && this.time !== ''&& this.numberOfPeople !== ''){
-			if (this.description === '') {
-				this.description = "default"
-			}
-			this.sendRequest();
+		if(this.time <= moment().format('YYYY-MM-DD HH:mm')){
+			Alert.alert("Please choose a time in future");
 		}
-		else {
-			Alert.alert("You missed something!");
+		else{
+			if (this.name !== '' && this.location !== '' && this.time !== ''&& this.numberOfPeople !== '')
+			{
+				if (this.description === '') {
+					this.description = "default"
+				}
+				this.sendRequest();
+			}
+			else 
+			{
+				Alert.alert("You missed something!");
+			}
 		}
 	};
 
