@@ -7,7 +7,6 @@ chai.use(chaiHttp);
 describe(' Tests for endpoints that have to do with activities', async () => {
 
     let token;
-    let createdId;
     const signin = '/users/signin';
 
     const userCredentials = {
@@ -23,9 +22,8 @@ describe(' Tests for endpoints that have to do with activities', async () => {
         assert.equal(result.status, '200');
         token = result.body.token;
     });
-    /*
-      * Test the /GET route
-      */
+
+
     describe('GET /activities', () => {
         it('It should GET all the activities for which the date/time of the event has not passed', async () =>  {
             const result = await chai
@@ -149,4 +147,119 @@ describe(' Tests for endpoints that have to do with activities', async () => {
             assert.equal(testSuccessResult.body.activities.length, '0');
         });
     });
+});
+
+
+const User = require('../models/users');
+
+
+describe(' Tests for endpoints that have to do with User Authentication', async () => {
+
+    function randomString(length) {
+        var text = "";
+        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+
+        for (var i = 0; i < length; i++)
+            text += possible.charAt(Math.floor(Math.random() * possible.length));
+        return text;
+    }
+
+    const signInCredentials = {
+        email: 'runtests1234@myumanitoba.ca',
+        password: 'runtests1234',
+        username: 'runtests1234'
+    };
+
+    let signUpCredentials = {
+        username:randomString(Math.floor(Math.random() * 10)+5),
+        email: randomString(Math.floor(Math.random() * 10)+5)+"@myumanitoba.ca",
+        password: 'thePassword',
+    };
+
+    after('Close test db', async () => {
+        await User.findOneAndDelete({email:signUpCredentials.email});
+        await User.findOneAndDelete({email:signInCredentials.email});
+    });
+
+
+    describe('POST /users/signup', () => {
+        it('It should return a 200 response', async () => {
+            const result = await chai
+                .request(app)
+                .post('/users/signup')
+                .send(signUpCredentials);
+            assert.equal(result.status, '200');
+            assert.isObject(result.body);
+            assert.hasAllKeys(result.body, ['success', 'info', 'token', 'user']);
+            assert.isNotNull(result.token);
+            assert.isNotNull(result.user);
+            assert.equal(result.body.user.email, signUpCredentials.email);
+            assert.equal(result.body.user.username, signUpCredentials.username);
+        });
+
+        it('It should return a 403 response because the user with those credentials exist already', async () => {
+            const result = await chai
+                .request(app)
+                .post('/users/signup')
+                .send(signUpCredentials);
+            assert.equal(result.status, '403');
+            assert.isObject(result.body);
+            assert.hasAllKeys(result.body, ['success', 'info', 'token', 'user']);
+            assert.isNull(result.body.user);
+            assert.isNull(result.body.token);
+        });
+
+        it('It should return a 500 response because password field is missing', async () => {
+            let customSignUpCredentials = {
+                username:randomString(Math.floor(Math.random() * 10)+5),
+                email: randomString(Math.floor(Math.random() * 10)+5)+"@myumanitoba.ca",
+            };
+            const result = await chai
+                .request(app)
+                .post('/users/signup')
+                .send(customSignUpCredentials);
+            assert.equal(result.status, '500');
+            assert.isObject(result.body);
+            assert.hasAllKeys(result.body, ['success', 'info', 'token', 'user']);
+            assert.isNull(result.body.user);
+            assert.isNull(result.body.token);
+        });
+    });
+
+
+    describe('POST /users/signin', () => {
+        it('It should return a 401 response because the user does not exist.', async () => {
+            let customSignInCredentials = {
+                password:randomString(Math.floor(Math.random() * 10)+5),
+                email: randomString(Math.floor(Math.random() * 10)+5)+"@myumanitoba.ca",
+            };
+            const result = await chai
+                .request(app)
+                .post('/users/signin')
+                .send(customSignInCredentials);
+            assert.equal(result.status, '401');
+            assert.isObject(result.body);
+            assert.hasAllKeys(result.body, ['success', 'info', 'token', 'user']);
+            assert.isNull(result.body.user);
+            assert.isNull(result.body.token);
+        });
+
+        it('It should return a 200 response.', async () => {
+            const resultSignup = await chai
+                .request(app)
+                .post('/users/signup')
+                .send(signInCredentials);
+            const result = await chai
+                .request(app)
+                .post('/users/signin')
+                .send(signInCredentials);
+            assert.equal(result.status, '200');
+            assert.isObject(result.body);
+            assert.hasAllKeys(result.body, ['success', 'token', 'user']);
+            assert.isNotNull(result.body.user);
+            assert.isNotNull(result.body.token);
+
+        });
+    });
+
 });
