@@ -24,42 +24,47 @@ import * as App from '../App';
 
 export default class ActivityDetailsScreen extends React.Component {
     render() {
-        const { navigation } = this.props;
+        const {navigation} = this.props;
         let icon = setCategoryIcon(navigation.getParam("category"));
 
         function setCategoryIcon(category) {
             if (category === "SPORTS") {
                 return sportsIcon;
-            } else if(category === "STUDY") {
+            }
+            else if (category === "STUDY") {
                 return studyIcon;
-            } else if(category === "DANCE") {
+            }
+            else if (category === "DANCE") {
                 return danceIcon;
-            } else if(category === "POLITICS") {
+            }
+            else if (category === "POLITICS") {
                 return politicsIcon;
-            } else if(category === "ART") {
+            }
+            else if (category === "ART") {
                 return artIcon;
-            } else if(category === "MUSIC") {
+            }
+            else if (category === "MUSIC") {
                 return musicIcon;
             }
         }
 
         function joinActivity(navigation) {
             if (navigation.getParam("full").toString() === 'true') {
-                Alert.alert("Fail to join, this activity is full");
+                Alert.alert("Failed to join this activity because it is full");
             }
-            else{
-                AsyncStorage.getItem("AuthToken").then(token =>{
-                    if(token) {
+            else {
+                AsyncStorage.getItem("AuthToken").then(token => {
+                    if (token) {
                         const activityID = navigation.getParam("activity_id");
                         fetch(App.URL + '/activities/activity/attend/' + activityID, {
                             method: 'PUT',
                             headers: {
                                 'Accept': 'application/json',
                                 'Content-Type': 'application/json',
-                                'Authorization' : token
+                                'Authorization': token
                             }
                         }).then(_ => {
-                            Alert.alert("Joined activity "+ navigation.getParam("title"));
+                            Alert.alert("You just joined this activity: " + navigation.getParam("title"));
                             navigation.navigate('UserJoinedActivitiesScreen')
                         })
                     }
@@ -75,13 +80,15 @@ export default class ActivityDetailsScreen extends React.Component {
 
                     <Image testID='activityDetailsTypePicture' style={styles.logo} source={icon}></Image>
                     <Text>Activity Type: {navigation.getParam("category")}</Text>
-                    <Text testID='activityDetailsTime'>Time: {dateFormat(navigation.getParam("activity_datetime"), "dddd, mmmm dS, h:MM TT")}</Text>
+                    <Text
+                        testID='activityDetailsTime'>Time: {dateFormat(navigation.getParam("activity_datetime"), "dddd, mmmm dS, h:MM TT")}</Text>
                     <Text testID='activityDetailsLocation'>Location: {navigation.getParam("location")}</Text>
                     <Text>Description: {navigation.getParam("description")}</Text>
 
                 </View>
                 <TouchableOpacity testID="joinOrLeaveActivityButton" style={styles.buttonDetailsScreen}>
-                    <Text style={styles.buttonText} onPress={() => joinActivity(this.props.navigation)}>Join Activity</Text>
+                    <Text style={styles.buttonText} onPress={() => joinActivity(this.props.navigation)}>Join
+                        Activity</Text>
                 </TouchableOpacity>
             </View>
         )

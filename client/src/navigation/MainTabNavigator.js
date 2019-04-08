@@ -1,6 +1,6 @@
 import React from 'react';
-import { Platform } from 'react-native';
-import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
+import {Platform} from 'react-native';
+import {createStackNavigator, createBottomTabNavigator} from 'react-navigation';
 
 import TabBarIcon from '../components/TabBarIcon';
 import CurrentActivitiesScreen from "../screens/CurrentActivitiesScreen";
@@ -8,16 +8,13 @@ import MyCreatedActivityListScreen from "../screens/MyCreatedActivityListScreen"
 import UserJoinedActivitiesScreen from "../screens/UserJoinedActivitiesScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 
-// const HomeStack = createStackNavigator({
-//     Home: HomeScreen,
-// });
 const HomeStack = createStackNavigator({
     Home: CurrentActivitiesScreen,
 });
 
 HomeStack.navigationOptions = {
     tabBarLabel: 'Home',
-    tabBarIcon: ({ focused }) => (
+    tabBarIcon: ({focused}) => (
         <TabBarIcon
             focused={focused}
             name={
@@ -29,10 +26,6 @@ HomeStack.navigationOptions = {
     ),
 };
 
-// const LinksStack = createStackNavigator({
-//     Links: LinksScreen,
-//
-// });
 const LinksStack = createStackNavigator({
     Links: MyCreatedActivityListScreen,
 
@@ -40,7 +33,7 @@ const LinksStack = createStackNavigator({
 
 LinksStack.navigationOptions = {
     tabBarLabel: 'Links',
-    tabBarIcon: ({ focused }) => (
+    tabBarIcon: ({focused}) => (
         <TabBarIcon
             focused={focused}
             name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'}
@@ -48,16 +41,13 @@ LinksStack.navigationOptions = {
     ),
 };
 
-// const SettingsStack = createStackNavigator({
-//     Settings: SettingsScreen,
-// });
 const SettingsStack = createStackNavigator({
     Settings: UserJoinedActivitiesScreen,
 });
 
 SettingsStack.navigationOptions = {
     tabBarLabel: 'Settings',
-    tabBarIcon: ({ focused }) => (
+    tabBarIcon: ({focused}) => (
         <TabBarIcon
             focused={focused}
             name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'}
@@ -71,7 +61,7 @@ const ProfileStack = createStackNavigator({
 
 ProfileStack.navigationOptions = {
     tabBarLabel: 'Profile',
-    tabBarIcon: ({ focused }) => (
+    tabBarIcon: ({focused}) => (
         <TabBarIcon
             focused={focused}
             name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'}

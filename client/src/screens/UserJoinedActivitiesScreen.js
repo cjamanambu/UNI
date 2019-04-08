@@ -14,7 +14,7 @@ import {
     Picker,
     Button,
 } from 'react-native';
-import { List, ListItem, SearchBar } from "react-native-elements";
+import {List, ListItem, SearchBar} from "react-native-elements";
 import * as App from '../App';
 
 const dateFormat = require('dateformat');
@@ -33,19 +33,19 @@ export default class UserJoinedActivities extends React.Component {
             token: "",
             selectedTab: 'joined'
         };
-        const { navigation } = this.props;
+        const {navigation} = this.props;
         const USER_DETAILS = {
-            email : navigation.getParam("email"),
-            token : navigation.getParam("token")
+            email: navigation.getParam("email"),
+            token: navigation.getParam("token")
         };
     }
 
     componentWillMount() {
         const {setParams} = this.props.navigation;
-        setParams({token :this.state.token});
+        setParams({token: this.state.token});
     }
 
-    static navigationOptions = ({ navigation }) => {
+    static navigationOptions = ({navigation}) => {
         const {state} = navigation;
         return {
             headerTitle: "Joined Activities"
@@ -61,15 +61,15 @@ export default class UserJoinedActivities extends React.Component {
     }
 
     makeRemoteRequest = () => {
-        const { page, seed } = this.state;
+        const {page, seed} = this.state;
         AsyncStorage.getItem("AuthToken").then(token => {
-            if(token) {
+            if (token) {
                 fetch(App.URL + '/users/user/activities/attending', {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json',
-                        'Authorization' : token
+                        'Authorization': token
                     }
                 })
                     .then(res => res.json())
@@ -82,45 +82,45 @@ export default class UserJoinedActivities extends React.Component {
                         });
                     })
                     .catch(error => {
-                            this.setState({ error, loading: false });
+                            this.setState({error, loading: false});
                         }
                     );
             }
         })
     };
 
-     onBack () {
-         this.makeRemoteRequest();
-     }
+    onBack() {
+        this.makeRemoteRequest();
+    }
 
     render() {
         return (
             <View style={{flex: 1}}>
 
                 <FlatList testID="joinedActivityListView"
-                    data={this.state.data}
-                    keyExtractor={(item, index) => index.toString()}
-                    renderItem={({item}) => (
-                        <ListItem testID="joinedActivityListItem"
-                            title={item.title}
-                            subtitle={dateFormat(item.activity_datetime, "dddd, mmmm dS, h:MM TT") + ' - ' + item.location}
-                            leftAvatar={{ source: require('../assets/images/Octocat.png') }}
-                            onPress={() => this.props.navigation.navigate('JoinedActivityDetailsPage',
-                                {
-                                    activity_id : item._id,
-                                    activity_datetime: item.activity_datetime,
-                                    category: item.category,
-                                    description: item.description,
-                                    max_attendance: item.max_attendance,
-                                    title: item.title,
-                                    attendance_list: item.attendance_list,
-                                    datetime_created: item.datetime_created,
-                                    location: item.location,
-                                    onBack: this.onBack.bind(this)
-                                })
-                            }
-                        />
-                    )}
+                          data={this.state.data}
+                          keyExtractor={(item, index) => index.toString()}
+                          renderItem={({item}) => (
+                              <ListItem testID="joinedActivityListItem"
+                                        title={item.title}
+                                        subtitle={dateFormat(item.activity_datetime, "dddd, mmmm dS, h:MM TT") + ' - ' + item.location}
+                                        leftAvatar={{source: require('../assets/images/Octocat.png')}}
+                                        onPress={() => this.props.navigation.navigate('JoinedActivityDetailsPage',
+                                            {
+                                                activity_id: item._id,
+                                                activity_datetime: item.activity_datetime,
+                                                category: item.category,
+                                                description: item.description,
+                                                max_attendance: item.max_attendance,
+                                                title: item.title,
+                                                attendance_list: item.attendance_list,
+                                                datetime_created: item.datetime_created,
+                                                location: item.location,
+                                                onBack: this.onBack.bind(this)
+                                            })
+                                        }
+                              />
+                          )}
                 />
 
 

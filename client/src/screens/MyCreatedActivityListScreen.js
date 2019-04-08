@@ -13,7 +13,7 @@ import {
     Picker,
     Button,
 } from 'react-native';
-import { List, ListItem, SearchBar } from "react-native-elements";
+import {List, ListItem, SearchBar} from "react-native-elements";
 import * as App from '../App';
 
 const dateFormat = require('dateformat');
@@ -32,7 +32,7 @@ export default class MyCreatedActivityListScreen extends React.Component {
             token: "",
             selectedTab: 'my'     //added 3.24
         };
-        const { navigation } = this.props;
+        const {navigation} = this.props;
 
     }
 
@@ -42,7 +42,7 @@ export default class MyCreatedActivityListScreen extends React.Component {
         });
     }
 
-    static navigationOptions = ({ navigation }) => {
+    static navigationOptions = ({navigation}) => {
         const {state} = navigation;
         return {
             headerTitle: "My Created Activities"
@@ -54,18 +54,18 @@ export default class MyCreatedActivityListScreen extends React.Component {
     }
 
     makeRemoteRequest = () => {
-        const { page, seed } = this.state;
+        const {page, seed} = this.state;
         AsyncStorage.getItem("AuthToken").then(token => {
-            if(token) {
+            if (token) {
                 fetch(App.URL + '/users/user/myActivities', {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json',
-                        'Authorization' : token
+                        'Authorization': token
                     }
                 })
-                .then(res => res.json())
+                    .then(res => res.json())
                     .then(res => {
                         // console.log(res)
                         this.setState({
@@ -73,13 +73,13 @@ export default class MyCreatedActivityListScreen extends React.Component {
                             error: res.error || null,
                             loading: false,
                             refreshing: false,
-        
+
                         });
                     })
                     .catch(error => {
-                        this.setState({ error, loading: false });
-                    }
-                );
+                            this.setState({error, loading: false});
+                        }
+                    );
 
             }
         })
@@ -89,28 +89,28 @@ export default class MyCreatedActivityListScreen extends React.Component {
         return (
             <View style={{flex: 1}}>
                 <FlatList testID="myActivityListView"
-                    data={this.state.data}
-                    keyExtractor={(item, index) => index.toString()}
-                    renderItem={({item}) => (
-                        <ListItem testID="myActivityListItem"
-                            title={item.title}
-                            subtitle={dateFormat(item.activity_datetime, "dddd, mmmm dS, h:MM TT") + ' - ' + item.location}
-                            leftAvatar={{ source: require('../assets/images/Octocat.png') }}
-                            onPress={() => this.props.navigation.navigate('ActivityAttendantListScreen',
-                                {
-                                    activity_id : item._id,
-                                    activity_datetime: item.activity_datetime,
-                                    category: item.category,
-                                    description: item.description,
-                                    max_attendance: item.max_attendance,
-                                    title: item.title,
-                                    attendance_list: item.attendance_list,
-                                    datetime_created: item.datetime_created,
-                                    location: item.location,
-                                })
-                            }
-                        />
-                    )}
+                          data={this.state.data}
+                          keyExtractor={(item, index) => index.toString()}
+                          renderItem={({item}) => (
+                              <ListItem testID="myActivityListItem"
+                                        title={item.title}
+                                        subtitle={dateFormat(item.activity_datetime, "dddd, mmmm dS, h:MM TT") + ' - ' + item.location}
+                                        leftAvatar={{source: require('../assets/images/Octocat.png')}}
+                                        onPress={() => this.props.navigation.navigate('ActivityAttendantListScreen',
+                                            {
+                                                activity_id: item._id,
+                                                activity_datetime: item.activity_datetime,
+                                                category: item.category,
+                                                description: item.description,
+                                                max_attendance: item.max_attendance,
+                                                title: item.title,
+                                                attendance_list: item.attendance_list,
+                                                datetime_created: item.datetime_created,
+                                                location: item.location,
+                                            })
+                                        }
+                              />
+                          )}
                 />
             </View>
         )

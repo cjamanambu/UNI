@@ -2,9 +2,9 @@ const dateFormat = require('dateformat');
 const sportsIcon = require("../assets/images/sportIcon.png");
 const studyIcon = require("../assets/images/study.jpeg");
 const danceIcon = require("../assets/images/danceIcon.png");
-const artIcon = require("../assets/images/art.png")
-const musicIcon = require("../assets/images/music.png")
-const politicsIcon = require("../assets/images/politics.png")
+const artIcon = require("../assets/images/art.png");
+const musicIcon = require("../assets/images/music.png");
+const politicsIcon = require("../assets/images/politics.png");
 
 import React from 'react';
 import {AsyncStorage} from 'react-native';
@@ -25,51 +25,56 @@ import * as App from '../App';
 export default class ActivityDetailsScreen extends React.Component {
 
     componentWillUnmount() {
-        const { navigation } = this.props;
+        const {navigation} = this.props;
         navigation.state.params.onBack();
     }
-      
+
     render() {
-        const { navigation } = this.props;
+        const {navigation} = this.props;
         let icon = setCategoryIcon(navigation.getParam("category"));
 
 
         const activityDetails = {
-            activityTitle : navigation.getParam("title"),
-            activityDescription : navigation.getParam("description")
+            activityTitle: navigation.getParam("title"),
+            activityDescription: navigation.getParam("description")
         };
 
 
         function setCategoryIcon(category) {
             if (category === "SPORTS") {
                 return sportsIcon;
-            } else if(category === "STUDY") {
+            }
+            else if (category === "STUDY") {
                 return studyIcon;
-            } else if(category === "DANCE") {
+            }
+            else if (category === "DANCE") {
                 return danceIcon;
-            } else if(category === "POLITICS") {
+            }
+            else if (category === "POLITICS") {
                 return politicsIcon;
-            } else if(category === "ART") {
+            }
+            else if (category === "ART") {
                 return artIcon;
-            } else if(category === "MUSIC") {
+            }
+            else if (category === "MUSIC") {
                 return musicIcon;
             }
         }
 
         function leaveActivity(pageNavigation) {
-            AsyncStorage.getItem("AuthToken").then(token =>{
-                if(token) {
+            AsyncStorage.getItem("AuthToken").then(token => {
+                if (token) {
                     const activityID = navigation.getParam("activity_id");
                     fetch(App.URL + '/activities/activity/unattend/' + activityID, {
                         method: 'PUT',
                         headers: {
                             'Accept': 'application/json',
                             'Content-Type': 'application/json',
-                            'Authorization' : token
+                            'Authorization': token
                         }
                     }).then(res => {
                         console.log(res);
-                        Alert.alert("Leave activity " + navigation.getParam("title") + "!");
+                        Alert.alert("You left this activity: " + navigation.getParam("title") + "!");
                         pageNavigation.goBack();
                     })
                 }
@@ -84,13 +89,15 @@ export default class ActivityDetailsScreen extends React.Component {
 
                     <Image testID="detailLogo" style={styles.logo} source={icon}></Image>
                     <Text testID="activityTypeTest">Activity Type: {navigation.getParam("category")}</Text>
-                    <Text testID="timeTest">Time: {dateFormat(navigation.getParam("activity_datetime"), "dddd, mmmm dS, h:MM TT")}</Text>
+                    <Text
+                        testID="timeTest">Time: {dateFormat(navigation.getParam("activity_datetime"), "dddd, mmmm dS, h:MM TT")}</Text>
                     <Text testID="activityLocationText">Location: {this.props.navigation.getParam("location")}</Text>
                     <Text testID="descriptionTest">Description: {navigation.getParam("description")}</Text>
 
                 </View>
                 <TouchableOpacity testID="leaveActivityButton" style={styles.buttonDetailsScreen}>
-                    <Text style={styles.buttonText} onPress={() => leaveActivity(this.props.navigation)}>Leave Activity</Text>
+                    <Text style={styles.buttonText} onPress={() => leaveActivity(this.props.navigation)}>Leave
+                        Activity</Text>
                 </TouchableOpacity>
             </View>
         )

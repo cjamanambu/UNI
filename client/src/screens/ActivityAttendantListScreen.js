@@ -23,7 +23,7 @@ import {
     Alert
 } from 'react-native';
 import styles from '../assets/Styles.js';
-import { List, ListItem, SearchBar } from "react-native-elements";
+import {List, ListItem, SearchBar} from "react-native-elements";
 import * as App from '../App';
 
 export default class ActivityAttendantListScreen extends React.Component {
@@ -45,10 +45,10 @@ export default class ActivityAttendantListScreen extends React.Component {
 
     componentWillMount() {
         const {setParams} = this.props.navigation;
-        setParams({token :this.state.token});
+        setParams({token: this.state.token});
     }
 
-    static navigationOptions = ({ navigation }) => {
+    static navigationOptions = ({navigation}) => {
         const {state} = navigation;
         return {
             headerTitle: "My Activity Details"
@@ -60,53 +60,58 @@ export default class ActivityAttendantListScreen extends React.Component {
     }
 
     makeRemoteRequest = () => {
-        const { page, seed } = this.state;
+        const {page, seed} = this.state;
         const activityID = this.props.navigation.getParam("activity_id");
 
         AsyncStorage.getItem("AuthToken").then(token => {
-            if(token) {
+            if (token) {
                 fetch(App.URL + '/users/user/activities/activity/attendanceList/' + activityID, {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json',
-                        'Authorization' : token
+                        'Authorization': token
                     }
                 })
-                .then(res => res.json())
-                .then(res => {
-                    this.setState({
-                        data: page === 1 ? res.users : [...this.state.data, ...res.users],
-                        error: res.error || null,
-                        loading: false,
-                        refreshing: false,
+                    .then(res => res.json())
+                    .then(res => {
+                        this.setState({
+                            data: page === 1 ? res.users : [...this.state.data, ...res.users],
+                            error: res.error || null,
+                            loading: false,
+                            refreshing: false,
 
-                    });
-                })
-                .catch(error => {
-                        this.setState({ error, loading: false });
-                    }
-                );
+                        });
+                    })
+                    .catch(error => {
+                            this.setState({error, loading: false});
+                        }
+                    );
             }
         })
     };
 
-    onBack () {
+    onBack() {
         this.makeRemoteRequest();
     }
 
     setCategoryIcon(category) {
         if (category === "SPORTS") {
             return sportsIcon;
-        } else if(category === "STUDY") {
+        }
+        else if (category === "STUDY") {
             return studyIcon;
-        } else if(category === "DANCE") {
+        }
+        else if (category === "DANCE") {
             return danceIcon;
-        } else if(category === "POLITICS") {
+        }
+        else if (category === "POLITICS") {
             return politicsIcon;
-        } else if(category === "ART") {
+        }
+        else if (category === "ART") {
             return artIcon;
-        } else if(category === "MUSIC") {
+        }
+        else if (category === "MUSIC") {
             return musicIcon;
         }
     }
@@ -127,7 +132,7 @@ export default class ActivityAttendantListScreen extends React.Component {
     }
 
     makeDeleteActivityRequest(pageNavigation) {
-        AsyncStorage.getItem("AuthToken").then(token =>{
+        AsyncStorage.getItem("AuthToken").then(token => {
             if (token) {
                 const activityID = this.props.navigation.getParam("activity_id");
                 fetch(App.URL + '/users/user/activities/activity/delete/' + activityID, {
@@ -135,17 +140,17 @@ export default class ActivityAttendantListScreen extends React.Component {
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json',
-                        'Authorization' : token
+                        'Authorization': token
                     }
                 })
                     .then(res => res.json())
                     .then(res => {
-                    if (res.success)
-                        Alert.alert("Activity deleted successfully!");
-                    else
-                        Alert.alert("Something went wrong.");
-                    pageNavigation.goBack()
-                })
+                        if (res.success)
+                            Alert.alert("Activity deleted successfully!");
+                        else
+                            Alert.alert("Something went wrong.");
+                        pageNavigation.goBack()
+                    })
             }
         })
     }
@@ -164,17 +169,18 @@ export default class ActivityAttendantListScreen extends React.Component {
                 <View>
                     <Text style={styles.sectionHeader}>Attendants: </Text>
                     <FlatList testID="attendantListView"
-                        data={this.state.data}
-                        keyExtractor={(item, index) => index.toString()}
-                        renderItem={({item}) => (
-                            <ListItem
-                                title={item.Name}
-                            />
-                        )}
+                              data={this.state.data}
+                              keyExtractor={(item, index) => index.toString()}
+                              renderItem={({item}) => (
+                                  <ListItem
+                                      title={item.Name}
+                                  />
+                              )}
                     />
                 </View>
                 <TouchableOpacity testID="deleteButton" style={styles.buttonDetailsScreenContainer}>
-                    <Text style={styles.buttonText} onPress={() => this.showDeleteConfirmedMessage(this.props.navigation)}>Delete Activity</Text>
+                    <Text style={styles.buttonText}
+                          onPress={() => this.showDeleteConfirmedMessage(this.props.navigation)}>Delete Activity</Text>
                 </TouchableOpacity>
             </View>
         )

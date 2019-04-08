@@ -1,4 +1,4 @@
-const { reloadApp } = require('detox-expo-helpers');
+const {reloadApp} = require('detox-expo-helpers');
 
 describe('Sign up as a new user', () => {
     beforeAll(async () => {

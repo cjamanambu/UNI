@@ -13,9 +13,9 @@ import {
     Button,
 } from 'react-native';
 import styles from '../assets/Styles.js';
-import { Dropdown } from 'react-native-material-dropdown';
-import { List, ListItem, SearchBar } from "react-native-elements";
-import ActivityDetailsScreen  from './ActivityDetailsScreen';
+import {Dropdown} from 'react-native-material-dropdown';
+import {List, ListItem, SearchBar} from "react-native-elements";
+import ActivityDetailsScreen from './ActivityDetailsScreen';
 import * as App from '../App';
 
 const dateFormat = require('dateformat');
@@ -35,14 +35,14 @@ export default class CurrentActivitiesScreen extends React.Component {
             selectedTab: 'curr',
             creator: '',
             username: '',
-            joined:'',
-            full:'',
+            joined: '',
+            full: '',
         };
-        const { navigation } = this.props;
+        const {navigation} = this.props;
         const USER_DETAILS = {
-            email : navigation.getParam("email"),
-            token : navigation.getParam("token"),
-            username : navigation.getParam("username")
+            email: navigation.getParam("email"),
+            token: navigation.getParam("token"),
+            username: navigation.getParam("username")
         };
         this.state.token = USER_DETAILS.token;
         // console.log("TOKEN: " + USER_DETAILS.token);
@@ -56,7 +56,7 @@ export default class CurrentActivitiesScreen extends React.Component {
 
     componentWillMount() {
         const {setParams} = this.props.navigation;
-        setParams({token :this.state.token});
+        setParams({token: this.state.token});
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -65,11 +65,12 @@ export default class CurrentActivitiesScreen extends React.Component {
         }
     }
 
-    onBack () {
-         this.makeRemoteRequest();
-     }
+    onBack() {
+        this.makeRemoteRequest();
+    }
 
-     makeRemoteRequest(){}
+    makeRemoteRequest() {
+    }
 
     onChangeActivityTypeHandler(value) {
         let link = "";
@@ -77,7 +78,7 @@ export default class CurrentActivitiesScreen extends React.Component {
             link = App.URL + '/activities';
         else
             link = App.URL + '/activities/activity/sortBy/' + value;
-        const { page, seed } = this.state;
+        const {page, seed} = this.state;
         fetch(link)
             .then(res => res.json())
             .then(res => {
@@ -90,23 +91,23 @@ export default class CurrentActivitiesScreen extends React.Component {
                 });
             })
             .catch(error => {
-                this.setState({ error, loading: false });
+                this.setState({error, loading: false});
             });
     };
 
-    async activityHandler(item){
+    async activityHandler(item) {
         // console.log("activity_id :"+item._id);
         // console.log("attendance_list:"+ item.attendance_list);
         // console.log("max_attendance:"+ item.max_attendance);
         // console.log("TOKEN: " + this.state.token);
         // console.log("URL: " + App.URL + '/users/user/activities/activity/owner/' + item._id);
         //must wait from fetch call complete to do next step
-        await fetch(App.URL + '/users/user/activities/activity/owner/' + item._id,{
+        await fetch(App.URL + '/users/user/activities/activity/owner/' + item._id, {
             method: 'GET',
             headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization' : this.state.token
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': this.state.token
             }
         })
             .then(res => res.json())
@@ -116,36 +117,35 @@ export default class CurrentActivitiesScreen extends React.Component {
                 });
             })
             .catch(error => {
-                this.setState({ error, loading: false });
+                this.setState({error, loading: false});
             });
-        if(item.attendance_list != null){
+        if (item.attendance_list != null) {
             let i = 0;
-            this.setState({joined: '', full:''});
-            while(item.attendance_list[i] != null)
-            {             
-                if(item.attendance_list[i].toString() === this.state.username.toString()){
+            this.setState({joined: '', full: ''});
+            while (item.attendance_list[i] != null) {
+                if (item.attendance_list[i].toString() === this.state.username.toString()) {
                     this.setState({joined: 'true'})
                 }
                 i++;
             }
-            if(i.toString() === item.max_attendance.toString()){
+            if (i.toString() === item.max_attendance.toString()) {
                 console.log("full!");
-                this.setState({full:'true'});
+                this.setState({full: 'true'});
             }
-            else{
+            else {
                 console.log("not full!");
-                this.setState({full:'false'});
+                this.setState({full: 'false'});
             }
         }
-        console.log("full?: "+this.state.full);
+        console.log("full?: " + this.state.full);
         this.activitiesNavigator(item);
     };
 
-    activitiesNavigator(item){
-        if(this.state.creator === this.state.username){
+    activitiesNavigator(item) {
+        if (this.state.creator === this.state.username) {
             this.props.navigation.navigate('ActivityAttendantListScreen',
                 {
-                    activity_id : item._id,
+                    activity_id: item._id,
                     activity_datetime: item.activity_datetime,
                     category: item.category,
                     description: item.description,
@@ -156,10 +156,10 @@ export default class CurrentActivitiesScreen extends React.Component {
                     location: item.location,
                 })
         }
-        else if(this.state.joined === 'true'){
+        else if (this.state.joined === 'true') {
             this.props.navigation.navigate('JoinedActivityDetailsPage',
                 {
-                    activity_id : item._id,
+                    activity_id: item._id,
                     activity_datetime: item.activity_datetime,
                     category: item.category,
                     description: item.description,
@@ -171,10 +171,10 @@ export default class CurrentActivitiesScreen extends React.Component {
                     onBack: this.onBack.bind(this)  //have to add this list or will be error
                 })
         }
-        else{
+        else {
             this.props.navigation.navigate('ActivityDetailsScreen',
                 {
-                    activity_id : item._id,
+                    activity_id: item._id,
                     activity_datetime: item.activity_datetime,
                     category: item.category,
                     description: item.description,
@@ -189,13 +189,12 @@ export default class CurrentActivitiesScreen extends React.Component {
     };
 
 
-
     render() {
         let activityTypes = [{value: 'Sports'}, {value: 'Study'}, {value: 'Dance'}, {value: 'Politics'}, {value: 'Art'}, {value: 'Music'}, {value: 'All'}];
         return (
             <View testID="currentActivitiesScreen" style={{flex: 1}}>
                 <View style={styles.dropdown}>
-                    <View style={{ flex: 1 }}>
+                    <View style={{flex: 1}}>
                         <Dropdown
                             label='Activity Type'
                             data={activityTypes}
@@ -203,27 +202,28 @@ export default class CurrentActivitiesScreen extends React.Component {
                         />
                     </View>
 
-                    <TouchableOpacity testId="addButton" onPress={() => this.props.navigation.navigate('NewActivityScreen', {token: this.state.token})}>
-                    <Text></Text>
+                    <TouchableOpacity testId="addButton"
+                                      onPress={() => this.props.navigation.navigate('NewActivityScreen', {token: this.state.token})}>
+                        <Text></Text>
                         <Image testID='addButton'
-                        source = {require('../assets/images/addition.png')}
-                        style={{width:40, height:40, marginLeft: 10}}/>
+                               source={require('../assets/images/addition.png')}
+                               style={{width: 40, height: 40, marginLeft: 10}}/>
                     </TouchableOpacity>
 
                 </View>
 
                 <FlatList testID="currentActivitiesListView"
-                    data={this.state.data}
-                    keyExtractor={(item, index) => index.toString()}
-                    extraData={this.state.data}
-                    renderItem={({item}) => (
-                        <ListItem testID='currentActivitiesListItem'
-                            title={item.title}
-                            subtitle={dateFormat(item.activity_datetime, "dddd, mmmm dS, h:MM TT") + ' - ' + item.location}
-                            leftAvatar={{ source: require('../assets/images/Octocat.png') }}
-                            onPress={()=> this.activityHandler(item)}
-                        />
-                    )}
+                          data={this.state.data}
+                          keyExtractor={(item, index) => index.toString()}
+                          extraData={this.state.data}
+                          renderItem={({item}) => (
+                              <ListItem testID='currentActivitiesListItem'
+                                        title={item.title}
+                                        subtitle={dateFormat(item.activity_datetime, "dddd, mmmm dS, h:MM TT") + ' - ' + item.location}
+                                        leftAvatar={{source: require('../assets/images/Octocat.png')}}
+                                        onPress={() => this.activityHandler(item)}
+                              />
+                          )}
                 />
             </View>
         )

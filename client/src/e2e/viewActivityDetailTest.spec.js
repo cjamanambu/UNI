@@ -1,4 +1,4 @@
-const { reloadApp } = require('detox-expo-helpers');
+const {reloadApp} = require('detox-expo-helpers');
 
 describe('View activity detail', () => {
     beforeAll(async () => {
