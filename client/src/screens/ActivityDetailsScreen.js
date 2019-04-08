@@ -89,7 +89,7 @@ export default class ActivityDetailsScreen extends React.Component {
                     <Text>Description: {navigation.getParam("description")}</Text>
 
                 </View>
-                <TouchableOpacity testID="joinActivityButton" style={styles.buttonDetailsScreen}>
+                <TouchableOpacity testID="joinOrLeaveActivityButton" style={styles.buttonDetailsScreen}>
                     <Text style={styles.buttonText} onPress={() => joinActivity(this.props.navigation)}>Join Activity</Text>
                 </TouchableOpacity>
             </View>
