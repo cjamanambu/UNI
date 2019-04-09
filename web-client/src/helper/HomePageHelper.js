@@ -13,15 +13,16 @@ export class HomePageHelper {
         }
         return toreturn;
     }
-    static validatePassword(password){
+
+    static validatePassword(password) {
         let toreturn = "";
         if (password === "") {
-            toreturn= "Password field cannot be empty!";
+            toreturn = "Password field cannot be empty!";
         }
         return toreturn;
     }
 
-    static clearValidationErr(state,elm) {
+    static clearValidationErr(state, elm) {
         state.setState((prevState) => {
             let newArr = [];
             for (let err of prevState.errors) {
@@ -32,7 +33,8 @@ export class HomePageHelper {
             return {errors: newArr};
         });
     }
-    static showValidationErr(state,elm, msg) {
+
+    static showValidationErr(state, elm, msg) {
         state.setState((prevState) => ({
             errors: [
                 ...prevState.errors, {

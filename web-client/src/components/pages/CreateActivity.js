@@ -1,9 +1,8 @@
 import React from 'react';
-import {Modal,Form,Button, Header,Icon} from "semantic-ui-react";
-import '../../App.css'
+import {Modal, Form, Button, Header, Icon} from "semantic-ui-react";
+import '../../App.css';
 import {DateTimeInput} from 'semantic-ui-calendar-react';
 import axios from "../../axios_def";
-//TODO reload activities
 
 const Categories = [
     {
@@ -92,34 +91,34 @@ const numberOfPeople = [
         text: '10',
         value: '10',
     },
-    ];
+];
 
-class CreateActivity extends React.Component{
+class CreateActivity extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            attendance_list:[],
-            activity_dateTime: '',
-            max_attendance:'',
-            category:'',
-            title:'',
-            description:'',
-            location:'',
-            formError:false,
-            titleError:false,
-            categoryError:false,
-            descriptionError:false,
-            max_attendanceError:false,
-            locationError:false,
-            activity_dateTimeError: false,
-            show:false,
-            showConfirmation:false
 
+        this.state = {
+            attendance_list: [],
+            activity_dateTime: '',
+            max_attendance: '',
+            category: '',
+            title: '',
+            description: '',
+            location: '',
+            formError: false,
+            titleError: false,
+            categoryError: false,
+            descriptionError: false,
+            max_attendanceError: false,
+            locationError: false,
+            activity_dateTimeError: false,
+            show: false,
+            showConfirmation: false
         };
-    }
+    };
 
     open = () => {
-        this.setState({ show: true });
+        this.setState({show: true});
         this.setState({titleError: false});
         this.setState({descriptionError: false});
         this.setState({categoryError: false});
@@ -128,36 +127,40 @@ class CreateActivity extends React.Component{
         this.setState({activity_dateTimeError: false});
     };
 
-    submitNewActivity (){
+    submitNewActivity() {
         const token = this.props.token;
-        let helper= {
-            headers: {"Authorization": ''+token,
-                "Content-Type": "application/json"}
+
+        let helper = {
+            headers: {
+                "Authorization": '' + token,
+                "Content-Type": "application/json"
+            }
         };
+
         const userInfo = {
-            attendance_list:[],
-            category:this.state.category,
+            attendance_list: [],
+            category: this.state.category,
             activity_datetime: this.state.activity_dateTime,
-            max_attendance:this.state.max_attendance,
+            max_attendance: this.state.max_attendance,
             description: this.state.description,
             title: this.state.title,
             location: this.state.location
         };
 
-        let activityId="";
+        let activityId = "";
 
-        axios.post('/activities/activity/create', userInfo,helper).then( (res) => {
-            activityId= res.data.activity.id;
-            axios.put('/activities/activity/attend/' + activityId ,{},helper).then(res1 => {
+        axios.post('/activities/activity/create', userInfo, helper).then((res) => {
+            activityId = res.data.activity.id;
+
+            axios.put('/activities/activity/attend/' + activityId, {}, helper).then(res1 => {
             }).catch((error) => {
                 console.log(error);
             });
         }).catch(error => {
-            console.log(error.response)
+            console.log(error.response);
         });
+    };
 
-
-    }
     submitForm() {
 
         let error = false;
@@ -220,14 +223,14 @@ class CreateActivity extends React.Component{
 
     handleChange = (event, {name, value}) => {
         if (this.state.hasOwnProperty(name)) {
-            this.setState({ [name]: value });
+            this.setState({[name]: value});
         }
     };
 
     submitCloseModal = () => {
-        if(this.state.formError === false){
+        if (this.state.formError === false) {
             this.setState({show: false});
-            this.setState({showConfirmation:true});
+            this.setState({showConfirmation: true});
         }
     };
 
@@ -243,7 +246,8 @@ class CreateActivity extends React.Component{
     render() {
         return (
             <div>
-                <Modal onClose={this.closeConfirmationModal} open = {this.state.showConfirmation} size='small' id='createActivityModalConfirmation' closeIcon>
+                <Modal onClose={this.closeConfirmationModal} open={this.state.showConfirmation} size='small'
+                       id='createActivityModalConfirmation' closeIcon>
                     <Modal.Content>
                         <Modal.Description>
                             <Header>You have added a new activity</Header>
@@ -251,14 +255,14 @@ class CreateActivity extends React.Component{
                         <br/>
                         <Modal.Actions>
                             <Button color='green'
-                            onClick={this.closeConfirmationModal}
+                                    onClick={this.closeConfirmationModal}
                             >
-                                <Icon name='checkmark' /> OK
+                                <Icon name='checkmark'/> OK
                             </Button>
                         </Modal.Actions>
                     </Modal.Content>
                 </Modal>
-                <Modal closeIcon  onClose ={this.closeModal} open = {this.state.show} size='large' id='createActivityModal'>
+                <Modal closeIcon onClose={this.closeModal} open={this.state.show} size='large' id='createActivityModal'>
                     <Modal.Header>Create An Activity</Modal.Header>
                     <Form disabled={false}>
                         <Form.Field required>
@@ -337,7 +341,8 @@ class CreateActivity extends React.Component{
 
                 </Modal>
             </div>
-    );
+        );
     }
 }
+
 export default CreateActivity;

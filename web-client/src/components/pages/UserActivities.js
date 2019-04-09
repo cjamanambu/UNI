@@ -2,9 +2,9 @@ import React from 'react';
 import Modal from 'react-awesome-modal';
 import '../../App.css';
 import axios from "../../axios_def";
-import { Dropdown } from 'semantic-ui-react';
+import {Dropdown} from 'semantic-ui-react';
 
-class UserActivities extends React.Component{
+class UserActivities extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -14,57 +14,55 @@ class UserActivities extends React.Component{
             token: this.props.token,
             activityID: this.props.activityID,
             isCreator: false,
-            attendances:[]
+            attendances: []
         };
-        /*
-            TODO:
-                  time format
-        */
     };
 
     openModal() {
         const token = this.props.token;
 
-        const helper= {
-            headers: {"Authorization": '' + token,
-                "Content-Type": "application/json"}
+        const helper = {
+            headers: {
+                "Authorization": '' + token,
+                "Content-Type": "application/json"
+            }
         };
 
-        //getting the creator of current activity
         axios.get('users/user/activities/activity/owner/'
-            + this.props.activityID , helper).then(res => {
-            if( this.props.userID === res.data.owner.id){
-                this.setState({ isCreator : true });
+            + this.props.activityID, helper).then(res => {
+            if (this.props.userID === res.data.owner.id) {
+                this.setState({isCreator: true});
             }
         }).catch((error) => {
             console.log(error);
         });
 
-        //getting all attendances' name in the attendanceList
         axios.get('/users/user/activities/activity/attendanceList/'
-            + this.state.activityID , helper).then(res => {
+            + this.state.activityID, helper).then(res => {
             let attendances = [];
-            if(res.data.users.length > 0){
-                for (let i = 0; i< res.data.users.length; i++){
+            if (res.data.users.length > 0) {
+                for (let i = 0; i < res.data.users.length; i++) {
                     attendances[i] = res.data.users[i].Email;
                 }
 
-                this.setState({ attendances: attendances });
+                this.setState({attendances: attendances});
             }
         }).catch((error) => {
             console.log(error);
         });
 
-        let attend = false; let isFull = false; let index = 0;
+        let attend = false;
+        let isFull = false;
+        let index = 0;
         let attendanceCount = this.props.attendances.length;
         let maxAttendance = this.props.capacity;
 
-        if(attendanceCount === maxAttendance){
+        if (attendanceCount === maxAttendance) {
             isFull = true;
         }
 
-        while ( attendanceCount > 0){
-            if(this.props.attendances[index] === this.props.userID){
+        while (attendanceCount > 0) {
+            if (this.props.attendances[index] === this.props.userID) {
                 attend = true;
             }
 
@@ -73,7 +71,7 @@ class UserActivities extends React.Component{
         }
 
         this.setState({
-            visible : true,
+            visible: true,
             attend: attend,
             isFull: isFull
         });
@@ -81,7 +79,7 @@ class UserActivities extends React.Component{
 
     closeModal() {
         this.setState({
-            visible : false
+            visible: false
         });
     }
 
@@ -89,18 +87,21 @@ class UserActivities extends React.Component{
         let attendanceCount = this.props.attendances.length;
         let maxAttendance = this.props.capacity;
 
-        if(attendanceCount === maxAttendance){
+        if (attendanceCount === maxAttendance) {
             console.log("this activity is full!");
-        }else if(attendanceCount < maxAttendance){
-            const helper= {
-                headers: {"Authorization": '' + this.state.token,
-                    "Content-Type": "application/json"}
+        }
+        else if (attendanceCount < maxAttendance) {
+            const helper = {
+                headers: {
+                    "Authorization": '' + this.state.token,
+                    "Content-Type": "application/json"
+                }
             };
 
-            axios.put('/activities/activity/attend/' + this.state.activityID ,{},helper).then(res => {
+            axios.put('/activities/activity/attend/' + this.state.activityID, {}, helper).then(res => {
                 console.log(res);
                 this.props.updateDB();
-                this.setState({ visible : false });
+                this.setState({visible: false});
             }).catch((error) => {
                 console.log(error);
             });
@@ -108,30 +109,34 @@ class UserActivities extends React.Component{
     };
 
     unJoinActivityHandler = () => {
-        const helper= {
-            headers: {"Authorization": '' + this.state.token,
-                "Content-Type": "application/json"}
+        const helper = {
+            headers: {
+                "Authorization": '' + this.state.token,
+                "Content-Type": "application/json"
+            }
         };
 
-        axios.put('/activities/activity/unattend/' + this.state.activityID ,{},helper).then(res => {
+        axios.put('/activities/activity/unattend/' + this.state.activityID, {}, helper).then(res => {
             console.log(res);
             this.props.updateDB();
-            this.setState({ visible : false });
+            this.setState({visible: false});
         }).catch((error) => {
             console.log(error);
         });
     };
 
     deleteActivityHandler = () => {
-        const helper= {
-            headers: {"Authorization": '' + this.state.token,
-                "Content-Type": "application/json"}
+        const helper = {
+            headers: {
+                "Authorization": '' + this.state.token,
+                "Content-Type": "application/json"
+            }
         };
 
-        axios.delete('users/user/activities/activity/delete/' + this.state.activityID,helper).then(res => {
+        axios.delete('users/user/activities/activity/delete/' + this.state.activityID, helper).then(res => {
             console.log(res);
             this.props.updateDB();
-            this.setState({ visible : false });
+            this.setState({visible: false});
         }).catch((error) => {
             console.log(error);
         });
@@ -174,14 +179,14 @@ class UserActivities extends React.Component{
                                     </div>
                                     <div className="description">
                                         {
-                                            (this.state.isCreator) &&<li>
+                                            (this.state.isCreator) && <li>
                                                 <Dropdown text='Attendances List'>
                                                     <Dropdown.Menu>
                                                         {this.state.attendances.map(
-                                                        x => <Dropdown.Item
-                                                            text = {x}
-                                                            key = {x}
-                                                    />)}
+                                                            x => <Dropdown.Item
+                                                                text={x}
+                                                                key={x}
+                                                            />)}
 
                                                     </Dropdown.Menu>
                                                 </Dropdown>
@@ -220,7 +225,7 @@ class UserActivities extends React.Component{
                                 </button>
                             )}
 
-                            {this.state.isCreator &&(
+                            {this.state.isCreator && (
                                 <button
                                     className='small ui primary button'
                                     onClick={this.deleteActivityHandler}>
@@ -235,7 +240,7 @@ class UserActivities extends React.Component{
                             </button>
 
                             {this.state.isFull && (<div className="ui warning message">
-                                    This activity is full!
+                                This activity is full!
                             </div>)}
 
                         </div>
