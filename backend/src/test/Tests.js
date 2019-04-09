@@ -11,6 +11,8 @@ let id;
 
 describe('Testing attending and unattending', () => {
 	const signin = '/users/signin';
+	const create = '/activities/activity/create';
+	let created_activity_id;
 
 	const userCredentials = {
 		email: 'yinka@myumanitoba.ca',
@@ -19,12 +21,21 @@ describe('Testing attending and unattending', () => {
 
 	const activityToBeDeleted = {
 		"attendance_list":[],
-		"category":"HIP HOP",
+		"category":"MUSIC",
 		activity_datetime: "2019-03-24 11:11:11.334",
 		max_attendance:1,
 		description: "Nasir bin Jones",
 		title: "GOAT talk",
 		location: "Mars"
+	};
+
+	const activityToBeAttended = {
+		category:"SPORTS",
+		activity_datetime: new Date(2019, 11, 24, 10, 33, 30, 0),
+		max_attendance:2,
+		description: "Lets ball",
+		title: "Ball Time",
+		location: "soccer place"
 	};
 
 	before(async () => {
@@ -34,6 +45,15 @@ describe('Testing attending and unattending', () => {
 			.send(userCredentials);
 		expect(result.status).to.equal(200);
 		token = result.body.token;
+
+		const create_result = await chai
+			.request(app)
+			.post(create)
+			.set('Authorization', token)
+			.send(activityToBeAttended);
+		expect(result.status).to.equal(200);
+		id = create_result.body.activity.id;
+		created_activity_id = id;
 	});
 
 	// after all test have run we close our test database
@@ -45,7 +65,7 @@ describe('Testing attending and unattending', () => {
 		try {
 		const result = await chai
 			.request(app)
-			.put('/activities/activity/attend/5c97a539c7c41320ba3ddaf4')
+			.put('/activities/activity/attend/'+created_activity_id)
 			.set('Authorization', token);
 
 		expect(result.status).to.equal(200);
@@ -75,7 +95,7 @@ describe('Testing attending and unattending', () => {
 		try {
 		const result = await chai
 			.request(app)
-			.put('/activities/activity/unattend/5c97acbfc7c41320ba3ddaf5')
+			.put('/activities/activity/unattend/'+created_activity_id)
 			.set('Authorization', token);
 
 		expect(result.status).to.equal(200);
@@ -110,7 +130,7 @@ describe('Testing attending and unattending', () => {
 
 		expect(result.status).to.equal(401);
 		expect(result.body).not.to.be.empty;
-		expect(result.body.activities).to.be.a('undefined');
+		expect(result.body.activities).to.be.a('null');
 
 		} catch (err) {
 			console.log(err);

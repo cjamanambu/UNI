@@ -10,33 +10,38 @@ const ObjectId = require('mongoose').Types.ObjectId;
 module.exports = {
 
     activities: async (req, res , next) => {
-        let currentTime = new Date();
-        await Activity.find({activity_datetime: {$gte: currentTime}}, null,{sort: {activity_datetime: 1}},
-            function(err, activities) {
-            console.log("Returned a total of " +activities.length+" activities");
-            console.log("Activities must be after"+ currentTime);
-            if(err) {
-                res.status(500).json({
-                    success: false,
-                    info: 'something went really wrong! '+err.message,
-                    activities: null
+        try {
+            let currentTime = new Date();
+            await Activity.find({activity_datetime: {$gte: currentTime}}, null, {sort: {activity_datetime: 1}},
+                function (err, activities) {
+                    console.log("Only activities after " + currentTime + " were returned.");
+                    if (err) {
+                        res.status(500).json({
+                            success: false,
+                            info: 'An error occurred in the database query! ' + err.message,
+                            activities: null
+                        });
+                        next();
+                    } else {
+                        res.status(200).json({
+                            success: true,
+                            info: "Successfully retrieved all current activities",
+                            activities: activities
+                        });
+                    }
                 });
-                next();
-            }
-            else {
-                res.status(200).json({
-                    success: true,
-                    info: "Successfully retrieved all current activities",
-                    activities: activities
-                });
-            }
-        });   
+        }catch (err){
+            res.status(500).json({
+                success: false,
+                info: err.message,
+                activities: null
+            });
+        }
     },
 
     activityId: async (req, res, next) => {
         try {
             const testId = new ObjectId(req.params.id);
-            console.log(testId.toString(), (req.params.id).toString());
             if (testId.toString() !== (req.params.id).toString()){
                 res.status(400).json({
                     success: false,
@@ -50,7 +55,7 @@ module.exports = {
                 if (err) {
                     res.status(500).json({
                         success: false,
-                        info: "Something went terribly wrong. "+err.message,
+                        info: "An error occurred while executing the database query. "+err.message,
                         activity: null
                     });
                     next();
@@ -137,50 +142,53 @@ module.exports = {
             if (!user) {
                 return res.status(401).json({
                     success: false,
-                    user: user,
-                    info: info.message
+                    info: info.message,
+                    activity: null
                 });
             }
             else {
                 try{
-                const activityId = req.params.id;
-                const userId = user.id;
-                Activity.findOneAndUpdate({_id: activityId},
-                    {$addToSet: {attendance_list: userId}},
-                    null, function (db_err, db_response) {
-                        if (db_err) {
-                            res.status(500);
-                            res.json({
-                                success: false,
-                                info: "Database error. \n" + db_err,
-                            });
-                            next();
-                        } else if (err) {
-                            return res.status(500).json({
-                                success: false,
-                                info: err
-                            });
-                        }
-                        else if (db_response == null) {
-                            res.status(404).json({
-                                success: false,
-                                info: "Activity with that Id does not exits",
-                                activity: null
-                            })
-                        } else {
-                            res.status(200).json({
-                                success: true,
-                                info: "Activity successfully attended.",
-                                activity: {id: activityId}
-                            })
-                        }
-                    })
-                }catch (error){
+                    const activityId = req.params.id;
+                    const userId = user.id;
+                    Activity.findOneAndUpdate({_id: activityId},
+                        {$addToSet: {attendance_list: userId}},
+                        null, function (db_err, db_response) {
+                            if (db_err) {
+                                res.status(500).json({
+                                    success: false,
+                                    info: "Database error. " + db_err,
+                                    activity: null
+                                });
+                                next();
+                            } else if (err) {
+                                return res.status(500).json({
+                                    success: false,
+                                    info: err,
+                                    activity: null
+                                });
+                            }
+                            else if (db_response == null) {
+                                res.status(404).json({
+                                    success: false,
+                                    info: "Activity with that Id does not exits",
+                                    activity: null
+                                })
+                            } else {
+                                res.status(200).json({
+                                    success: true,
+                                    info: "Activity successfully attended.",
+                                    activity: {
+                                        id: activityId
+                                    }
+                                })
+                            }
+                        })
+                } catch (error){
                     res.status(500).json({
                         success: false,
                         info: error,
                         activity: null
-                    })
+                    });
                 }
             }
         })(req, res, next);
@@ -191,8 +199,8 @@ module.exports = {
             if (!user) {
                 return res.status(401).json({
                     success: false,
-                    user: user,
-                    info: info.message
+                    info: info.message,
+                    activity: null
                 });
             }
             else {
@@ -203,16 +211,17 @@ module.exports = {
                         {$pullAll: {attendance_list: [userId]}},
                         null, function (db_err, db_response) {
                             if (db_err) {
-                                res.status(500);
-                                res.json({
+                                res.status(500).json({
                                     success: false,
-                                    info: "Database error. \n" + db_err,
+                                    info: "Database error. " + db_err,
+                                    activity: null
                                 });
                                 next();
                             } else if (err) {
                                 return res.status(500).json({
                                     success: false,
-                                    info: err
+                                    info: err,
+                                    activity: null
                                 });
                             } else if (db_response == null) {
                                 res.status(404).json({
@@ -224,7 +233,9 @@ module.exports = {
                                 res.status(200).json({
                                     success: true,
                                     info: "Activity successfully unattended.",
-                                    activity: {id: activityId}
+                                    activity: {
+                                        id: activityId
+                                    }
                                 })
                             }
                         })
@@ -266,4 +277,4 @@ module.exports = {
             })
         }
     },
-}
+};

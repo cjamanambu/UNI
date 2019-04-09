@@ -59,7 +59,9 @@ HTTP 200 Content-Type: application/json
 ```json
 {
     "success": false,
-    "info": "Username annd Email address already exist"
+    "info": "Username annd Email address already exist",
+    "token": null,
+    "user": null
 }
 ```
 
@@ -306,7 +308,8 @@ HTTP 200 Content-Type: application/json
 ```json
 {
     "success": false,
-    "info": "Database error. \nCastError: Cast to ObjectId failed for value \"5c86bfe25c965c1b8a91c6fk\" at path \"_id\" for model \"activity\""
+    "info": "Database error. \nCastError: Cast to ObjectId failed for value \"5c86bfe25c965c1b8a91c6fk\" at path \"_id\" for model \"activity\"",
+    "activity": null
 }
 ```
 
@@ -348,7 +351,8 @@ HTTP 200 Content-Type: application/json
 ```json
 {
     "success": false,
-    "info": "Database error. \nCastError: Cast to ObjectId failed for value \"5c86bfe25c965c1b8a91c6fk\" at path \"_id\" for model \"activity\""
+    "info": "Database error. \nCastError: Cast to ObjectId failed for value \"5c86bfe25c965c1b8a91c6fk\" at path \"_id\" for model \"activity\"",
+    "activity": null
 }
 ```
 
