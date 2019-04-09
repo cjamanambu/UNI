@@ -41,7 +41,10 @@ It will start the server on the localhost on port 8000
 
 [Uni](http://ec2-35-183-134-10.ca-central-1.compute.amazonaws.com:3000)
 
+### NOTE: To View the functionality of the website, a new user may be created by registering on the webpage above, then and logging in. The email for the credentials must have the domain '@myumanitoba.ca'
+
 ## The base url for the api can be accessed using the link below: 
 
 [Uni API](http://ec2-35-183-134-10.ca-central-1.compute.amazonaws.com:8000)
+
 
