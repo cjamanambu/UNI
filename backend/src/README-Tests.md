@@ -1,8 +1,16 @@
 # Mocha with Chai
 
+#### To run the tests for the backend which were written in Mocha and Chai:
+
+Navigate into /backend/src
+
 Run the following command in backend/src to install the modules
 
 `npm i --save-dev mocha chai chai-http nyc cross-env`
+
+Do an npm install to install any dependencies:
+
+`npm install`
 
 To run the integration tests as well as unit tests, run the command
 
