@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import {StyleSheet} from 'react-native';
 
 export default StyleSheet.create({
     logInContainer: {
@@ -27,7 +27,10 @@ export default StyleSheet.create({
         backgroundColor: '#4db0f2',
         alignItems: 'center',
         flexGrow: 1,
-        justifyContent: 'center'
+
+
+        flexDirection: 'column',
+
     },
     imageContainer: {
         alignItems: 'center',
@@ -46,7 +49,16 @@ export default StyleSheet.create({
     },
     buttonContainer: {
         backgroundColor: '#2980b9',
-        paddingVertical: 15
+        paddingVertical: 15,
+    },
+    buttonDetailsScreenContainer: {
+        width: '100%',
+        height: 50,
+        backgroundColor: '#2980b9',
+        justifyContent: 'center',
+        alignItems: 'center',
+        position: 'absolute',
+        bottom: 0
     },
     buttonText: {
         textAlign: 'center',
@@ -60,7 +72,7 @@ export default StyleSheet.create({
         paddingVertical: 15,
         fontSize: 20,
     },
-    signUpContainer:{
+    signUpContainer: {
         flex: 1,
 
         justifyContent: 'center',
@@ -69,16 +81,16 @@ export default StyleSheet.create({
         paddingHorizontal: 20,
         paddingTop: 20,
     },
-    signUpInput:{
-        width:200,
-        height:40,
-        fontSize:20,
+    signUpInput: {
+        width: 200,
+        height: 40,
+        fontSize: 20,
         color: '#000',
 
     },
-    inputBox:{
+    inputBox: {
         padding: 5,
-        flexDirection:'row',
+        flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
         width: 280,
@@ -87,7 +99,7 @@ export default StyleSheet.create({
         backgroundColor: '#CCFFFF',
         marginBottom: 8,
     },
-    button:{
+    button: {
         height: 50,
         width: 280,
         justifyContent: 'center',
@@ -96,7 +108,7 @@ export default StyleSheet.create({
         backgroundColor: '#6699CC',
         marginTop: 20,
     },
-    btText:{
+    btText: {
         color: '#fff',
         fontSize: 20,
         fontWeight: '700',
@@ -142,8 +154,8 @@ export default StyleSheet.create({
     },
     iconSetting: {
         marginRight: 10,
-        height:40,
-        width:40
+        height: 40,
+        width: 40
     },
     viewUser: {
         height: 250,
@@ -169,5 +181,15 @@ export default StyleSheet.create({
     header: {
         textAlign: 'center',
         fontSize: 30
-    }
+    },
+    buttonDetailsScreen: {
+        width: '100%',
+        height: 50,
+        backgroundColor: '#2980b9',
+        justifyContent: 'center',
+        alignItems: 'center',
+        position: 'absolute',
+        bottom: 0,
+        marginRight: 10,
+    },
 });

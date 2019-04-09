@@ -49,12 +49,27 @@
     "react-native-elements": "^1.1.0",
     "react-native-material-dropdown": "^0.11.1",
     "react-native-tab-navigator": "^0.3.4",
-    "react-navigation": "^3.2.1",
-    "react-test-renderer": "^16.8.5"
+    "react-navigation": "^3.2.1"
   },
   "devDependencies": {
     "babel-preset-expo": "^5.0.0",
-    "jest-expo": "^32.0.0"
+    "detox": "^12.1.1",
+    "detox-expo-helpers": "^0.6.0",
+    "expo-detox-hook": "^1.0.10",
+    "jest-expo": "^32.0.0",
+    "react-native-testing-library": "^1.6.1",
+    "react-test-renderer": "^16.8.6"
   },
-  "private": true
+  "private": true,
+  "detox": {
+    "test-runner": "jest",
+    "specs": "",
+    "configurations": {
+      "ios.sim": {
+        "binaryPath": "bin/Exponent.app",
+        "type": "ios.simulator",
+        "name": "iPhone 8"
+      }
+    }
+  }
 }

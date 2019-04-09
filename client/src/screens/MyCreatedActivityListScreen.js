@@ -13,13 +13,10 @@ import {
     Picker,
     Button,
 } from 'react-native';
-import styles from '../assets/Styles.js';
-import { Dropdown } from 'react-native-material-dropdown';
-import { List, ListItem, SearchBar } from "react-native-elements";
+import {List, ListItem, SearchBar} from "react-native-elements";
 import * as App from '../App';
-import TabNavigator from 'react-native-tab-navigator';      //added 3.24
 
-
+const dateFormat = require('dateformat');
 
 export default class MyCreatedActivityListScreen extends React.Component {
     constructor(props) {
@@ -35,7 +32,7 @@ export default class MyCreatedActivityListScreen extends React.Component {
             token: "",
             selectedTab: 'my'     //added 3.24
         };
-        const { navigation } = this.props;
+        const {navigation} = this.props;
 
     }
 
@@ -45,7 +42,7 @@ export default class MyCreatedActivityListScreen extends React.Component {
         });
     }
 
-    static navigationOptions = ({ navigation }) => {
+    static navigationOptions = ({navigation}) => {
         const {state} = navigation;
         return {
             headerTitle: "My Created Activities"
@@ -56,80 +53,65 @@ export default class MyCreatedActivityListScreen extends React.Component {
         this.makeRemoteRequest();
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        if (this.state.selectedCategory !== prevState.selectedCategory && this.state.selectedCategory !== "") {
-            this.onChangeTypeHandler(this.state.selectedCategory);
-        }
-    }
-
     makeRemoteRequest = () => {
-        const { page, seed } = this.state;
+        const {page, seed} = this.state;
         AsyncStorage.getItem("AuthToken").then(token => {
-            if(token) {
-                console.log("TOKEN: " + token);
+            if (token) {
                 fetch(App.URL + '/users/user/myActivities', {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json',
-                        'Authorization' : token
+                        'Authorization': token
                     }
                 })
-                .then(res => res.json())
+                    .then(res => res.json())
                     .then(res => {
-                        console.log(res)
+                        // console.log(res)
                         this.setState({
                             data: page === 1 ? res.my_activities : [...this.state.data, ...res.my_activities],
                             error: res.error || null,
                             loading: false,
                             refreshing: false,
-        
+
                         });
                     })
                     .catch(error => {
-                        console.log(error)
-                        this.setState({ error, loading: false });
-                    }
-                );
+                            this.setState({error, loading: false});
+                        }
+                    );
 
             }
         })
     };
 
-
-
-
     render() {
-        let activityTypes = [{value: 'Sports'}, {value: 'Study'}, {value: 'Dance'}, {value: 'Politics'}, {value: 'Art'}, {value: 'Music'}, {value: 'All'}];
-        let sortByCriteria = [{value: 'Time'}];
         return (
             <View style={{flex: 1}}>
-
-                <FlatList
-                    data={this.state.data}
-                    keyExtractor={(item, index) => index.toString()}
-                    renderItem={({item}) => (
-                        <ListItem
-                            title={`${item.title} ${item.title}`}
-                            subtitle={item.description}
-                            leftAvatar={{ source: require('../assets/images/Octocat.png') }}
-                            onPress={() => this.props.navigation.navigate('ActivityAttendantListScreen',
-                                {
-                                    activity_id : item._id,
-                                    activity_datetime: item.activity_datetime,
-                                    category: item.category,
-                                    description: item.description,
-                                    max_attendance: item.max_attendance,
-                                    title: item.title,
-                                    attendance_list: item.attendance_list,
-                                    datetime_created: item.datetime_created,
-                                })
-                            }
-                        />
-                    )}
+                <FlatList testID="myActivityListView"
+                          data={this.state.data}
+                          keyExtractor={(item, index) => index.toString()}
+                          renderItem={({item}) => (
+                              <ListItem testID="myActivityListItem"
+                                        title={item.title}
+                                        subtitle={dateFormat(item.activity_datetime, "dddd, mmmm dS, h:MM TT") + ' - ' + item.location}
+                                        leftAvatar={{source: require('../assets/images/Octocat.png')}}
+                                        onPress={() => this.props.navigation.navigate('ActivityAttendantListScreen',
+                                            {
+                                                activity_id: item._id,
+                                                activity_datetime: item.activity_datetime,
+                                                category: item.category,
+                                                description: item.description,
+                                                max_attendance: item.max_attendance,
+                                                title: item.title,
+                                                attendance_list: item.attendance_list,
+                                                datetime_created: item.datetime_created,
+                                                location: item.location,
+                                            })
+                                        }
+                              />
+                          )}
                 />
-
-
             </View>
         )
     }

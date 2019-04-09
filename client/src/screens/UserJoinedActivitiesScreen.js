@@ -14,11 +14,10 @@ import {
     Picker,
     Button,
 } from 'react-native';
-import styles from '../assets/Styles.js';
-import { Dropdown } from 'react-native-material-dropdown';
-import { List, ListItem, SearchBar } from "react-native-elements";
+import {List, ListItem, SearchBar} from "react-native-elements";
 import * as App from '../App';
-import TabNavigator from 'react-native-tab-navigator';      //added 3.24
+
+const dateFormat = require('dateformat');
 
 export default class UserJoinedActivities extends React.Component {
     constructor(props) {
@@ -32,21 +31,21 @@ export default class UserJoinedActivities extends React.Component {
             refreshing: false,
             selectedCategory: "",
             token: "",
-            selectedTab: 'joined'     //added 3.24
+            selectedTab: 'joined'
         };
-        const { navigation } = this.props;
+        const {navigation} = this.props;
         const USER_DETAILS = {
-            email : navigation.getParam("email"),
-            token : navigation.getParam("token")
+            email: navigation.getParam("email"),
+            token: navigation.getParam("token")
         };
     }
 
     componentWillMount() {
         const {setParams} = this.props.navigation;
-        setParams({token :this.state.token});
+        setParams({token: this.state.token});
     }
 
-    static navigationOptions = ({ navigation }) => {
+    static navigationOptions = ({navigation}) => {
         const {state} = navigation;
         return {
             headerTitle: "Joined Activities"
@@ -58,21 +57,19 @@ export default class UserJoinedActivities extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (this.state.selectedCategory !== prevState.selectedCategory && this.state.selectedCategory !== "") {
-            this.onChangeTypeHandler(this.state.selectedCategory);
-        }
+        this.makeRemoteRequest();
     }
 
     makeRemoteRequest = () => {
-        const { page, seed } = this.state;
+        const {page, seed} = this.state;
         AsyncStorage.getItem("AuthToken").then(token => {
-            if(token) {
+            if (token) {
                 fetch(App.URL + '/users/user/activities/attending', {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json',
-                        'Authorization' : token
+                        'Authorization': token
                     }
                 })
                     .then(res => res.json())
@@ -82,18 +79,17 @@ export default class UserJoinedActivities extends React.Component {
                             error: res.error || null,
                             loading: false,
                             refreshing: false,
-
                         });
                     })
                     .catch(error => {
-                            this.setState({ error, loading: false });
+                            this.setState({error, loading: false});
                         }
                     );
             }
         })
     };
 
-    onBack () {
+    onBack() {
         this.makeRemoteRequest();
     }
 
@@ -101,29 +97,30 @@ export default class UserJoinedActivities extends React.Component {
         return (
             <View style={{flex: 1}}>
 
-                <FlatList
-                    data={this.state.data}
-                    keyExtractor={(item, index) => index.toString()}
-                    renderItem={({item}) => (
-                        <ListItem
-                            title={`${item.title} ${item.title}`}
-                            subtitle={item.description}
-                            leftAvatar={{ source: require('../assets/images/Octocat.png') }}
-                            onPress={() => this.props.navigation.navigate('JoinedActivityDetailsPage',
-                                {
-                                    activity_id : item._id,
-                                    activity_datetime: item.activity_datetime,
-                                    category: item.category,
-                                    description: item.description,
-                                    max_attendance: item.max_attendance,
-                                    title: item.title,
-                                    attendance_list: item.attendance_list,
-                                    datetime_created: item.datetime_created,
-                                    onBack: this.onBack.bind(this)
-                                })
-                            }
-                        />
-                    )}
+                <FlatList testID="joinedActivityListView"
+                          data={this.state.data}
+                          keyExtractor={(item, index) => index.toString()}
+                          renderItem={({item}) => (
+                              <ListItem testID="joinedActivityListItem"
+                                        title={item.title}
+                                        subtitle={dateFormat(item.activity_datetime, "dddd, mmmm dS, h:MM TT") + ' - ' + item.location}
+                                        leftAvatar={{source: require('../assets/images/Octocat.png')}}
+                                        onPress={() => this.props.navigation.navigate('JoinedActivityDetailsPage',
+                                            {
+                                                activity_id: item._id,
+                                                activity_datetime: item.activity_datetime,
+                                                category: item.category,
+                                                description: item.description,
+                                                max_attendance: item.max_attendance,
+                                                title: item.title,
+                                                attendance_list: item.attendance_list,
+                                                datetime_created: item.datetime_created,
+                                                location: item.location,
+                                                onBack: this.onBack.bind(this)
+                                            })
+                                        }
+                              />
+                          )}
                 />
 
 
